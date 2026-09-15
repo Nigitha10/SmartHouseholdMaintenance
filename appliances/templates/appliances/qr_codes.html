@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Appliance QR Codes</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e3a8a;
+        }
+
+        .qr-container {
+            max-width: 900px;
+            margin: 30px auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+
+        .qr-card {
+            background: white;
+            padding: 25px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .qr-card img {
+            width: 180px;
+            height: 180px;
+        }
+
+        .qr-card h2 {
+            color: #1e3a8a;
+        }
+    </style>
+</head>
+
+<body>
+
+<h1>Appliance QR Codes</h1>
+
+<div class="qr-container">
+
+    {% for item in qr_data %}
+
+    <div class="qr-card">
+
+        <h2>
+            {{ item.appliance.brand }}
+        </h2>
+
+        <p>
+            {{ item.appliance.model_number }}
+        </p>
+
+        <img
+            src="data:image/png;base64,{{ item.qr_code }}"
+            alt="QR Code"
+        >
+
+    </div>
+
+    {% empty %}
+
+    <p>No appliances added yet.</p>
+
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

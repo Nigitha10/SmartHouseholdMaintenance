@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Appliance Details</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e3a8a;
+        }
+
+        .details {
+            margin-top: 25px;
+            line-height: 2;
+        }
+
+        .details p {
+            margin: 8px 0;
+        }
+
+        .warranty-status {
+            font-weight: bold;
+            padding: 8px 12px;
+            border-radius: 6px;
+            display: inline-block;
+        }
+
+        .active {
+            color: #166534;
+            background: #dcfce7;
+        }
+
+        .expired {
+            color: #991b1b;
+            background: #fee2e2;
+        }
+
+        .back-btn {
+            display: block;
+            width: 180px;
+            margin: 25px auto 0;
+            padding: 12px;
+            text-align: center;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+
+        .back-btn:hover {
+            background: #1d4ed8;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>{{ appliance.brand }} - {{ appliance.model_number }}</h1>
+
+    <div class="details">
+
+        <p>
+            <strong>Appliance Type:</strong>
+            {{ appliance.get_appliance_type_display }}
+        </p>
+
+        <p>
+            <strong>Brand:</strong>
+            {{ appliance.brand }}
+        </p>
+
+        <p>
+            <strong>Model Number:</strong>
+            {{ appliance.model_number }}
+        </p>
+
+        <p>
+            <strong>Customer Care:</strong>
+            {{ appliance.customer_care_number }}
+        </p>
+
+        <p>
+            <strong>Purchase Date:</strong>
+            {{ appliance.purchase_date }}
+        </p>
+
+        <p>
+            <strong>Warranty Start Date:</strong>
+            {{ appliance.warranty_start_date }}
+        </p>
+
+        <p>
+            <strong>Warranty Expiry Date:</strong>
+            {{ appliance.warranty_expiry_date }}
+        </p>
+
+        {% if appliance.warranty_expiry_date %}
+
+            {% if appliance.warranty_expiry_date >= today %}
+
+                <p>
+                    <strong>Warranty Status:</strong>
+                    <span class="warranty-status active">
+                        Active ✅
+                    </span>
+                </p>
+
+            {% else %}
+
+                <p>
+                    <strong>Warranty Status:</strong>
+                    <span class="warranty-status expired">
+                        Expired ❌
+                    </span>
+                </p>
+
+            {% endif %}
+
+        {% endif %}
+        <p>
+    <strong>Last Service Date:</strong>
+    {{ appliance.last_service_date }}
+</p>
+
+<p>
+    <strong>Next Service Date:</strong>
+    {{ appliance.next_service_date }}
+</p>
+
+<p>
+    <strong>Service Type:</strong>
+    {{ appliance.service_type }}
+</p>
+
+<p>
+    <strong>Service Notes:</strong>
+    {{ appliance.service_notes }}
+</p>
+
+        <p>
+            <strong>Service Interval:</strong>
+            {{ appliance.service_interval_months }} months
+        </p>
+
+    </div>
+
+    <a href="{% url 'appliance_list' %}" class="back-btn">
+        Back to Appliances
+    </a>
+
+</div>
+
+</body>
+</html>

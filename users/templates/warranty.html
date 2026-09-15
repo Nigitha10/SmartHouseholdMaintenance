@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Warranty Management</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8fafc;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: #1e3a8a;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+        }
+
+        .top-section h2 {
+            color: #1e3a8a;
+        }
+
+        .btn {
+            background: #2563eb;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .warranty-card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .warranty-card h3 {
+            color: #1e3a8a;
+            margin-top: 0;
+        }
+
+        .details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .detail-box {
+            background: #eef2ff;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .status {
+            display: inline-block;
+            background: #dcfce7;
+            color: #166534;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .empty {
+            text-align: center;
+            background: white;
+            padding: 50px;
+            border-radius: 12px;
+        }
+
+        @media (max-width: 600px) {
+            .details {
+                grid-template-columns: 1fr;
+            }
+
+            .top-section {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>🛡️ Warranty Management</h1>
+        <p>Track and manage your appliance warranties</p>
+    </div>
+
+    <div class="container">
+
+        <div class="top-section">
+            <h2>Warranty Details</h2>
+
+            <a href="/appliances/" class="btn">
+                + Add Appliance
+            </a>
+        </div>
+
+        {% if appliances %}
+
+            {% for appliance in appliances %}
+
+            <div class="warranty-card">
+
+                <h3>🔧 {{ appliance.appliance_type }}</h3>
+
+                {% if appliance.warranty_expiry_date %}
+
+    {% if appliance.warranty_expiry_date < today %}
+        <span class="status expired">
+            🔴 Warranty Expired
+        </span>
+
+    {% else %}
+        <span class="status active">
+            🟢 Active Warranty
+        </span>
+    {% endif %}
+
+{% else %}
+    <span class="status">
+        ⚪ Date Not Available
+    </span>
+{% endif %}
+                <div class="details">
+
+                    <div class="detail-box">
+                        <strong>Brand</strong>
+                        <p>{{ appliance.brand }}</p>
+                    </div>
+
+                    <div class="detail-box">
+                        <strong>Model Number</strong>
+                        <p>{{ appliance.model_number }}</p>
+                    </div>
+
+                    <div class="detail-box">
+                        <strong>Warranty Start</strong>
+                        <p>
+                            {{ appliance.warranty_start_date|default:"Not provided" }}
+                        </p>
+                    </div>
+
+                    <div class="detail-box">
+                        <strong>Warranty Expiry</strong>
+                        <p>
+                            {{ appliance.warranty_expiry_date|default:"Not provided" }}
+                        </p>
+                    </div>
+
+                    <div class="detail-box">
+                        <strong>Purchase Date</strong>
+                        <p>{{ appliance.purchase_date }}</p>
+                    </div>
+
+                    <div class="detail-box">
+                        <strong>Customer Care</strong>
+                        <p>
+                            {{ appliance.customer_care_number|default:"Not provided" }}
+                        </p>
+                    </div>
+
+                </div>
+
+                {% if appliance.bill %}
+                    <br>
+                    <a href="{{ appliance.bill.url }}" class="btn" target="_blank">
+                        📄 View Bill
+                    </a>
+                {% endif %}
+
+            </div>
+
+            {% endfor %}
+
+        {% else %}
+
+            <div class="empty">
+                <h2>📋 No Appliances Found</h2>
+                <p>
+                    Add an appliance to view its warranty information.
+                </p>
+
+                <br>
+
+                <a href="/appliances/" class="btn">
+                    + Add Appliance
+                </a>
+            </div>
+
+        {% endif %}
+
+        <br>
+
+        <a href="/users/dashboard/" class="btn">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</body>
+</html>

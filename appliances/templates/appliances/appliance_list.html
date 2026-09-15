@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Appliances</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e3a8a;
+        }
+
+        .appliance {
+            background: white;
+            padding: 20px;
+            margin: 15px 0;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .appliance h2 {
+            color: #2563eb;
+        }
+
+        .add-btn {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 12px;
+            text-align: center;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>My Appliances</h1>
+
+    <a href="{% url 'add_appliance' %}" class="add-btn">
+        + Add Appliance
+    </a>
+    <a href="{% url 'qr_codes' %}" class="add-btn">
+    View All QR Codes
+</a>
+
+    {% for appliance in appliances %}
+
+        <div class="appliance">
+
+            <h2>
+    <a href="{% url 'appliance_detail' appliance.id %}">
+        {{ appliance.brand }} - {{ appliance.model_number }}
+    </a>
+</h2>
+
+            <p>
+                <strong>Type:</strong>
+                {{ appliance.get_appliance_type_display }}
+            </p>
+
+            <p>
+                <strong>Customer Care:</strong>
+                {{ appliance.customer_care_number }}
+            </p>
+
+            <p>
+                <strong>Purchase Date:</strong>
+                {{ appliance.purchase_date }}
+            </p>
+
+            <p>
+                <strong>Service Interval:</strong>
+                {{ appliance.service_interval_months }} months
+            </p>
+            <a href="{% url 'edit_appliance' appliance.id %}">
+    Edit Appliance
+</a>
+
+        </div>
+
+    {% empty %}
+
+        <p>No appliances added yet.</p>
+
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

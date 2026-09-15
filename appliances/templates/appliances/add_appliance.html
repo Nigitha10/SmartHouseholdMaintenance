@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Appliance</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e3a8a;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Add Appliance</h1>
+
+    <form method="POST" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <label>Appliance Type</label>
+        <select name="appliance_type" required>
+            <option value="">Select Appliance</option>
+            <option value="AC">Air Conditioner</option>
+            <option value="FRIDGE">Refrigerator</option>
+            <option value="WASHING">Washing Machine</option>
+            <option value="TV">Television</option>
+            <option value="PURIFIER">Water Purifier</option>
+            <option value="OTHER">Other</option>
+        </select>
+
+        <label>Brand</label>
+        <input type="text" name="brand" placeholder="Enter brand" required>
+
+        <label>Model Number</label>
+        <input type="text" name="model_number" placeholder="Enter model number" required>
+
+        <label>Customer Care Number</label>
+        <input type="text" name="customer_care_number">
+
+        <label>Purchase Date</label>
+        <input type="date" name="purchase_date" required>
+
+        <label>Bill Upload</label>
+        <input type="file" name="bill">
+
+        <label>Service Interval (Months)</label>
+        <input type="number"
+               name="service_interval_months"
+               value="6"
+               min="1"
+               required>
+
+        <label>Warranty Start Date</label>
+        <input type="date" name="warranty_start_date">
+
+        <label>Warranty Expiry Date</label>
+        <input type="date" name="warranty_expiry_date">
+
+        <label>Last Service Date</label>
+        <input type="date" name="last_service_date">
+
+        <label>Next Service Date</label>
+        <input type="date" name="next_service_date">
+
+        <label>Service Type</label>
+        <select name="service_type">
+            <option value="">Select Service Type</option>
+            <option value="General Service">General Service</option>
+            <option value="Cleaning">Cleaning</option>
+            <option value="Repair">Repair</option>
+            <option value="Gas Filling">Gas Filling</option>
+            <option value="Parts Replacement">Parts Replacement</option>
+        </select>
+
+        <label>Service Notes</label>
+        <textarea name="service_notes"
+                  placeholder="Enter service details"></textarea>
+
+        <button type="submit">Save Appliance</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>
+```

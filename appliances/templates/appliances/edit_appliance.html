@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Appliance</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #1e3a8a;
+        }
+
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 6px;
+            box-sizing: border-box;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 6px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Edit Appliance</h1>
+
+    <form method="POST">
+
+        {% csrf_token %}
+
+        <label>Appliance Type</label>
+        <select name="appliance_type">
+            <option value="AC" {% if appliance.appliance_type == "AC" %}selected{% endif %}>Air Conditioner</option>
+            <option value="FRIDGE" {% if appliance.appliance_type == "FRIDGE" %}selected{% endif %}>Refrigerator</option>
+            <option value="WASHING" {% if appliance.appliance_type == "WASHING" %}selected{% endif %}>Washing Machine</option>
+            <option value="TV" {% if appliance.appliance_type == "TV" %}selected{% endif %}>Television</option>
+            <option value="PURIFIER" {% if appliance.appliance_type == "PURIFIER" %}selected{% endif %}>Water Purifier</option>
+            <option value="OTHER" {% if appliance.appliance_type == "OTHER" %}selected{% endif %}>Other</option>
+        </select>
+
+        <label>Brand</label>
+        <input type="text" name="brand" value="{{ appliance.brand }}" required>
+
+        <label>Model Number</label>
+        <input type="text" name="model_number" value="{{ appliance.model_number }}" required>
+
+        <label>Customer Care Number</label>
+        <input type="text" name="customer_care_number" value="{{ appliance.customer_care_number }}">
+
+        <label>Purchase Date</label>
+        <input type="date" name="purchase_date" value="{{ appliance.purchase_date|date:'Y-m-d' }}" required>
+
+        <label>Service Interval (Months)</label>
+        <input type="number" name="service_interval_months"
+               value="{{ appliance.service_interval_months }}" min="1" required>
+               <label>Warranty Start Date</label>
+<input
+    type="date"
+    name="warranty_start_date"
+    value="{{ appliance.warranty_start_date|date:'Y-m-d' }}"
+>
+
+<label>Warranty Expiry Date</label>
+<input
+    type="date"
+    name="warranty_expiry_date"
+    value="{{ appliance.warranty_expiry_date|date:'Y-m-d' }}"
+>
+<label>Last Service Date</label>
+<input
+    type="date"
+    name="last_service_date"
+    value="{{ appliance.last_service_date|date:'Y-m-d' }}"
+>
+
+<label>Next Service Date</label>
+<input
+    type="date"
+    name="next_service_date"
+    value="{{ appliance.next_service_date|date:'Y-m-d' }}"
+>
+
+<label>Service Type</label>
+<input
+    type="text"
+    name="service_type"
+    value="{{ appliance.service_type }}"
+    placeholder="Example: General Service"
+>
+
+<label>Service Notes</label>
+<textarea
+    name="service_notes"
+    placeholder="Enter service details"
+>{{ appliance.service_notes }}</textarea>
+
+        <button type="submit">Update Appliance</button>
+
+    </form>
+
+</div>
+
+</body>
+</html>

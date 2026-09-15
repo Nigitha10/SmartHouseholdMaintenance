@@ -1,0 +1,234 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Smart Household Maintenance</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+        }
+
+        .header {
+            background: #1e3a8a;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .header p {
+            margin-bottom: 0;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 30px;
+        }
+
+        .welcome {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .welcome h2 {
+            margin-top: 0;
+            color: #1e3a8a;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            color: #1e3a8a;
+            font-size: 20px;
+        }
+
+        .card p {
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .btn {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 10px 16px;
+            border-radius: 7px;
+            text-decoration: none;
+            margin-top: 8px;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+        }
+
+        .quick {
+            background: white;
+            margin-top: 30px;
+            padding: 22px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .quick h2 {
+            color: #1e3a8a;
+        }
+
+        .logout {
+            display: block;
+            width: 120px;
+            text-align: center;
+            margin: 30px auto 0;
+            background: #dc2626;
+            color: white;
+            padding: 11px;
+            border-radius: 7px;
+            text-decoration: none;
+        }
+
+        .logout:hover {
+            background: #b91c1c;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>🏠 Smart Household Maintenance</h1>
+        <p>Smart and easy way to manage your household appliances</p>
+    </div>
+
+    <div class="container">
+
+        <div class="welcome">
+            <h2>Welcome to Dashboard 👋</h2>
+            <p>
+                Login successful! Manage your appliances, warranty,
+                services and maintenance from one place.
+            </p>
+        </div>
+
+        <div class="cards">
+
+            <!-- 1. Appliances -->
+            <div class="card">
+                <h2>🔧 Appliances</h2>
+                <p>
+                    Add, view, edit and manage your household appliances.
+                </p>
+                <a href="/appliances/" class="btn">View Appliances</a>
+            </div>
+
+            <!-- 2. Warranty -->
+            <div class="card">
+                <h2>🛡️ Warranty Management</h2>
+                <p>
+                    Track warranty start dates, expiry dates and warranty documents.
+                </p>
+                <a href="/warranty/" class="btn">View Warranty</a>
+            </div>
+
+            <!-- 3. Service -->
+            <div class="card">
+                <h2>🛠️ Service & Maintenance</h2>
+                <p>
+                    Manage last service, next service and service details.
+                </p>
+                <a href="#" class="btn">View Service</a>
+            </div>
+
+            <!-- 4. Reminders -->
+            <div class="card">
+                <h2>🔔 Reminders</h2>
+                <p>
+                    Get reminders for upcoming services and warranty expiry.
+                </p>
+                <a href="#" class="btn">View Reminders</a>
+            </div>
+
+            <!-- 5. Maintenance History -->
+            <div class="card">
+                <h2>📜 Maintenance History</h2>
+                <p>
+                    View previous service and maintenance records of appliances.
+                </p>
+                <a href="#" class="btn">View History</a>
+            </div>
+
+            <!-- 6. Maintenance Cost -->
+            <div class="card">
+                <h2>💰 Maintenance Cost</h2>
+                <p>
+                    Track service expenses and maintenance costs.
+                </p>
+                <a href="#" class="btn">View Costs</a>
+            </div>
+
+            <!-- 7. Health Score -->
+            <div class="card">
+                <h2>❤️ Appliance Health Score</h2>
+                <p>
+                    Check the health condition of your household appliances.
+                </p>
+                <a href="#" class="btn">View Health</a>
+            </div>
+
+            <!-- 8. AI Prediction -->
+            <div class="card">
+                <h2>🤖 AI Maintenance Prediction</h2>
+                <p>
+                    Predict upcoming maintenance needs using intelligent analysis.
+                </p>
+                <a href="#" class="btn">AI Prediction</a>
+            </div>
+
+        </div>
+
+        <div class="quick">
+            <h2>⚡ Quick Actions</h2>
+
+            <a href="/appliances/" class="btn">
+                🔧 Manage Appliances
+            </a>
+
+            <a href="#" class="btn">
+                🛠️ Add Service
+            </a>
+
+            <a href="#" class="btn">
+                🔔 Check Reminders
+            </a>
+        </div>
+
+        <a href="/users/logout/" class="logout">Logout</a>
+
+    </div>
+
+</body>
+</html>
+```
