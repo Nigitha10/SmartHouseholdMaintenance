@@ -25,8 +25,12 @@ SECRET_KEY = 'django-insecure-ka3oy2p&*if%%!bxx@2dt2$lhf%287cf5-$fzy&kfqksf7kboe
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["127.0.0.1", "localhost", "192.168.1.35"]
-
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+    '192.168.1.35',
+    'smarthouseholdmaintenance.onrender.com',
+]
 
 # Application definition
 
