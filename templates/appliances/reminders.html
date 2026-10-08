@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reminders & Notifications</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1e293b;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            color: white;
+            padding: 32px 45px;
+        }
+
+        .header-content {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .header p {
+            margin: 8px 0 0;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            margin-bottom: 18px;
+        }
+
+        .section-title h2 {
+            margin: 0;
+            color: #1e3a8a;
+        }
+
+        .section-title p {
+            color: #64748b;
+            margin-top: 6px;
+        }
+
+        .reminder-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .reminder-card {
+            background: white;
+            padding: 22px;
+            border-radius: 16px;
+            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.07);
+            border-left: 5px solid #2563eb;
+        }
+
+        .reminder-card.expired {
+            border-left-color: #dc2626;
+        }
+
+        .reminder-card.warning {
+            border-left-color: #f59e0b;
+        }
+
+        .reminder-card.upcoming {
+            border-left-color: #2563eb;
+        }
+
+        .appliance-name {
+            font-size: 19px;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 8px;
+        }
+
+        .details {
+            color: #64748b;
+            margin: 6px 0;
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 11px;
+            background: #f8fafc;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .badge {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .badge-expired {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .badge-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge-upcoming {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .empty {
+            background: white;
+            padding: 35px;
+            text-align: center;
+            border-radius: 16px;
+            box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+        }
+
+        .empty-icon {
+            font-size: 45px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 11px 18px;
+            background: #1e3a8a;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            background: #2563eb;
+        }
+
+        @media (max-width: 750px) {
+            .reminder-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 25px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <div class="header-content">
+            <h1>🔔 Reminders & Notifications</h1>
+            <p>Stay updated about warranty and appliance service schedules</p>
+        </div>
+    </div>
+
+
+    <div class="container">
+
+        <!-- Warranty -->
+
+        <div class="section">
+
+            <div class="section-title">
+                <h2>🛡️ Warranty Reminders</h2>
+                <p>Warranty expiry alerts for your appliances</p>
+            </div>
+
+
+            {% if warranty_reminders %}
+
+            <div class="reminder-grid">
+
+                {% for reminder in warranty_reminders %}
+
+                <div class="reminder-card
+                    {% if reminder.type == 'Expired' %}
+                        expired
+                    {% else %}
+                        warning
+                    {% endif %}
+                ">
+
+                    <div class="appliance-name">
+                        🏠 {{ reminder.appliance.brand }}
+                        {{ reminder.appliance.appliance_type }}
+                    </div>
+
+                    <div class="details">
+                        Model:
+                        {{ reminder.appliance.model_number }}
+                    </div>
+
+                    <div class="details">
+                        Warranty Expiry:
+                        {{ reminder.appliance.warranty_expiry_date|date:"d M Y" }}
+                    </div>
+
+                    <span class="badge
+                        {% if reminder.type == 'Expired' %}
+                            badge-expired
+                        {% else %}
+                            badge-warning
+                        {% endif %}
+                    ">
+                        {{ reminder.type }}
+                    </span>
+
+                    <div class="message">
+                        ⚠️ {{ reminder.message }}
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="empty">
+                <div class="empty-icon">✅</div>
+                <h3>No Warranty Reminders</h3>
+                <p>There are no warranty alerts at the moment.</p>
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <!-- Service -->
+
+        <div class="section">
+
+            <div class="section-title">
+                <h2>🛠️ Service Reminders</h2>
+                <p>Upcoming and overdue appliance service alerts</p>
+            </div>
+
+
+            {% if service_reminders %}
+
+            <div class="reminder-grid">
+
+                {% for reminder in service_reminders %}
+
+                <div class="reminder-card
+                    {% if reminder.type == 'Overdue' %}
+                        expired
+                    {% else %}
+                        upcoming
+                    {% endif %}
+                ">
+
+                    <div class="appliance-name">
+                        🔧 {{ reminder.appliance.brand }}
+                        {{ reminder.appliance.appliance_type }}
+                    </div>
+
+                    <div class="details">
+                        Model:
+                        {{ reminder.appliance.model_number }}
+                    </div>
+
+                    <div class="details">
+                        Next Service:
+                        {{ reminder.appliance.next_service_date|date:"d M Y" }}
+                    </div>
+
+                    <span class="badge
+                        {% if reminder.type == 'Overdue' %}
+                            badge-expired
+                        {% else %}
+                            badge-upcoming
+                        {% endif %}
+                    ">
+                        {{ reminder.type }}
+                    </span>
+
+                    <div class="message">
+                        📅 {{ reminder.message }}
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+            {% else %}
+
+            <div class="empty">
+                <div class="empty-icon">🎉</div>
+                <h3>No Service Reminders</h3>
+                <p>All appliance service schedules are currently up to date.</p>
+            </div>
+
+            {% endif %}
+
+        </div>
+
+
+        <a href="{% url 'dashboard' %}" class="back-btn">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+
+</body>
+</html>

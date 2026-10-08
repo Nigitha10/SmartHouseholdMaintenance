@@ -1,28 +1,58 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Warranty Management</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Warranty | Smart Household Maintenance</title>
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f8fafc;
-            margin: 0;
-            padding: 0;
+
+        * {
+            box-sizing: border-box;
         }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #eff6ff, #f8fafc);
+            color: #334155;
+        }
+
+        /* Header */
 
         .header {
             background: #1e3a8a;
             color: white;
-            padding: 25px;
+            padding: 28px 20px;
             text-align: center;
         }
 
-        .container {
-            width: 90%;
-            max-width: 1000px;
-            margin: 30px auto;
+        .header h1 {
+            margin: 0;
+            font-size: 30px;
         }
+
+        .header p {
+            margin: 8px 0 0;
+            color: #dbeafe;
+            font-size: 14px;
+        }
+
+
+        /* Container */
+
+        .container {
+            width: 92%;
+            max-width: 1050px;
+            margin: auto;
+            padding: 30px 0;
+        }
+
+
+        /* Top section */
 
         .top-section {
             display: flex;
@@ -33,170 +63,387 @@
 
         .top-section h2 {
             color: #1e3a8a;
+            margin: 0;
+            font-size: 24px;
         }
+
+
+        /* Buttons */
 
         .btn {
             background: #2563eb;
             color: white;
-            padding: 12px 18px;
+            padding: 11px 17px;
             border-radius: 8px;
             text-decoration: none;
             display: inline-block;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.2s;
         }
+
+        .btn:hover {
+            background: #1d4ed8;
+        }
+
+
+        /* Warranty Card */
 
         .warranty-card {
             background: white;
             padding: 25px;
             margin-bottom: 20px;
-            border-radius: 12px;
-            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 6px 20px rgba(30, 58, 138, 0.07);
+            transition: 0.25s;
         }
+
+        .warranty-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(30, 58, 138, 0.11);
+        }
+
 
         .warranty-card h3 {
             color: #1e3a8a;
             margin-top: 0;
+            margin-bottom: 15px;
+            font-size: 20px;
         }
+
+
+        /* Status */
+
+        .status {
+            display: inline-block;
+            padding: 7px 13px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 13px;
+            background: #f1f5f9;
+            color: #475569;
+        }
+
+        .status.active {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status.expiring {
+            background: #ffedd5;
+            color: #9a3412;
+        }
+
+        .status.expired {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+
+        /* Details */
 
         .details {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 15px;
-            margin-top: 15px;
+            margin-top: 20px;
         }
+
 
         .detail-box {
             background: #eef2ff;
             padding: 15px;
-            border-radius: 8px;
+            border-radius: 10px;
+            border: 1px solid #e0e7ff;
         }
 
-        .status {
-            display: inline-block;
-            background: #dcfce7;
-            color: #166534;
-            padding: 7px 12px;
-            border-radius: 20px;
+        .detail-box strong {
+            color: #475569;
+            font-size: 13px;
+        }
+
+        .detail-box p {
+            margin: 7px 0 0;
+            color: #1e3a8a;
             font-weight: bold;
         }
+
+
+        /* Bill button */
+
+        .bill-btn {
+            margin-top: 18px;
+        }
+
+
+        /* Empty */
 
         .empty {
             text-align: center;
             background: white;
-            padding: 50px;
-            border-radius: 12px;
+            padding: 55px 25px;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(30, 58, 138, 0.07);
         }
 
+        .empty h2 {
+            color: #1e3a8a;
+        }
+
+        .empty p {
+            color: #64748b;
+        }
+
+
+        /* Back button */
+
+        .back-btn {
+            margin-top: 5px;
+        }
+
+
+        /* Mobile */
+
         @media (max-width: 600px) {
-            .details {
-                grid-template-columns: 1fr;
-            }
 
             .top-section {
                 flex-direction: column;
                 gap: 15px;
+                align-items: stretch;
             }
+
+            .top-section .btn {
+                text-align: center;
+            }
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .container {
+                width: 90%;
+            }
+
         }
+
     </style>
+
 </head>
+
 
 <body>
 
+
+    <!-- Header -->
+
     <div class="header">
-        <h1>🛡️ Warranty Management</h1>
-        <p>Track and manage your appliance warranties</p>
+
+        <h1>
+            🛡️ Warranty Management
+        </h1>
+
+        <p>
+            Track and manage your appliance warranties
+        </p>
+
     </div>
+
 
     <div class="container">
 
+
+        <!-- Top Section -->
+
         <div class="top-section">
-            <h2>Warranty Details</h2>
+
+            <h2>
+                Warranty Details
+            </h2>
 
             <a href="/appliances/" class="btn">
                 + Add Appliance
             </a>
+
         </div>
+
 
         {% if appliances %}
 
+
             {% for appliance in appliances %}
+
+
+            <!-- Warranty Card -->
 
             <div class="warranty-card">
 
-                <h3>🔧 {{ appliance.appliance_type }}</h3>
+
+                <h3>
+                    🔧 {{ appliance.appliance_type }}
+                </h3>
+
+
+                <!-- Warranty Status -->
+
 
                 {% if appliance.warranty_expiry_date %}
 
-    {% if appliance.warranty_expiry_date < today %}
-        <span class="status expired">
-            🔴 Warranty Expired
-        </span>
 
-    {% else %}
-        <span class="status active">
-            🟢 Active Warranty
-        </span>
-    {% endif %}
+                    {% if appliance.warranty_status == "Expired" %}
 
-{% else %}
-    <span class="status">
-        ⚪ Date Not Available
-    </span>
-{% endif %}
+                        <span class="status expired">
+                            🔴 Warranty Expired
+                        </span>
+
+
+                    {% elif appliance.warranty_status == "Expiring Soon" %}
+
+                        <span class="status expiring">
+                            🟠 Warranty Expiring Soon
+                        </span>
+
+
+                    {% else %}
+
+                        <span class="status active">
+                            🟢 Active Warranty
+                        </span>
+
+                    {% endif %}
+
+
+                {% else %}
+
+                    <span class="status">
+                        ⚪ Date Not Available
+                    </span>
+
+                {% endif %}
+
+
+                <!-- Appliance Details -->
+
                 <div class="details">
 
-                    <div class="detail-box">
-                        <strong>Brand</strong>
-                        <p>{{ appliance.brand }}</p>
-                    </div>
 
                     <div class="detail-box">
-                        <strong>Model Number</strong>
-                        <p>{{ appliance.model_number }}</p>
+
+                        <strong>
+                            Brand
+                        </strong>
+
+                        <p>
+                            {{ appliance.brand }}
+                        </p>
+
                     </div>
 
+
                     <div class="detail-box">
-                        <strong>Warranty Start</strong>
+
+                        <strong>
+                            Model Number
+                        </strong>
+
+                        <p>
+                            {{ appliance.model_number }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="detail-box">
+
+                        <strong>
+                            Warranty Start
+                        </strong>
+
                         <p>
                             {{ appliance.warranty_start_date|default:"Not provided" }}
                         </p>
+
                     </div>
 
+
                     <div class="detail-box">
-                        <strong>Warranty Expiry</strong>
+
+                        <strong>
+                            Warranty Expiry
+                        </strong>
+
                         <p>
                             {{ appliance.warranty_expiry_date|default:"Not provided" }}
                         </p>
+
                     </div>
 
-                    <div class="detail-box">
-                        <strong>Purchase Date</strong>
-                        <p>{{ appliance.purchase_date }}</p>
-                    </div>
 
                     <div class="detail-box">
-                        <strong>Customer Care</strong>
+
+                        <strong>
+                            Purchase Date
+                        </strong>
+
+                        <p>
+                            {{ appliance.purchase_date }}
+                        </p>
+
+                    </div>
+
+
+                    <div class="detail-box">
+
+                        <strong>
+                            Customer Care
+                        </strong>
+
                         <p>
                             {{ appliance.customer_care_number|default:"Not provided" }}
                         </p>
+
                     </div>
+
 
                 </div>
 
+
+                <!-- Bill -->
+
                 {% if appliance.bill %}
-                    <br>
-                    <a href="{{ appliance.bill.url }}" class="btn" target="_blank">
+
+                    <a href="{{ appliance.bill.url }}"
+                       class="btn bill-btn"
+                       target="_blank">
+
                         📄 View Bill
+
                     </a>
+
                 {% endif %}
+
 
             </div>
 
+
             {% endfor %}
+
 
         {% else %}
 
+
+            <!-- No Appliances -->
+
             <div class="empty">
-                <h2>📋 No Appliances Found</h2>
+
+                <h2>
+                    📋 No Appliances Found
+                </h2>
+
                 <p>
                     Add an appliance to view its warranty information.
                 </p>
@@ -206,17 +453,25 @@
                 <a href="/appliances/" class="btn">
                     + Add Appliance
                 </a>
+
             </div>
+
 
         {% endif %}
 
+
+        <!-- Back -->
+
         <br>
 
-        <a href="/users/dashboard/" class="btn">
+        <a href="/users/dashboard/" class="btn back-btn">
             ← Back to Dashboard
         </a>
 
+
     </div>
 
+
 </body>
+
 </html>

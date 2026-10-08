@@ -1,0 +1,1316 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Smart Household | Dashboard
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+            color: #1e293b;
+        }
+
+        /* =========================
+           TOP HEADER
+        ========================= */
+
+        .top-header {
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            color: white;
+
+            padding: 20px 5%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            position: sticky;
+            top: 0;
+            z-index: 100;
+
+            box-shadow: 0 4px 15px rgba(0,0,0,0.12);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+
+            background: rgba(255,255,255,0.18);
+
+            border-radius: 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 22px;
+        }
+
+        .brand h1 {
+            font-size: 19px;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .notification-btn {
+            width: 40px;
+            height: 40px;
+
+            background: rgba(255,255,255,0.15);
+
+            border-radius: 50%;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 18px;
+        }
+
+        .logout {
+            background: white;
+            color: #1e3a8a;
+
+            text-decoration: none;
+
+            padding: 9px 15px;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           MAIN
+        ========================= */
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+
+            margin: 28px auto 100px;
+        }
+
+
+        /* =========================
+           WELCOME CARD
+        ========================= */
+
+        .welcome-card {
+            background: linear-gradient(
+                135deg,
+                #dbeafe,
+                #eef2ff
+            );
+
+            border-radius: 22px;
+
+            padding: 28px;
+
+            margin-bottom: 25px;
+
+            border: 1px solid #c7d2fe;
+
+            position: relative;
+
+            overflow: hidden;
+        }
+
+        .welcome-card::after {
+            content: "🏠";
+
+            position: absolute;
+
+            right: 35px;
+            bottom: -12px;
+
+            font-size: 95px;
+
+            opacity: 0.15;
+        }
+
+        .welcome-card h2 {
+            color: #1e3a8a;
+
+            font-size: 27px;
+
+            margin-bottom: 9px;
+        }
+
+        .welcome-card p {
+            color: #64748b;
+
+            max-width: 600px;
+
+            line-height: 1.6;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           SUMMARY
+        ========================= */
+
+        .summary-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 16px;
+
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 20px;
+
+            border: 1px solid #e2e8f0;
+
+            box-shadow:
+                0 5px 18px rgba(15,23,42,0.06);
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 15px;
+
+            transition: 0.2s;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .summary-icon {
+            width: 52px;
+            height: 52px;
+
+            flex-shrink: 0;
+
+            background: #eff6ff;
+
+            border-radius: 15px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 25px;
+        }
+
+        .summary-card h3 {
+            color: #64748b;
+
+            font-size: 13px;
+
+            margin-bottom: 5px;
+        }
+
+        .summary-number {
+            color: #1e3a8a;
+
+            font-size: 26px;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           SECTION HEADER
+        ========================= */
+
+        .section-header {
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            margin-bottom: 16px;
+        }
+
+        .section-header h2 {
+            color: #1e3a8a;
+
+            font-size: 21px;
+        }
+
+        .view-all {
+            color: #2563eb;
+
+            text-decoration: none;
+
+            font-size: 13px;
+
+            font-weight: bold;
+        }
+
+
+        /* =========================
+           QUICK ACTIONS
+        ========================= */
+
+        .quick-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 14px;
+
+            margin-bottom: 32px;
+        }
+
+        .quick-card {
+            background: white;
+
+            border: 1px solid #e2e8f0;
+
+            border-radius: 16px;
+
+            padding: 18px;
+
+            text-decoration: none;
+
+            text-align: center;
+
+            color: #1e293b;
+
+            box-shadow:
+                0 4px 15px rgba(15,23,42,0.05);
+
+            transition: 0.2s;
+        }
+
+        .quick-card:hover {
+            transform: translateY(-4px);
+
+            border-color: #93c5fd;
+
+            box-shadow:
+                0 8px 20px rgba(37,99,235,0.12);
+        }
+
+        .quick-icon {
+            width: 48px;
+            height: 48px;
+
+            margin: 0 auto 10px;
+
+            background: #eff6ff;
+
+            border-radius: 14px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 23px;
+        }
+
+        .quick-card h3 {
+            color: #1e3a8a;
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           RECENT ACTIVITY
+        ========================= */
+
+        .recent-grid {
+            display: grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap: 18px;
+
+            margin-bottom: 32px;
+        }
+
+        .recent-card {
+            background: white;
+
+            border-radius: 18px;
+
+            padding: 21px;
+
+            border: 1px solid #e2e8f0;
+
+            box-shadow:
+                0 5px 18px rgba(15,23,42,0.05);
+        }
+
+        .recent-card h3 {
+            color: #1e3a8a;
+
+            font-size: 17px;
+
+            margin-bottom: 12px;
+        }
+
+        .activity-item {
+            padding: 13px 0;
+
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-item strong {
+            color: #1e293b;
+
+            font-size: 14px;
+        }
+
+        .activity-item p {
+            color: #64748b;
+
+            font-size: 13px;
+
+            margin: 5px 0;
+        }
+
+        .status {
+            display: inline-block;
+
+            background: #eff6ff;
+
+            color: #2563eb;
+
+            padding: 4px 9px;
+
+            border-radius: 20px;
+
+            font-size: 11px;
+
+            font-weight: bold;
+        }
+
+        .activity-item small {
+            color: #94a3b8;
+
+            font-size: 11px;
+        }
+
+        .empty-message {
+            color: #94a3b8;
+
+            font-size: 13px;
+
+            padding: 10px 0;
+        }
+
+
+        /* =========================
+           MAINTENANCE MODULES
+        ========================= */
+
+        .modules-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 16px;
+
+            margin-bottom: 30px;
+        }
+
+        .module-card {
+            background: white;
+
+            padding: 21px;
+
+            border-radius: 17px;
+
+            border: 1px solid #e2e8f0;
+
+            text-decoration: none;
+
+            color: #1e293b;
+
+            transition: 0.2s;
+
+            box-shadow:
+                0 4px 15px rgba(15,23,42,0.05);
+        }
+
+        .module-card:hover {
+            transform: translateY(-4px);
+
+            border-color: #93c5fd;
+
+            box-shadow:
+                0 9px 22px rgba(37,99,235,0.12);
+        }
+
+        .module-icon {
+            width: 45px;
+            height: 45px;
+
+            background: #eff6ff;
+
+            border-radius: 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 22px;
+
+            margin-bottom: 12px;
+        }
+
+        .module-card h3 {
+            color: #1e3a8a;
+
+            font-size: 16px;
+
+            margin-bottom: 7px;
+        }
+
+        .module-card p {
+            color: #64748b;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           BOTTOM NAVIGATION
+        ========================= */
+
+        .bottom-nav {
+            position: fixed;
+
+            bottom: 0;
+            left: 0;
+            right: 0;
+
+            height: 68px;
+
+            background: white;
+
+            border-top: 1px solid #e2e8f0;
+
+            display: flex;
+
+            justify-content: center;
+
+            align-items: center;
+
+            gap: 10px;
+
+            z-index: 200;
+
+            box-shadow:
+                0 -4px 18px rgba(15,23,42,0.08);
+        }
+
+        .nav-item {
+            width: 100px;
+
+            text-align: center;
+
+            text-decoration: none;
+
+            color: #64748b;
+
+            font-size: 11px;
+
+            font-weight: 600;
+
+            padding: 6px;
+        }
+
+        .nav-icon {
+            display: block;
+
+            font-size: 20px;
+
+            margin-bottom: 2px;
+        }
+
+        .nav-item.active {
+            color: #2563eb;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 750px) {
+
+            .top-header {
+                padding: 16px 18px;
+            }
+
+            .brand h1 {
+                font-size: 15px;
+            }
+
+            .logout {
+                display: none;
+            }
+
+            .notification-btn {
+                width: 36px;
+                height: 36px;
+            }
+
+            .container {
+                width: 94%;
+
+                margin-top: 20px;
+            }
+
+            .welcome-card {
+                padding: 23px;
+            }
+
+            .welcome-card h2 {
+                font-size: 22px;
+            }
+
+            .summary-grid {
+                grid-template-columns:
+                    1fr 1fr 1fr;
+
+                gap: 9px;
+            }
+
+            .summary-card {
+                padding: 13px;
+
+                display: block;
+
+                text-align: center;
+            }
+
+            .summary-icon {
+                width: 40px;
+                height: 40px;
+
+                margin: 0 auto 8px;
+
+                font-size: 19px;
+            }
+
+            .summary-card h3 {
+                font-size: 10px;
+            }
+
+            .summary-number {
+                font-size: 21px;
+            }
+
+            .quick-grid {
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+            .recent-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modules-grid {
+                grid-template-columns:
+                    1fr 1fr;
+
+                gap: 11px;
+            }
+
+            .module-card {
+                padding: 16px;
+            }
+
+            .module-card h3 {
+                font-size: 14px;
+            }
+
+            .module-card p {
+                font-size: 12px;
+            }
+
+            .bottom-nav {
+                gap: 0;
+            }
+
+            .nav-item {
+                width: 20%;
+            }
+
+        }
+
+
+        @media (max-width: 430px) {
+
+            .quick-card {
+                padding: 15px 8px;
+            }
+
+            .quick-card h3 {
+                font-size: 12px;
+            }
+
+            .modules-grid {
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     TOP HEADER
+========================= -->
+
+<header class="top-header">
+
+    <div class="brand">
+
+        <div class="brand-icon">
+            🏠
+        </div>
+
+        <h1>
+            Smart Household
+        </h1>
+
+    </div>
+
+
+    <div class="header-right">
+
+        <a href="{% url 'notifications' %}"
+           class="notification-btn">
+
+            🔔
+
+        </a>
+
+        <a href="/users/logout/"
+           class="logout">
+
+            Logout
+
+        </a>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="container">
+
+
+    <!-- WELCOME -->
+
+    <section class="welcome-card">
+
+        <h2>
+            Hi, {{ request.user.username }} 👋
+        </h2>
+
+        <p>
+            Manage your household appliances,
+            services, warranties and maintenance
+            easily from one place.
+        </p>
+
+    </section>
+
+
+
+    <!-- SUMMARY -->
+
+    <div class="summary-grid">
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon">
+                🔧
+            </div>
+
+            <div>
+
+                <h3>
+                    Appliances
+                </h3>
+
+                <div class="summary-number">
+                    {{ appliance_count }}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon">
+                🛠️
+            </div>
+
+            <div>
+
+                <h3>
+                    Requests
+                </h3>
+
+                <div class="summary-number">
+                    {{ service_request_count }}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <div class="summary-icon">
+                🔔
+            </div>
+
+            <div>
+
+                <h3>
+                    Notifications
+                </h3>
+
+                <div class="summary-number">
+                    {{ notification_count }}
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- QUICK ACTIONS -->
+
+    <div class="section-header">
+
+        <h2>
+            Quick Actions
+        </h2>
+
+    </div>
+
+
+    <div class="quick-grid">
+
+
+        <a href="/appliances/"
+           class="quick-card">
+
+            <div class="quick-icon">
+                🔧
+            </div>
+
+            <h3>
+                Add Appliance
+            </h3>
+
+        </a>
+
+
+        <a href="{% url 'service_provider_list' %}"
+           class="quick-card">
+
+            <div class="quick-icon">
+                🛠️
+            </div>
+
+            <h3>
+                Find Service
+            </h3>
+
+        </a>
+
+
+        <a href="{% url 'my_service_requests' %}"
+           class="quick-card">
+
+            <div class="quick-icon">
+                📋
+            </div>
+
+            <h3>
+                My Requests
+            </h3>
+
+        </a>
+
+
+        <a href="{% url 'reminders' %}"
+           class="quick-card">
+
+            <div class="quick-icon">
+                🔔
+            </div>
+
+            <h3>
+                Reminders
+            </h3>
+
+        </a>
+
+
+    </div>
+
+
+
+    <!-- RECENT ACTIVITY -->
+
+    <div class="section-header">
+
+        <h2>
+            Recent Activity
+        </h2>
+
+    </div>
+
+
+    <div class="recent-grid">
+
+
+        <!-- SERVICE REQUESTS -->
+
+        <div class="recent-card">
+
+            <h3>
+                🛠️ Recent Service Requests
+            </h3>
+
+
+            {% if recent_requests %}
+
+                {% for request in recent_requests %}
+
+                    <div class="activity-item">
+
+                        <strong>
+                            {{ request.service_provider.company_name }}
+                        </strong>
+
+                        <p>
+                            {{ request.service_provider.service_name }}
+                        </p>
+
+                        <span class="status">
+                            {{ request.status }}
+                        </span>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p class="empty-message">
+                    No service requests yet.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+
+        <!-- NOTIFICATIONS -->
+
+        <div class="recent-card">
+
+            <h3>
+                🔔 Recent Notifications
+            </h3>
+
+
+            {% if recent_notifications %}
+
+                {% for notification in recent_notifications %}
+
+                    <div class="activity-item">
+
+                        <p>
+                            {{ notification.message }}
+                        </p>
+
+                        <small>
+                            {{ notification.created_at|date:"d M Y, h:i A" }}
+                        </small>
+
+                    </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                <p class="empty-message">
+                    No notifications yet.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+
+    </div>
+
+
+
+    <!-- MAINTENANCE MODULES -->
+
+    <div class="section-header">
+
+        <h2>
+            All Services
+        </h2>
+
+    </div>
+
+
+    <div class="modules-grid">
+
+
+        <a href="/appliances/"
+           class="module-card">
+
+            <div class="module-icon">
+                🔧
+            </div>
+
+            <h3>
+                Appliances
+            </h3>
+
+            <p>
+                Add and manage household appliances.
+            </p>
+
+        </a>
+
+
+        <a href="/warranty/"
+           class="module-card">
+
+            <div class="module-icon">
+                🛡️
+            </div>
+
+            <h3>
+                Warranty
+            </h3>
+
+            <p>
+                Track warranty dates and expiry.
+            </p>
+
+        </a>
+
+
+        <a href="{% url 'service' %}"
+           class="module-card">
+
+            <div class="module-icon">
+                🛠️
+            </div>
+
+            <h3>
+                Maintenance
+            </h3>
+
+            <p>
+                Manage service and maintenance.
+            </p>
+
+        </a>
+
+
+        <a href="{% url 'reminders' %}"
+           class="module-card">
+
+            <div class="module-icon">
+                🔔
+            </div>
+
+            <h3>
+                Reminders
+            </h3>
+
+            <p>
+                Check upcoming reminders.
+            </p>
+
+        </a>
+
+
+        <a href="{% url 'history' %}"
+           class="module-card">
+
+            <div class="module-icon">
+                📜
+            </div>
+
+            <h3>
+                History
+            </h3>
+
+            <p>
+                View completed maintenance records.
+            </p>
+
+        </a>
+
+
+        <a href="{% url 'maintenance_cost' %}"
+           class="module-card">
+
+            <div class="module-icon">
+                💰
+            </div>
+
+            <h3>
+                Maintenance Cost
+            </h3>
+
+            <p>
+                Track repair and service expenses.
+            </p>
+
+        </a>
+
+
+        <a href="{% url 'health_score' %}"
+           class="module-card">
+
+            <div class="module-icon">
+                ❤️
+            </div>
+
+            <h3>
+                Health Score
+            </h3>
+
+            <p>
+                Monitor appliance health.
+            </p>
+
+        </a>
+
+
+        <a href="{% url 'my_service_requests' %}"
+           class="module-card">
+
+            <div class="module-icon">
+                📋
+            </div>
+
+            <h3>
+                My Requests
+            </h3>
+
+            <p>
+                Track your service requests.
+            </p>
+
+        </a>
+
+
+        <a href="{% url 'service_provider_list' %}"
+           class="module-card">
+
+            <div class="module-icon">
+                🔧
+            </div>
+
+            <h3>
+                Find Service
+            </h3>
+
+            <p>
+                Find available service providers.
+            </p>
+
+        </a>
+
+
+        <a href="{% url 'notifications' %}"
+           class="module-card">
+
+            <div class="module-icon">
+                🔔
+            </div>
+
+            <h3>
+                Notifications
+            </h3>
+
+            <p>
+                View important service updates.
+            </p>
+
+        </a>
+
+
+        <a href="{% url 'user_offers' %}"
+           class="module-card">
+
+            <div class="module-icon">
+                🎁
+            </div>
+
+            <h3>
+                Offers & Discounts
+            </h3>
+
+            <p>
+                View latest service offers.
+            </p>
+
+        </a>
+
+
+    </div>
+
+
+</main>
+
+
+
+<!-- =========================
+     BOTTOM NAVIGATION
+========================= -->
+
+<nav class="bottom-nav">
+
+
+    <a href="#"
+       class="nav-item active">
+
+        <span class="nav-icon">
+            🏠
+        </span>
+
+        Home
+
+    </a>
+
+
+    <a href="{% url 'service_provider_list' %}"
+       class="nav-item">
+
+        <span class="nav-icon">
+            🔧
+        </span>
+
+        Services
+
+    </a>
+
+
+    <a href="{% url 'my_service_requests' %}"
+       class="nav-item">
+
+        <span class="nav-icon">
+            📋
+        </span>
+
+        Requests
+
+    </a>
+
+
+    <a href="{% url 'notifications' %}"
+       class="nav-item">
+
+        <span class="nav-icon">
+            🔔
+        </span>
+
+        Alerts
+
+    </a>
+
+
+    <a href="/users/logout/"
+       class="nav-item">
+
+        <span class="nav-icon">
+            🚪
+        </span>
+
+        Logout
+
+    </a>
+
+
+</nav>
+
+
+</body>
+
+</html>

@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Dashboard | Smart Household</title>
+
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #14532d;
+            --primary-light: #166534;
+            --soft-green: #f0fdf4;
+            --green-border: #dcfce7;
+
+            --text: #172033;
+            --muted: #64748b;
+
+            --white: #ffffff;
+            --background: #f7f9f8;
+            --border: #e5e7eb;
+
+            --shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+
+        /* =========================
+           HEADER
+        ========================= */
+
+        .header {
+            background: linear-gradient(
+                135deg,
+                #14532d,
+                #166534
+            );
+
+            color: white;
+
+            padding: 18px 5%;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            box-shadow: 0 4px 18px rgba(20, 83, 45, 0.18);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+
+            background: rgba(255,255,255,0.15);
+
+            border: 1px solid rgba(255,255,255,0.2);
+
+            border-radius: 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 21px;
+        }
+
+        .brand-text h1 {
+            font-size: 19px;
+            margin-bottom: 3px;
+        }
+
+        .brand-text span {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .logout {
+            text-decoration: none;
+
+            background: white;
+            color: var(--primary);
+
+            padding: 10px 17px;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+            font-weight: bold;
+
+            transition: 0.2s;
+        }
+
+        .logout:hover {
+            background: #ecfdf5;
+            transform: translateY(-1px);
+        }
+
+
+        /* =========================
+           MAIN CONTAINER
+        ========================= */
+
+        .container {
+            width: 92%;
+            max-width: 1250px;
+
+            margin: 32px auto 50px;
+        }
+
+
+        /* =========================
+           PAGE INTRO
+        ========================= */
+
+        .intro {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 28px;
+
+            gap: 20px;
+        }
+
+        .intro h2 {
+            font-size: 27px;
+            color: #172033;
+
+            margin-bottom: 7px;
+        }
+
+        .intro p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .admin-badge {
+            background: var(--soft-green);
+            border: 1px solid var(--green-border);
+
+            color: var(--primary);
+
+            padding: 10px 15px;
+
+            border-radius: 30px;
+
+            font-size: 13px;
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+
+        /* =========================
+           SUMMARY CARDS
+        ========================= */
+
+        .summary-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 38px;
+        }
+
+        .summary-card {
+            background: var(--white);
+
+            border: 1px solid var(--border);
+
+            border-radius: 17px;
+
+            padding: 22px;
+
+            box-shadow: var(--shadow);
+
+            transition: 0.2s;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-3px);
+            box-shadow:
+                0 12px 30px
+                rgba(15, 23, 42, 0.09);
+        }
+
+        .summary-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 18px;
+        }
+
+        .summary-icon {
+            width: 43px;
+            height: 43px;
+
+            border-radius: 12px;
+
+            background: var(--soft-green);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 21px;
+        }
+
+        .summary-label {
+            color: var(--muted);
+
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .number {
+            font-size: 30px;
+            font-weight: bold;
+
+            color: var(--text);
+        }
+
+        .summary-bottom {
+            color: #94a3b8;
+
+            font-size: 12px;
+
+            margin-top: 5px;
+        }
+
+
+        /* =========================
+           SECTION HEADER
+        ========================= */
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 17px;
+        }
+
+        .section-title {
+            font-size: 20px;
+            color: var(--text);
+        }
+
+        .section-subtitle {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+
+        /* =========================
+           MANAGEMENT MODULES
+        ========================= */
+
+        .modules-grid {
+            display: grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap: 18px;
+
+            margin-bottom: 38px;
+        }
+
+        .module-card {
+            background: var(--white);
+
+            border: 1px solid var(--border);
+
+            border-radius: 17px;
+
+            padding: 22px;
+
+            text-decoration: none;
+
+            color: inherit;
+
+            box-shadow: var(--shadow);
+
+            transition: 0.2s;
+
+            position: relative;
+        }
+
+        .module-card:hover {
+            transform: translateY(-4px);
+
+            border-color: #bbf7d0;
+
+            box-shadow:
+                0 14px 30px
+                rgba(15, 23, 42, 0.09);
+        }
+
+        .module-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            margin-bottom: 18px;
+        }
+
+        .module-icon {
+            width: 48px;
+            height: 48px;
+
+            border-radius: 13px;
+
+            background: var(--soft-green);
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 23px;
+        }
+
+        .arrow {
+            color: #94a3b8;
+            font-size: 19px;
+
+            transition: 0.2s;
+        }
+
+        .module-card:hover .arrow {
+            color: var(--primary);
+            transform: translateX(3px);
+        }
+
+        .module-card h3 {
+            color: var(--text);
+
+            font-size: 16px;
+
+            margin-bottom: 7px;
+        }
+
+        .module-card p {
+            color: var(--muted);
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+
+        /* =========================
+           REQUEST SECTION
+        ========================= */
+
+        .request-section {
+            background: var(--white);
+
+            border: 1px solid var(--border);
+
+            border-radius: 18px;
+
+            box-shadow: var(--shadow);
+
+            margin-bottom: 38px;
+
+            overflow: hidden;
+        }
+
+        .request-header {
+            padding: 21px 23px;
+
+            border-bottom: 1px solid var(--border);
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .request-header h2 {
+            font-size: 19px;
+            color: var(--text);
+        }
+
+        .monitor-label {
+            background: #f8fafc;
+
+            border: 1px solid var(--border);
+
+            color: var(--muted);
+
+            padding: 7px 11px;
+
+            border-radius: 8px;
+
+            font-size: 11px;
+            font-weight: bold;
+        }
+
+        .request-list {
+            padding: 5px 23px;
+        }
+
+        .request-box {
+            padding: 19px 0;
+
+            border-bottom: 1px solid #eef2f7;
+        }
+
+        .request-box:last-child {
+            border-bottom: none;
+        }
+
+        .request-main {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+
+            gap: 15px;
+        }
+
+        .user-info h3 {
+            color: var(--text);
+
+            font-size: 15px;
+
+            margin-bottom: 6px;
+        }
+
+        .user-info p {
+            color: var(--muted);
+
+            font-size: 13px;
+
+            margin: 4px 0;
+        }
+
+        .request-details {
+            display: flex;
+            flex-wrap: wrap;
+
+            gap: 7px;
+
+            margin-top: 10px;
+        }
+
+        .detail-tag {
+            background: #f8fafc;
+
+            border: 1px solid #e2e8f0;
+
+            color: #64748b;
+
+            padding: 5px 9px;
+
+            border-radius: 7px;
+
+            font-size: 11px;
+        }
+
+        .status {
+            display: inline-flex;
+            align-items: center;
+
+            gap: 6px;
+
+            padding: 7px 11px;
+
+            border-radius: 20px;
+
+            background: #f0fdf4;
+
+            color: #166534;
+
+            border: 1px solid #dcfce7;
+
+            font-size: 11px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+        }
+
+        .status::before {
+            content: "";
+            width: 6px;
+            height: 6px;
+
+            border-radius: 50%;
+
+            background: currentColor;
+        }
+
+
+        /* =========================
+           EMPTY REQUEST
+        ========================= */
+
+        .empty {
+            text-align: center;
+
+            padding: 35px 20px;
+
+            color: var(--muted);
+
+            font-size: 14px;
+        }
+
+
+        /* =========================
+           QUICK ACTION
+        ========================= */
+
+        .quick-section {
+            margin-bottom: 20px;
+        }
+
+        .quick-card {
+            background: linear-gradient(
+                135deg,
+                #14532d,
+                #166534
+            );
+
+            border-radius: 17px;
+
+            padding: 22px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            gap: 20px;
+
+            color: white;
+        }
+
+        .quick-card h3 {
+            font-size: 17px;
+
+            margin-bottom: 5px;
+        }
+
+        .quick-card p {
+            font-size: 12px;
+
+            opacity: 0.78;
+        }
+
+        .quick-btn {
+            background: white;
+
+            color: var(--primary);
+
+            text-decoration: none;
+
+            padding: 11px 17px;
+
+            border-radius: 9px;
+
+            font-size: 13px;
+
+            font-weight: bold;
+
+            white-space: nowrap;
+
+            transition: 0.2s;
+        }
+
+        .quick-btn:hover {
+            background: #ecfdf5;
+            transform: translateY(-2px);
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        .footer {
+            text-align: center;
+
+            color: #94a3b8;
+
+            font-size: 11px;
+
+            margin-top: 30px;
+        }
+
+
+        /* =========================
+           TABLET
+        ========================= */
+
+        @media (max-width: 950px) {
+
+            .summary-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+            .modules-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 650px) {
+
+            .header {
+                padding: 15px 18px;
+            }
+
+            .brand-text h1 {
+                font-size: 16px;
+            }
+
+            .brand-text span {
+                font-size: 10px;
+            }
+
+            .brand-icon {
+                width: 38px;
+                height: 38px;
+            }
+
+            .logout {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            .container {
+                width: 92%;
+
+                margin-top: 25px;
+            }
+
+            .intro {
+                align-items: flex-start;
+
+                flex-direction: column;
+
+                margin-bottom: 24px;
+            }
+
+            .intro h2 {
+                font-size: 23px;
+            }
+
+            .admin-badge {
+                font-size: 11px;
+            }
+
+            .summary-grid {
+                grid-template-columns:
+                    repeat(2, 1fr);
+
+                gap: 12px;
+            }
+
+            .summary-card {
+                padding: 16px;
+            }
+
+            .summary-icon {
+                width: 37px;
+                height: 37px;
+
+                font-size: 18px;
+            }
+
+            .number {
+                font-size: 25px;
+            }
+
+            .modules-grid {
+                grid-template-columns: 1fr;
+
+                gap: 13px;
+            }
+
+            .module-card {
+                padding: 18px;
+            }
+
+            .request-header {
+                padding: 18px;
+            }
+
+            .request-list {
+                padding: 4px 18px;
+            }
+
+            .request-main {
+                flex-direction: column;
+            }
+
+            .status {
+                align-self: flex-start;
+            }
+
+            .quick-card {
+                flex-direction: column;
+
+                align-items: flex-start;
+            }
+
+            .quick-btn {
+                width: 100%;
+
+                text-align: center;
+            }
+
+        }
+
+
+        /* =========================
+           VERY SMALL MOBILE
+        ========================= */
+
+        @media (max-width: 380px) {
+
+            .summary-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .brand-text span {
+                display: none;
+            }
+
+            .intro h2 {
+                font-size: 21px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================
+         HEADER
+    ========================= -->
+
+    <header class="header">
+
+        <div class="brand">
+
+            <div class="brand-icon">
+                🏠
+            </div>
+
+            <div class="brand-text">
+
+                <h1>
+                    Smart Household
+                </h1>
+
+                <span>
+                    Maintenance Management System
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <a href="/users/logout/"
+           class="logout">
+
+            Logout
+
+        </a>
+
+    </header>
+
+
+
+    <main class="container">
+
+
+        <!-- =========================
+             INTRO
+        ========================= -->
+
+        <section class="intro">
+
+            <div>
+
+                <h2>
+                    Welcome, Admin 👋
+                </h2>
+
+                <p>
+                    Monitor and manage your household
+                    maintenance system from one place.
+                </p>
+
+            </div>
+
+            <div class="admin-badge">
+                ● Administrator
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             SUMMARY
+        ========================= -->
+
+        <section class="summary-grid">
+
+
+            <div class="summary-card">
+
+                <div class="summary-top">
+
+                    <div class="summary-label">
+                        Total Users
+                    </div>
+
+                    <div class="summary-icon">
+                        👥
+                    </div>
+
+                </div>
+
+                <div class="number">
+                    {{ total_users }}
+                </div>
+
+                <div class="summary-bottom">
+                    Registered users
+                </div>
+
+            </div>
+
+
+
+            <div class="summary-card">
+
+                <div class="summary-top">
+
+                    <div class="summary-label">
+                        Appliances
+                    </div>
+
+                    <div class="summary-icon">
+                        🏠
+                    </div>
+
+                </div>
+
+                <div class="number">
+                    {{ total_appliances }}
+                </div>
+
+                <div class="summary-bottom">
+                    Registered appliances
+                </div>
+
+            </div>
+
+
+
+            <div class="summary-card">
+
+                <div class="summary-top">
+
+                    <div class="summary-label">
+                        Service Requests
+                    </div>
+
+                    <div class="summary-icon">
+                        🔧
+                    </div>
+
+                </div>
+
+                <div class="number">
+                    {{ total_requests }}
+                </div>
+
+                <div class="summary-bottom">
+                    System service activity
+                </div>
+
+            </div>
+
+
+
+            <div class="summary-card">
+
+                <div class="summary-top">
+
+                    <div class="summary-label">
+                        Service Providers
+                    </div>
+
+                    <div class="summary-icon">
+                        🏢
+                    </div>
+
+                </div>
+
+                <div class="number">
+                    {{ total_providers }}
+                </div>
+
+                <div class="summary-bottom">
+                    Available companies
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =========================
+             ADMIN MANAGEMENT
+        ========================= -->
+
+        <section>
+
+            <div class="section-header">
+
+                <div>
+
+                    <h2 class="section-title">
+                        Admin Management
+                    </h2>
+
+                    <p class="section-subtitle">
+                        System administration and monitoring
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="modules-grid">
+
+
+                <!-- USER MANAGEMENT -->
+
+                <a href="{% url 'admin_user_list' %}"
+                   class="module-card">
+
+                    <div class="module-top">
+
+                        <div class="module-icon">
+                            👥
+                        </div>
+
+                        <div class="arrow">
+                            →
+                        </div>
+
+                    </div>
+
+                    <h3>
+                        User Management
+                    </h3>
+
+                    <p>
+                        View and manage registered
+                        household users.
+                    </p>
+
+                </a>
+
+
+
+                <!-- APPLIANCE MONITORING -->
+
+                <a href="{% url 'admin_appliance_list' %}"
+                   class="module-card">
+
+                    <div class="module-top">
+
+                        <div class="module-icon">
+                            🏠
+                        </div>
+
+                        <div class="arrow">
+                            →
+                        </div>
+
+                    </div>
+
+                    <h3>
+                        Appliance Monitoring
+                    </h3>
+
+                    <p>
+                        Monitor appliances registered
+                        by users.
+                    </p>
+
+                </a>
+
+
+
+                <!-- SERVICE PROVIDER MANAGEMENT -->
+
+                <a href="{% url 'admin_service_provider_list' %}"
+                   class="module-card">
+
+                    <div class="module-top">
+
+                        <div class="module-icon">
+                            🛠️
+                        </div>
+
+                        <div class="arrow">
+                            →
+                        </div>
+
+                    </div>
+
+                    <h3>
+                        Service Provider Management
+                    </h3>
+
+                    <p>
+                        Manage registered service
+                        companies and providers.
+                    </p>
+
+                </a>
+
+
+
+                <!-- OFFERS -->
+
+                <a href="{% url 'admin_offers' %}"
+                   class="module-card">
+
+                    <div class="module-top">
+
+                        <div class="module-icon">
+                            🎁
+                        </div>
+
+                        <div class="arrow">
+                            →
+                        </div>
+
+                    </div>
+
+                    <h3>
+                        Offers & Discounts
+                    </h3>
+
+                    <p>
+                        Manage promotional offers
+                        and discounts.
+                    </p>
+
+                </a>
+
+
+
+                <!-- NOTIFICATIONS -->
+
+                <a href="{% url 'admin_notifications' %}"
+                   class="module-card">
+
+                    <div class="module-top">
+
+                        <div class="module-icon">
+                            🔔
+                        </div>
+
+                        <div class="arrow">
+                            →
+                        </div>
+
+                    </div>
+
+                    <h3>
+                        Notification Management
+                    </h3>
+
+                    <p>
+                        Monitor notifications sent
+                        to users.
+                    </p>
+
+                </a>
+
+
+
+                <!-- REPORTS -->
+
+                <a href="{% url 'admin_reports' %}"
+                   class="module-card">
+
+                    <div class="module-top">
+
+                        <div class="module-icon">
+                            📊
+                        </div>
+
+                        <div class="arrow">
+                            →
+                        </div>
+
+                    </div>
+
+                    <h3>
+                        Reports & Analytics
+                    </h3>
+
+                    <p>
+                        View system statistics,
+                        reports and analytics.
+                    </p>
+
+                </a>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             RECENT REQUESTS
+        ========================= -->
+
+        <section class="request-section">
+
+
+            <div class="request-header">
+
+                <div>
+
+                    <h2>
+                        📋 Recent Service Requests
+                    </h2>
+
+                </div>
+
+                <span class="monitor-label">
+                    MONITORING
+                </span>
+
+            </div>
+
+
+            <div class="request-list">
+
+
+                {% if service_requests %}
+
+
+                    {% for service_request in service_requests %}
+
+
+                        <div class="request-box">
+
+
+                            <div class="request-main">
+
+
+                                <div class="user-info">
+
+                                    <h3>
+                                        {{ service_request.user.username }}
+                                    </h3>
+
+                                    <p>
+                                        {{ service_request.service_provider.service_name }}
+                                    </p>
+
+                                    <div class="request-details">
+
+                                        <span class="detail-tag">
+                                            🏢
+                                            {{ service_request.service_provider.company_name }}
+                                        </span>
+
+                                        <span class="detail-tag">
+                                            🏠
+                                            {{ service_request.appliance }}
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+
+                                <span class="status">
+
+                                    {{ service_request.status }}
+
+                                </span>
+
+
+                            </div>
+
+
+                        </div>
+
+
+                    {% endfor %}
+
+
+                {% else %}
+
+                    <div class="empty">
+
+                        No service requests available.
+
+                    </div>
+
+                {% endif %}
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =========================
+             QUICK ACTION
+        ========================= -->
+
+        <section class="quick-section">
+
+            <div class="quick-card">
+
+                <div>
+
+                    <h3>
+                        ⚙️ System Administration
+                    </h3>
+
+                    <p>
+                        Access Django's advanced administration
+                        and database management tools.
+                    </p>
+
+                </div>
+
+
+                <a href="/admin/"
+                   class="quick-btn">
+
+                    Open Django Admin →
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+
+        <div class="footer">
+
+            Smart Household Maintenance Tracking System
+            · Admin Panel
+
+        </div>
+
+
+    </main>
+
+
+</body>
+
+</html>

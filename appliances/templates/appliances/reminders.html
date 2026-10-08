@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reminders & Notifications</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f8fafc;
+            color: #334155;
+        }
+
+        /* Header */
+
+        .header {
+            background: #1e3a8a;
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .header p {
+            margin: 8px 0 0;
+            color: #dbeafe;
+            font-size: 14px;
+        }
+
+        /* Main Container */
+
+        .container {
+            width: 92%;
+            max-width: 1050px;
+            margin: 30px auto;
+        }
+
+        /* Page Title */
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h2 {
+            margin: 0;
+            color: #1e293b;
+            font-size: 24px;
+        }
+
+        .page-title p {
+            color: #64748b;
+            margin-top: 7px;
+            font-size: 14px;
+        }
+
+        /* Reminder Grid */
+
+        .reminder-grid {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(320px, 1fr)
+            );
+
+            gap: 22px;
+        }
+
+        /* Main Card */
+
+        .reminder-card {
+            background: white;
+            padding: 24px;
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.07);
+        }
+
+        /* Appliance Header */
+
+        .reminder-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            padding-bottom: 18px;
+
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .icon {
+            width: 50px;
+            height: 50px;
+
+            background: #dbeafe;
+
+            border-radius: 12px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 24px;
+        }
+
+        .reminder-header h3 {
+            margin: 0;
+
+            color: #1e3a8a;
+
+            font-size: 20px;
+        }
+
+        .model {
+            margin: 5px 0 0;
+
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+        /* Reminder Box */
+
+        .reminder {
+            margin-top: 15px;
+
+            padding: 15px 16px;
+
+            border-radius: 12px;
+
+            background: #f8fafc;
+
+            border: 1px solid #e2e8f0;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+        }
+
+        /* Reminder Icon */
+
+        .reminder-icon {
+            width: 42px;
+            height: 42px;
+
+            min-width: 42px;
+
+            background: #eff6ff;
+
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 20px;
+        }
+
+        /* Reminder Content */
+
+        .reminder-content {
+            flex: 1;
+        }
+
+        .reminder strong {
+            display: block;
+
+            color: #1e293b;
+
+            margin-bottom: 5px;
+
+            font-size: 14px;
+        }
+
+        .reminder p {
+            margin: 0;
+
+            color: #64748b;
+
+            font-size: 13px;
+
+            line-height: 1.5;
+        }
+
+        /* No Reminder */
+
+        .no-reminder-box {
+            margin-top: 15px;
+
+            padding: 16px;
+
+            border-radius: 12px;
+
+            background: #f8fafc;
+
+            border: 1px solid #e2e8f0;
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 14px;
+        }
+
+        .no-reminder-icon {
+            width: 42px;
+            height: 42px;
+
+            min-width: 42px;
+
+            background: #f1f5f9;
+
+            border-radius: 10px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 20px;
+        }
+
+        .no-reminder-content strong {
+            display: block;
+
+            color: #334155;
+
+            margin-bottom: 5px;
+
+            font-size: 14px;
+        }
+
+        .no-reminder-content p {
+            margin: 0;
+
+            color: #64748b;
+
+            font-size: 13px;
+        }
+
+        /* Empty State */
+
+        .no-reminders {
+            background: white;
+
+            padding: 45px;
+
+            text-align: center;
+
+            border-radius: 15px;
+
+            border: 1px solid #e2e8f0;
+
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+        }
+
+        .no-reminders h3 {
+            color: #1e3a8a;
+
+            margin-bottom: 8px;
+        }
+
+        .no-reminders p {
+            color: #64748b;
+
+            font-size: 14px;
+        }
+
+        /* Back Button */
+
+        .back-btn {
+            display: inline-block;
+
+            margin-top: 30px;
+
+            padding: 12px 22px;
+
+            background: #2563eb;
+
+            color: white;
+
+            text-decoration: none;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+
+            font-size: 14px;
+
+            transition: 0.2s;
+        }
+
+        .back-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 90%;
+            }
+
+            .header {
+                padding: 22px 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .page-title h2 {
+                font-size: 21px;
+            }
+
+            .reminder-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .reminder-card {
+                padding: 20px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- Header -->
+
+    <div class="header">
+
+        <h1>
+            🔔 Reminders & Notifications
+        </h1>
+
+        <p>
+            Stay updated about warranty and service schedules
+        </p>
+
+    </div>
+
+
+    <!-- Main -->
+
+    <div class="container">
+
+
+        <!-- Page Title -->
+
+        <div class="page-title">
+
+            <h2>
+                📢 Upcoming Reminders
+            </h2>
+
+            <p>
+                Important warranty and maintenance reminders
+                for your appliances.
+            </p>
+
+        </div>
+
+
+        <!-- Reminder Grid -->
+
+        <div class="reminder-grid">
+
+
+            {% for appliance in appliances %}
+
+
+            <!-- Appliance Card -->
+
+            <div class="reminder-card">
+
+
+                <!-- Appliance Header -->
+
+                <div class="reminder-header">
+
+                    <div class="icon">
+                        🔧
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            {{ appliance.brand }}
+                        </h3>
+
+                        <p class="model">
+                            Model: {{ appliance.model_number }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Warranty Reminder -->
+
+                {% if appliance.warranty_expiry_date %}
+
+                <div class="reminder">
+
+                    <div class="reminder-icon">
+                        🛡️
+                    </div>
+
+                    <div class="reminder-content">
+
+                        <strong>
+                            Warranty Reminder
+                        </strong>
+
+                        <p>
+                            Warranty expires on
+                            {{ appliance.warranty_expiry_date }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- Service Reminder -->
+
+                {% if appliance.next_service_date %}
+
+                <div class="reminder">
+
+                    <div class="reminder-icon">
+                        🛠️
+                    </div>
+
+                    <div class="reminder-content">
+
+                        <strong>
+                            Service Reminder
+                        </strong>
+
+                        <p>
+                            Next service is scheduled for
+                            {{ appliance.next_service_date }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+
+                <!-- No Reminder -->
+
+                {% if not appliance.warranty_expiry_date and not appliance.next_service_date %}
+
+                <div class="no-reminder-box">
+
+                    <div class="no-reminder-icon">
+                        ℹ️
+                    </div>
+
+                    <div class="no-reminder-content">
+
+                        <strong>
+                            No Upcoming Reminder
+                        </strong>
+
+                        <p>
+                            No warranty or service date has been added.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                {% endif %}
+
+
+            </div>
+
+
+            {% empty %}
+
+
+            <!-- No Appliances -->
+
+            <div class="no-reminders">
+
+                <h3>
+                    📭 No Appliances Found
+                </h3>
+
+                <p>
+                    Add an appliance to create reminders.
+                </p>
+
+            </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+        <!-- Back -->
+
+        <a
+            href="{% url 'dashboard' %}"
+            class="back-btn"
+        >
+            ← Back to Dashboard
+        </a>
+
+
+    </div>
+
+
+</body>
+
+</html>

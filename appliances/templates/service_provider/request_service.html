@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Request Service</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+            padding: 40px;
+        }
+
+        .container {
+            max-width: 650px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            color: #1e3a8a;
+        }
+
+        h2 {
+            color: #2563eb;
+        }
+
+        .info {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-top: 18px;
+            margin-bottom: 8px;
+        }
+
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+
+        textarea {
+            resize: vertical;
+        }
+
+        .available {
+            color: #15803d;
+            font-weight: bold;
+        }
+
+        .unavailable {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 13px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🔧 Request Service</h1>
+
+    <h2>{{ provider.company_name }}</h2>
+
+    <div class="info">
+
+        <p>
+            <strong>Service:</strong>
+            {{ provider.service_name }}
+        </p>
+
+        <p>
+            <strong>Price:</strong>
+            ₹{{ provider.price }}
+        </p>
+
+        <p>
+            <strong>Discount:</strong>
+            {{ provider.discount }}%
+        </p>
+
+        {% if provider.is_available %}
+            <p class="available">
+                🟢 Service Available
+            </p>
+        {% else %}
+            <p class="unavailable">
+                🔴 Service Unavailable
+            </p>
+        {% endif %}
+
+    </div>
+
+
+    {% if provider.is_available %}
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            <!-- Appliance Selection -->
+
+            <label for="appliance">
+                🏠 Select Appliance
+            </label>
+
+            <select name="appliance_id" id="appliance" required>
+
+                <option value="">
+                    -- Select your appliance --
+                </option>
+
+                {% for appliance in appliances %}
+
+                    <option value="{{ appliance.id }}">
+                        {{ appliance.brand }}
+                        - {{ appliance.model_number }}
+                        ({{ appliance.appliance_type }})
+                    </option>
+
+                {% empty %}
+
+                    <option value="">
+                        No appliances found
+                    </option>
+
+                {% endfor %}
+
+            </select>
+
+
+            <!-- Service Notes -->
+
+            <label for="notes">
+                📝 Service Notes
+            </label>
+
+            <textarea
+                name="notes"
+                id="notes"
+                rows="5"
+                placeholder="Describe your appliance/service requirement"
+            ></textarea>
+
+
+            <button type="submit">
+                🚀 Submit Service Request
+            </button>
+
+        </form>
+
+    {% else %}
+
+        <p class="unavailable">
+            🔴 This service provider is currently unavailable.
+        </p>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Service Manager Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        /* HEADER */
+        .header {
+            background: #2563eb;
+            color: white;
+            padding: 22px 40px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 26px;
+        }
+
+        .header p {
+            margin: 6px 0 0;
+            opacity: 0.9;
+        }
+
+        /* CONTAINER */
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        /* BUTTONS */
+        .top-buttons {
+            margin-bottom: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 11px 18px;
+            border-radius: 8px;
+            color: white;
+            text-decoration: none;
+            margin-right: 10px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .history-btn {
+            background: #2563eb;
+        }
+
+        .back-btn {
+            background: #64748b;
+        }
+
+        /* STATISTICS */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 15px;
+            margin-bottom: 35px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+            text-decoration: none;
+            display: block;
+            transition: 0.2s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.12);
+        }
+
+        .stat-card h3 {
+            margin: 0 0 10px;
+            color: #475569;
+            font-size: 15px;
+        }
+
+        .stat-card h2 {
+            margin: 0;
+            color: #1e3a8a;
+            font-size: 30px;
+        }
+
+        /* ACTIVE CARD */
+        .active-card {
+            border: 3px solid #2563eb;
+        }
+
+        /* SECTION */
+        .section-title {
+            margin: 25px 0 18px;
+            color: #1e3a8a;
+        }
+
+        .filter-info {
+            background: #eff6ff;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: #1e40af;
+            font-weight: bold;
+        }
+
+        /* REQUEST CARD */
+        .request-card {
+            background: white;
+            padding: 22px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .request-card h2 {
+            margin-top: 0;
+            color: #1e3a8a;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .info-box {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #475569;
+        }
+
+        /* STATUS */
+        .status {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-top: 8px;
+        }
+
+        .pending {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .accepted {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .progress {
+            background: #e0e7ff;
+            color: #4338ca;
+        }
+
+        .completed {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .rejected {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* FORM */
+        .action-box {
+            margin-top: 20px;
+            padding-top: 15px;
+            border-top: 1px solid #e5e7eb;
+        }
+
+        select,
+        input {
+            padding: 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 7px;
+            margin-right: 8px;
+        }
+
+        .update-btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 7px;
+            background: #2563eb;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .notes {
+            margin-top: 15px;
+            background: #eff6ff;
+            padding: 14px;
+            border-radius: 8px;
+        }
+
+        .empty {
+            background: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 12px;
+        }
+
+        /* MOBILE */
+        @media (max-width: 1000px) {
+            .stats {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+
+        <h1>🔧 Service Manager Dashboard</h1>
+
+        <p>
+            Manage customer service requests and maintenance services
+        </p>
+
+    </header>
+
+
+    <div class="container">
+
+        <!-- TOP BUTTONS -->
+        <div class="top-buttons">
+
+            <a href="{% url 'service_history' %}"
+               class="btn history-btn">
+                🔧 Maintenance History
+            </a>
+
+            <a href="{% url 'service_provider_list' %}"
+               class="btn back-btn">
+                ← Home Appliance Services
+            </a>
+
+        </div>
+
+
+        <!-- STATISTICS -->
+        <div class="stats">
+
+            <!-- TOTAL -->
+            <a href="?status=all"
+               class="stat-card
+               {% if selected_status == 'all' %}active-card{% endif %}">
+
+                <h3>Total Requests</h3>
+
+                <h2>
+                    {{ service_requests|length }}
+                </h2>
+
+            </a>
+
+
+            <!-- PENDING -->
+            <a href="?status=Pending"
+               class="stat-card
+               {% if selected_status == 'Pending' %}active-card{% endif %}">
+
+                <h3>Pending</h3>
+
+                <h2>
+                    {{ pending_count }}
+                </h2>
+
+            </a>
+
+
+            <!-- ACCEPTED -->
+            <a href="?status=Accepted"
+               class="stat-card
+               {% if selected_status == 'Accepted' %}active-card{% endif %}">
+
+                <h3>Accepted</h3>
+
+                <h2>
+                    {{ accepted_count }}
+                </h2>
+
+            </a>
+
+
+            <!-- IN PROGRESS -->
+            <a href="?status=In%20Progress"
+               class="stat-card
+               {% if selected_status == 'In Progress' %}active-card{% endif %}">
+
+                <h3>In Progress</h3>
+
+                <h2>
+                    {{ in_progress_count }}
+                </h2>
+
+            </a>
+
+
+            <!-- COMPLETED -->
+            <a href="?status=Completed"
+               class="stat-card
+               {% if selected_status == 'Completed' %}active-card{% endif %}">
+
+                <h3>Completed</h3>
+
+                <h2>
+                    {{ completed_count }}
+                </h2>
+
+            </a>
+
+        </div>
+
+
+        <!-- CUSTOMER REQUESTS -->
+        <h2 class="section-title">
+            📋 Customer Service Requests
+        </h2>
+
+
+        <!-- FILTER INFORMATION -->
+
+        {% if selected_status == "all" %}
+
+            <div class="filter-info">
+                📋 Showing All Customer Requests
+            </div>
+
+        {% elif selected_status == "Pending" %}
+
+            <div class="filter-info">
+                🟡 Showing Pending Requests
+            </div>
+
+        {% elif selected_status == "Accepted" %}
+
+            <div class="filter-info">
+                🔵 Showing Accepted Requests
+            </div>
+
+        {% elif selected_status == "In Progress" %}
+
+            <div class="filter-info">
+                🟣 Showing In Progress Requests
+            </div>
+
+        {% elif selected_status == "Completed" %}
+
+            <div class="filter-info">
+                🟢 Showing Completed Requests
+            </div>
+
+        {% endif %}
+
+
+        {% if service_requests %}
+
+            {% for item in service_requests %}
+
+            <div class="request-card">
+
+                <h2>
+                    👤 {{ item.user.username }}
+                </h2>
+
+
+                <div class="info-grid">
+
+                    <!-- SERVICE -->
+                    <div class="info-box">
+
+                        <span class="label">
+                            Service:
+                        </span>
+
+                        <br>
+
+                        {{ item.service_provider.service_name }}
+
+                    </div>
+
+
+                    <!-- COMPANY -->
+                    <div class="info-box">
+
+                        <span class="label">
+                            Company:
+                        </span>
+
+                        <br>
+
+                        {{ item.service_provider.company_name }}
+
+                    </div>
+
+
+                    <!-- REQUEST DATE -->
+                    <div class="info-box">
+
+                        <span class="label">
+                            Request Date:
+                        </span>
+
+                        <br>
+
+                        {{ item.request_date|date:"d M Y, h:i A" }}
+
+                    </div>
+
+
+                    <!-- STATUS -->
+                    <div class="info-box">
+
+                        <span class="label">
+                            Status:
+                        </span>
+
+                        <br>
+
+
+                        {% if item.status == "Pending" %}
+
+                            <span class="status pending">
+                                Pending
+                            </span>
+
+
+                        {% elif item.status == "Accepted" %}
+
+                            <span class="status accepted">
+                                Accepted
+                            </span>
+
+
+                        {% elif item.status == "In Progress" %}
+
+                            <span class="status progress">
+                                In Progress
+                            </span>
+
+
+                        {% elif item.status == "Completed" %}
+
+                            <span class="status completed">
+                                Completed
+                            </span>
+
+
+                        {% elif item.status == "Rejected" %}
+
+                            <span class="status rejected">
+                                Rejected
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- APPLIANCE -->
+                    {% if item.appliance %}
+
+                    <div class="info-box">
+
+                        <span class="label">
+                            Appliance:
+                        </span>
+
+                        <br>
+
+                        {{ item.appliance.brand }}
+                        -
+                        {{ item.appliance.model_number }}
+
+                    </div>
+
+                    {% endif %}
+
+                </div>
+
+
+                <!-- NOTES -->
+                {% if item.notes %}
+
+                <div class="notes">
+
+                    <strong>
+                        Service Notes:
+                    </strong>
+
+                    <br>
+
+                    {{ item.notes }}
+
+                </div>
+
+                {% endif %}
+
+
+            <!-- ACTION -->
+<div class="action-box">
+
+    <form method="POST"
+          action="{% url 'update_service_request' item.id %}">
+
+        {% csrf_token %}
+
+        <label>
+            <strong>Update Status:</strong>
+        </label>
+
+        <select name="status">
+
+            <option value="Pending"
+                {% if item.status == "Pending" %}selected{% endif %}>
+                Pending
+            </option>
+
+            <option value="Accepted"
+                {% if item.status == "Accepted" %}selected{% endif %}>
+                Accepted
+            </option>
+
+            <option value="In Progress"
+                {% if item.status == "In Progress" %}selected{% endif %}>
+                In Progress
+            </option>
+
+            <option value="Completed"
+                {% if item.status == "Completed" %}selected{% endif %}>
+                Completed
+            </option>
+
+            <option value="Rejected"
+                {% if item.status == "Rejected" %}selected{% endif %}>
+                Rejected
+            </option>
+
+        </select>
+
+
+        <!-- COST DETAILS -->
+
+        <div style="margin-top: 15px;">
+
+            <strong>💰 Maintenance Cost Details</strong>
+
+            <br><br>
+
+            <input
+                type="number"
+                name="service_cost"
+                placeholder="Service Cost"
+                min="0"
+                step="0.01"
+                value="{{ item.service_cost }}"
+            >
+
+            <input
+                type="number"
+                name="repair_cost"
+                placeholder="Repair Cost"
+                min="0"
+                step="0.01"
+                value="{{ item.repair_cost }}"
+            >
+
+            <input
+                type="number"
+                name="spare_parts_cost"
+                placeholder="Spare Parts Cost"
+                min="0"
+                step="0.01"
+                value="{{ item.spare_parts_cost }}"
+            >
+
+            <input
+                type="number"
+                name="other_cost"
+                placeholder="Other Cost"
+                min="0"
+                step="0.01"
+                value="{{ item.other_cost }}"
+            >
+
+        </div>
+
+
+       <br>
+
+<div style="margin-top: 12px; padding: 12px; background: #f8fafc; border-radius: 8px;">
+    <strong>Total Maintenance Cost:</strong>
+    ₹{{ item.service_cost|add:item.repair_cost|add:item.spare_parts_cost|add:item.other_cost }}
+</div>
+
+<br>
+
+<button type="submit"
+        class="update-btn">
+    Update
+</button>
+    </form>
+
+</div>
+
+            </div>
+
+            {% endfor %}
+
+
+        {% else %}
+
+            <div class="empty">
+
+                <h2>
+                    📭 No {{ selected_status }} Requests
+                </h2>
+
+                <p>
+                    There are currently no requests with this status.
+                </p>
+
+                <a href="?status=all"
+                   class="btn back-btn">
+                    View All Requests
+                </a>
+
+            </div>
+
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>

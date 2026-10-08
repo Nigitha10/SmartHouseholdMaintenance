@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Service Provider Dashboard</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .header {
+            background: #1e3a8a;
+            color: white;
+            padding: 18px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .header-text {
+            font-size: 14px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .welcome {
+            margin-bottom: 30px;
+        }
+
+        .welcome h1 {
+            color: #1e3a8a;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .welcome p {
+            color: #64748b;
+        }
+
+        .section-title {
+            color: #1e3a8a;
+            font-size: 21px;
+            margin-bottom: 18px;
+        }
+
+        .provider-card,
+        .request-card {
+            background: white;
+            border-radius: 14px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        }
+
+        .provider-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        .details,
+        .request-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .detail-box,
+        .request-detail {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .detail-box strong,
+        .request-detail strong {
+            display: block;
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .available {
+            color: #15803d;
+            font-weight: bold;
+        }
+
+        .not-available {
+            color: #dc2626;
+            font-weight: bold;
+        }
+
+        .request-card {
+            border-left: 5px solid #2563eb;
+        }
+
+        .request-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .customer-name {
+            font-size: 19px;
+            font-weight: bold;
+        }
+
+        .status {
+            padding: 7px 13px;
+            border-radius: 20px;
+            background: #e0f2fe;
+            color: #0369a1;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .notes {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 18px;
+        }
+
+        .notes strong {
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .accept {
+            background: #16a34a;
+            color: white;
+        }
+
+        .reject {
+            background: #dc2626;
+            color: white;
+        }
+
+        .cost-box {
+            background: #f8fafc;
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .cost-box h3 {
+            color: #1e3a8a;
+            margin-bottom: 18px;
+        }
+
+        .cost-box label {
+            display: block;
+            margin-top: 12px;
+            margin-bottom: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            color: #475569;
+        }
+
+        .cost-box input {
+            width: 100%;
+            padding: 11px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            background: white;
+        }
+
+        .cost-box button {
+            margin-top: 18px;
+        }
+
+        .message {
+            margin-top: 18px;
+            color: #64748b;
+            font-weight: bold;
+        }
+
+        .empty {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            text-align: center;
+            color: #64748b;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 25px;
+            color: #64748b;
+        }
+        .progress-box {
+    margin-top: 18px;
+    padding: 18px;
+    background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    border-radius: 12px;
+}
+
+.complete {
+    margin-top: 14px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 11px 18px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.complete:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+}
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <div class="logo">🏠 Smart Household</div>
+    <div class="header-text">Service Provider Portal</div>
+</div>
+
+<div class="container">
+
+    <div class="welcome">
+        <h1>Service Provider Dashboard 👋</h1>
+        <p>Manage customer service requests and maintenance.</p>
+    </div>
+
+    <h2 class="section-title">🏢 Service Provider Details</h2>
+
+    {% if providers %}
+
+        {% for provider in providers %}
+
+        <div class="provider-card">
+
+            <div class="provider-name">
+                {{ provider.company_name }}
+            </div>
+
+            <div class="details">
+
+                <div class="detail-box">
+                    <strong>Owner</strong>
+                    {{ provider.owner_name }}
+                </div>
+
+                <div class="detail-box">
+                    <strong>Phone</strong>
+                    {{ provider.phone }}
+                </div>
+
+                <div class="detail-box">
+                    <strong>Email</strong>
+                    {{ provider.email }}
+                </div>
+
+                <div class="detail-box">
+                    <strong>Address</strong>
+                    {{ provider.address }}
+                </div>
+
+                <div class="detail-box">
+                    <strong>Service</strong>
+                    {{ provider.service_name }}
+                </div>
+
+                <div class="detail-box">
+                    <strong>Price</strong>
+                    ₹{{ provider.price }}
+                </div>
+
+                <div class="detail-box">
+                    <strong>Discount</strong>
+                    {{ provider.discount }}%
+                </div>
+
+                <div class="detail-box">
+                    <strong>Availability</strong>
+
+                    {% if provider.is_available %}
+                        <span class="available">
+                            🟢 Available
+                        </span>
+                    {% else %}
+                        <span class="not-available">
+                            🔴 Not Available
+                        </span>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+
+    <h2 class="section-title">
+        📋 Customer Service Requests
+    </h2>
+
+
+    {% if service_requests %}
+
+        {% for request in service_requests %}
+
+        <div class="request-card">
+
+            <div class="request-header">
+
+                <div class="customer-name">
+                    👤 {{ request.user.username }}
+                </div>
+
+                <div class="status">
+                    {{ request.status }}
+                </div>
+
+            </div>
+
+
+            <div class="request-details">
+
+                <div class="request-detail">
+                    <strong>Service</strong>
+                    {{ request.service_provider.service_name }}
+                </div>
+
+                <div class="request-detail">
+                    <strong>Company</strong>
+                    {{ request.service_provider.company_name }}
+                </div>
+
+                <div class="request-detail">
+                    <strong>Request Date</strong>
+                    {{ request.request_date }}
+                </div>
+
+
+                {% if request.appliance %}
+
+                <div class="request-detail">
+                    <strong>Appliance</strong>
+                    {{ request.appliance.brand }}
+                    -
+                    {{ request.appliance.model_number }}
+                </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <div class="notes">
+
+                <strong>Service Notes</strong>
+
+                {% if request.notes %}
+                    {{ request.notes }}
+                {% else %}
+                    No additional notes provided.
+                {% endif %}
+
+            </div>
+
+
+            {% if request.status == "Pending" %}
+
+                <div class="actions">
+
+                    <form method="POST"
+                          action="{% url 'update_service_request' request.id %}">
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            name="status"
+                            value="Accepted"
+                            class="btn accept">
+
+                            ✅ Accept
+
+                        </button>
+
+                    </form>
+
+
+                    <form method="POST"
+                          action="{% url 'update_service_request' request.id %}">
+
+                        {% csrf_token %}
+
+                        <button
+                            type="submit"
+                            name="status"
+                            value="Rejected"
+                            class="btn reject">
+
+                            ❌ Reject
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+            {% elif request.status == "Accepted" %}
+
+                <div class="cost-box">
+
+                    <h3>
+                        💰 Actual Maintenance Cost
+                    </h3>
+
+                    <form method="POST"
+                          action="{% url 'update_service_request' request.id %}">
+
+                        {% csrf_token %}
+
+                        <input
+                            type="hidden"
+                            name="status"
+                            value="In Progress"
+                        >
+
+                        <label>
+                            🔧 Service Cost (₹)
+                        </label>
+
+                        <input
+                            type="number"
+                            name="service_cost"
+                            step="0.01"
+                            min="0"
+                            value="{{ request.service_cost }}"
+                            placeholder="Enter service cost"
+                        >
+
+
+                        <label>
+                            🛠️ Repair Cost (₹)
+                        </label>
+
+                        <input
+                            type="number"
+                            name="repair_cost"
+                            step="0.01"
+                            min="0"
+                            value="{{ request.repair_cost }}"
+                            placeholder="Enter repair cost"
+                        >
+
+
+                        <label>
+                            ⚙️ Spare Parts Cost (₹)
+                        </label>
+
+                        <input
+                            type="number"
+                            name="spare_parts_cost"
+                            step="0.01"
+                            min="0"
+                            value="{{ request.spare_parts_cost }}"
+                            placeholder="Enter spare parts cost"
+                        >
+
+
+                        <label>
+                            💵 Other Cost (₹)
+                        </label>
+
+                        <input
+                            type="number"
+                            name="other_cost"
+                            step="0.01"
+                            min="0"
+                            value="{{ request.other_cost }}"
+                            placeholder="Enter other cost"
+                        >
+
+
+                        <button
+                            type="submit"
+                            class="btn accept">
+
+                            💾 Save Cost & Start Service
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+
+            {% elif request.status == "In Progress" %}
+
+    <div class="progress-box">
+
+        <p class="message">
+            🔵 Service is currently in progress.
+        </p>
+
+        <form method="POST"
+              action="{% url 'update_service_request' request.id %}">
+
+            {% csrf_token %}
+
+            <input
+                type="hidden"
+                name="status"
+                value="Completed"
+            >
+
+            <button
+                type="submit"
+                class="btn complete">
+
+                ✓ Mark Service as Completed
+
+            </button>
+
+        </form>
+
+    </div>
+
+
+{% elif request.status == "Completed" %}
+
+    <p class="message">
+        ✅ Service has been completed.
+    </p>
+
+
+            {% elif request.status == "Rejected" %}
+
+                <p class="message">
+                    🔴 Service request rejected.
+                </p>
+
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+
+    {% else %}
+
+        <div class="empty">
+
+            <p>
+                No customer service requests found.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+
+<div class="footer">
+    Smart Household Maintenance Tracking System © 2026
+</div>
+
+</body>
+</html>

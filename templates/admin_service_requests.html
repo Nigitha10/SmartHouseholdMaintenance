@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin - Service Requests</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8fafc;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background: #1e3a8a;
+            color: white;
+            padding: 22px 40px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .container {
+            padding: 30px 40px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 25px;
+            padding: 10px 18px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .request-card {
+            background: white;
+            padding: 22px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+        }
+
+        .request-card h2 {
+            color: #1e3a8a;
+            margin-top: 0;
+        }
+
+        .info {
+            margin: 8px 0;
+            color: #334155;
+        }
+
+        .status {
+            font-weight: bold;
+            color: #2563eb;
+        }
+
+        .empty {
+            background: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>🛠️ Service Request Management</h1>
+</div>
+
+<div class="container">
+
+    <a href="{% url 'admin_dashboard' %}" class="back-btn">
+        ← Admin Dashboard
+    </a>
+
+    <h2>All Service Requests</h2>
+
+    {% for request in service_requests %}
+
+    <div class="request-card">
+
+        <h2>
+            Request #{{ request.id }}
+        </h2>
+
+        <p class="info">
+            👤 <strong>User:</strong>
+            {{ request.user.username }}
+        </p>
+
+        <p class="info">
+            🏠 <strong>Appliance:</strong>
+            {{ request.appliance }}
+        </p>
+
+        <p class="info">
+            🏢 <strong>Service Provider:</strong>
+            {{ request.service_provider.company_name }}
+        </p>
+
+        <p class="info">
+            🔧 <strong>Service:</strong>
+            {{ request.service_provider.service_name }}
+        </p>
+
+        <p class="info">
+            📅 <strong>Request Date:</strong>
+            {{ request.request_date }}
+        </p>
+
+        <p class="info">
+            📌 <strong>Status:</strong>
+            <span class="status">
+                {{ request.status }}
+            </span>
+        </p>
+<p class="info">
+    📌 <strong>Status:</strong>
+    <span class="status">
+        {{ request.status }}
+    </span>
+</p>
+
+<form method="POST"
+      action="{% url 'admin_update_service_request' request.id %}">
+
+    {% csrf_token %}
+
+    <select name="status">
+
+        <option value="Pending"
+            {% if request.status == "Pending" %}selected{% endif %}>
+            Pending
+        </option>
+
+        <option value="Accepted"
+            {% if request.status == "Accepted" %}selected{% endif %}>
+            Accepted
+        </option>
+
+        <option value="Rejected"
+            {% if request.status == "Rejected" %}selected{% endif %}>
+            Rejected
+        </option>
+
+        <option value="In Progress"
+            {% if request.status == "In Progress" %}selected{% endif %}>
+            In Progress
+        </option>
+
+        <option value="Completed"
+            {% if request.status == "Completed" %}selected{% endif %}>
+            Completed
+        </option>
+
+    </select>
+
+    <button type="submit">
+        Update Status
+    </button>
+
+</form>
+        <p class="info">
+            💰 <strong>Service Cost:</strong>
+            ₹{{ request.service_cost }}
+        </p>
+
+        <p class="info">
+            📝 <strong>Notes:</strong>
+            {{ request.notes|default:"No notes provided" }}
+        </p>
+
+    </div>
+
+    {% empty %}
+
+    <div class="empty">
+        <h3>No service requests found.</h3>
+        <p>Service requests created by users will appear here.</p>
+    </div>
+
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

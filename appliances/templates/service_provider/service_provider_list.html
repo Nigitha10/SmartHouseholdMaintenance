@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Find Service Providers</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        /* Header */
+        .header {
+            background: #1e3a8a;
+            color: white;
+            padding: 18px 40px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .page-title {
+            color: #1e3a8a;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #64748b;
+            margin-bottom: 30px;
+        }
+
+        /* Provider Grid */
+        .provider-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 22px;
+        }
+
+        /* Provider Card */
+        .provider-card {
+            background: white;
+            border-radius: 15px;
+            padding: 24px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+            border-top: 4px solid #2563eb;
+            transition: 0.3s;
+        }
+
+        .provider-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+        }
+
+        /* Service Picture */
+        .service-picture {
+            height: 170px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #dbeafe, #eff6ff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .service-icon {
+            text-align: center;
+            font-size: 65px;
+        }
+
+        .service-icon span {
+            display: block;
+            font-size: 17px;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-top: 8px;
+        }
+
+        /* Company */
+        .company {
+            font-size: 22px;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 18px;
+        }
+
+        /* Provider Information */
+        .info {
+            margin-bottom: 10px;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        /* Service Details */
+        .service-box {
+            background: #f8fafc;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 18px 0;
+        }
+
+        .service-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #1e293b;
+        }
+
+        .price {
+            font-size: 20px;
+            font-weight: bold;
+            color: #15803d;
+        }
+
+        .discount {
+            color: #dc2626;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+
+        /* Availability */
+        .available {
+            color: #15803d;
+            font-weight: bold;
+            margin: 12px 0;
+        }
+
+        .unavailable {
+            color: #dc2626;
+            font-weight: bold;
+            margin: 12px 0;
+        }
+
+        /* Request Button */
+        .request-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            background: #2563eb;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 9px;
+            font-weight: bold;
+            margin-top: 18px;
+            transition: 0.3s;
+        }
+
+        .request-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* Empty Message */
+        .empty {
+            background: white;
+            padding: 30px;
+            border-radius: 14px;
+            text-align: center;
+            color: #64748b;
+        }
+
+        /* Back to Dashboard */
+        .dashboard-link {
+            text-align: center;
+            margin: 35px 0 10px;
+        }
+
+        .dashboard-btn {
+            display: inline-block;
+            padding: 12px 26px;
+            background: #1e3a8a;
+            color: white;
+            text-decoration: none;
+            border-radius: 9px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .dashboard-btn:hover {
+            background: #172554;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+<!-- Header -->
+
+<div class="header">
+
+    <div class="logo">
+        🏠 Smart Household
+    </div>
+
+</div>
+
+
+<!-- Main Container -->
+
+<div class="container">
+
+    <h1 class="page-title">
+        🔧 Find Service Providers
+    </h1>
+
+    <p class="subtitle">
+        Find trusted appliance services, compare prices and request a service.
+    </p>
+
+
+    {% if providers %}
+
+        <div class="provider-grid">
+
+            {% for provider in providers %}
+
+                <div class="provider-card">
+
+
+                    <!-- Service Picture -->
+
+                    <div class="service-picture">
+
+                        {% if provider.service_name == "AC Service" %}
+
+                            <div class="service-icon">
+                                ❄️
+                                <span>AC Service</span>
+                            </div>
+
+                        {% elif provider.service_name == "Refrigerator Service" %}
+
+                            <div class="service-icon">
+                                🧊
+                                <span>Refrigerator</span>
+                            </div>
+
+                        {% elif provider.service_name == "Washing Machine Repair" %}
+
+                            <div class="service-icon">
+                                🫧
+                                <span>Washing Machine</span>
+                            </div>
+
+                        {% elif provider.service_name == "TV Repair & Service" %}
+
+                            <div class="service-icon">
+                                📺
+                                <span>TV Service</span>
+                            </div>
+
+                        {% elif provider.service_name == "Water Purifier Service" %}
+
+                            <div class="service-icon">
+                                💧
+                                <span>Water Purifier</span>
+                            </div>
+
+                        {% elif provider.service_name == "Home Appliance Maintenance" %}
+
+                            <div class="service-icon">
+                                🏠
+                                <span>Home Appliance</span>
+                            </div>
+
+                        {% else %}
+
+                            <div class="service-icon">
+                                🔧
+                                <span>Service</span>
+                            </div>
+
+                        {% endif %}
+
+                    </div>
+
+
+                    <!-- Company Name -->
+
+                    <div class="company">
+                        🏢 {{ provider.company_name }}
+                    </div>
+
+
+                    <!-- Provider Information -->
+
+                    <p class="info">
+                        <strong>Owner:</strong>
+                        {{ provider.owner_name }}
+                    </p>
+
+                    <p class="info">
+                        <strong>Phone:</strong>
+                        {{ provider.phone }}
+                    </p>
+
+                    <p class="info">
+                        <strong>Address:</strong>
+                        {{ provider.address }}
+                    </p>
+
+
+                    <!-- Service Details -->
+
+                    <div class="service-box">
+
+                        <div class="service-name">
+                            🔧 {{ provider.service_name }}
+                        </div>
+
+                        <p>
+                            {{ provider.service_description }}
+                        </p>
+
+                        <br>
+
+                        <div class="price">
+                            ₹{{ provider.price }}
+                        </div>
+
+                        <div class="discount">
+                            🎁 {{ provider.discount }}% Discount
+                        </div>
+
+                    </div>
+
+
+                    <!-- Availability -->
+
+                    {% if provider.is_available %}
+
+                        <div class="available">
+                            🟢 Currently Available
+                        </div>
+
+                        <a href="{% url 'request_service' provider.id %}"
+                           class="request-btn">
+
+                            Request Service →
+
+                        </a>
+
+                    {% else %}
+
+                        <div class="unavailable">
+                            🔴 Currently Unavailable
+                        </div>
+
+                    {% endif %}
+
+
+                </div>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <div class="empty">
+
+            <h3>No Service Providers Available</h3>
+
+            <p>
+                Please check again later.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+
+    <!-- Back to Dashboard -->
+
+    <div class="dashboard-link">
+
+        <a href="{% url 'dashboard' %}"
+           class="dashboard-btn">
+
+            ← Back to Dashboard
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<!-- Footer -->
+
+<div class="footer">
+
+    Smart Household Maintenance Tracking System © 2026
+
+</div>
+
+</body>
+</html>

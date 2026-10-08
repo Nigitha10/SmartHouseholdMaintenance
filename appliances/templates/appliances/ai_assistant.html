@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Maintenance Assistant</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f8fafc;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 50px auto;
+        }
+
+        .header {
+            text-align: center;
+            color: #1e3a8a;
+        }
+
+        .header h1 {
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            color: #64748b;
+        }
+
+        .chat-box {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            resize: vertical;
+            box-sizing: border-box;
+            font-size: 15px;
+        }
+
+        button {
+            margin-top: 15px;
+            padding: 12px 25px;
+            background: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        button:hover {
+            background: #1d4ed8;
+        }
+
+        .response {
+            margin-top: 25px;
+            padding: 18px;
+            background: #eef2ff;
+            border-left: 5px solid #2563eb;
+            border-radius: 10px;
+        }
+
+        .response h3 {
+            margin-top: 0;
+            color: #1e3a8a;
+        }
+
+        .quick-questions {
+            margin-top: 20px;
+        }
+
+        .quick-questions button {
+            background: #e0e7ff;
+            color: #1e3a8a;
+            margin: 5px;
+        }
+
+        .quick-questions button:hover {
+            background: #c7d2fe;
+        }
+
+        .back {
+            display: inline-block;
+            margin-top: 20px;
+            color: #2563eb;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+        <h1>🤖 AI Maintenance Assistant</h1>
+        <p>Ask questions about your appliances and maintenance.</p>
+    </div>
+
+    <div class="chat-box">
+
+        <form method="POST">
+            {% csrf_token %}
+
+            <textarea
+                name="question"
+                placeholder="Ask anything... Example: When should I service my AC?"
+                required></textarea>
+
+            <button type="submit">
+                Ask AI 🤖
+            </button>
+        </form>
+
+        <div class="quick-questions">
+
+            <strong>Quick Questions:</strong><br>
+
+            <button type="button"
+                onclick="setQuestion('When should I service my AC?')">
+                AC Service
+            </button>
+
+            <button type="button"
+                onclick="setQuestion('What is warranty?')">
+                Warranty
+            </button>
+
+            <button type="button"
+                onclick="setQuestion('How can I maintain my refrigerator?')">
+                Fridge Maintenance
+            </button>
+
+            <button type="button"
+                onclick="setQuestion('Why is appliance maintenance important?')">
+                Maintenance
+            </button>
+
+        </div>
+
+        {% if response %}
+        <div class="response">
+            <h3>🤖 AI Assistant</h3>
+            <p>{{ response }}</p>
+        </div>
+        {% endif %}
+
+    </div>
+
+    <a href="{% url 'appliance_list' %}" class="back">
+        ← Back to Appliances
+    </a>
+
+</div>
+
+<script>
+function setQuestion(question) {
+    document.querySelector("textarea[name='question']").value = question;
+}
+</script>
+
+</body>
+</html>

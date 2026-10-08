@@ -1,106 +1,454 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>My Appliances</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Appliances | Smart Household Maintenance</title>
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            padding: 40px;
+
+        * {
+            box-sizing: border-box;
         }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #eff6ff, #f8fafc);
+            color: #334155;
+        }
+
+        /* Header */
+
+        .header {
+            background: #1e3a8a;
+            color: white;
+            padding: 28px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 30px;
+        }
+
+        .header p {
+            margin: 8px 0 0;
+            color: #dbeafe;
+            font-size: 14px;
+        }
+
+
+        /* Container */
 
         .container {
-            max-width: 900px;
+            width: 92%;
+            max-width: 1000px;
             margin: auto;
+            padding: 30px 0;
         }
 
-        h1 {
-            text-align: center;
-            color: #1e3a8a;
+
+        /* Top section */
+
+        .top-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
         }
+
+        .top-section h2 {
+            color: #1e3a8a;
+            margin: 0;
+            font-size: 24px;
+        }
+
+
+        /* Buttons */
+
+        .btn {
+            display: inline-block;
+            background: #2563eb;
+            color: white;
+            padding: 11px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            background: #1d4ed8;
+        }
+
+
+        .secondary-btn {
+            background: #4f46e5;
+        }
+
+        .secondary-btn:hover {
+            background: #4338ca;
+        }
+
+
+        /* Appliance cards */
 
         .appliance {
             background: white;
-            padding: 20px;
-            margin: 15px 0;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            padding: 25px;
+            margin-bottom: 18px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 6px 20px rgba(30, 58, 138, 0.07);
+            transition: 0.25s;
         }
 
+        .appliance:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(30, 58, 138, 0.11);
+        }
+
+
         .appliance h2 {
+            margin-top: 0;
+            margin-bottom: 18px;
+        }
+
+
+        .appliance h2 a {
+            color: #1e3a8a;
+            text-decoration: none;
+        }
+
+        .appliance h2 a:hover {
             color: #2563eb;
         }
 
-        .add-btn {
-            display: block;
-            width: 200px;
-            margin: 20px auto;
-            padding: 12px;
-            text-align: center;
-            background: #2563eb;
-            color: white;
-            text-decoration: none;
-            border-radius: 6px;
+
+        /* Details */
+
+        .details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 18px;
         }
+
+
+        .detail-box {
+            background: #eef2ff;
+            padding: 13px;
+            border-radius: 9px;
+            border: 1px solid #e0e7ff;
+        }
+
+
+        .detail-box strong {
+            display: block;
+            color: #64748b;
+            font-size: 12px;
+            margin-bottom: 5px;
+        }
+
+
+        .detail-box span {
+            color: #1e3a8a;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+
+        /* Edit button */
+
+        .edit-btn {
+            background: #0f766e;
+        }
+
+        .edit-btn:hover {
+            background: #115e59;
+        }
+
+
+        /* Empty */
+
+        .empty {
+            background: white;
+            text-align: center;
+            padding: 55px 25px;
+            border-radius: 16px;
+            box-shadow: 0 6px 20px rgba(30, 58, 138, 0.07);
+        }
+
+
+        .empty h2 {
+            color: #1e3a8a;
+        }
+
+
+        .empty p {
+            color: #64748b;
+        }
+
+
+        /* Bottom */
+
+        .bottom-actions {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+
+        .dashboard-btn {
+            background: #64748b;
+        }
+
+        .dashboard-btn:hover {
+            background: #475569;
+        }
+
+
+        /* Footer */
+
+        .footer {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 12px;
+            margin-top: 25px;
+        }
+
+
+        /* Mobile */
+
+        @media (max-width: 600px) {
+
+            .top-section {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+
+            .top-section .btn {
+                text-align: center;
+            }
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .container {
+                width: 90%;
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
-<div class="container">
 
-    <h1>My Appliances</h1>
+    <!-- Header -->
 
-    <a href="{% url 'add_appliance' %}" class="add-btn">
-        + Add Appliance
-    </a>
-    <a href="{% url 'qr_codes' %}" class="add-btn">
-    View All QR Codes
-</a>
+    <div class="header">
 
-    {% for appliance in appliances %}
+        <h1>
+            🏠 Smart Household Maintenance
+        </h1>
 
-        <div class="appliance">
+        <p>
+            Manage and track all your household appliances
+        </p>
+
+    </div>
+
+
+    <div class="container">
+
+
+        <!-- Top Section -->
+
+        <div class="top-section">
 
             <h2>
-    <a href="{% url 'appliance_detail' appliance.id %}">
-        {{ appliance.brand }} - {{ appliance.model_number }}
-    </a>
-</h2>
+                🔧 My Appliances
+            </h2>
 
-            <p>
-                <strong>Type:</strong>
-                {{ appliance.get_appliance_type_display }}
-            </p>
+            <div>
 
-            <p>
-                <strong>Customer Care:</strong>
-                {{ appliance.customer_care_number }}
-            </p>
+                <a href="{% url 'add_appliance' %}" class="btn">
+                    + Add Appliance
+                </a>
 
-            <p>
-                <strong>Purchase Date:</strong>
-                {{ appliance.purchase_date }}
-            </p>
+                <a href="{% url 'qr_codes' %}" class="btn secondary-btn">
+                    📱 QR Codes
+                </a>
 
-            <p>
-                <strong>Service Interval:</strong>
-                {{ appliance.service_interval_months }} months
-            </p>
-            <a href="{% url 'edit_appliance' appliance.id %}">
-    Edit Appliance
-</a>
+            </div>
 
         </div>
 
-    {% empty %}
 
-        <p>No appliances added yet.</p>
+        {% for appliance in appliances %}
 
-    {% endfor %}
 
-</div>
+            <!-- Appliance Card -->
+
+            <div class="appliance">
+
+
+                <h2>
+
+                    <a href="{% url 'appliance_detail' appliance.id %}">
+                        🔧 {{ appliance.brand }} - {{ appliance.model_number }}
+                    </a>
+
+                </h2>
+
+
+                <div class="details">
+
+
+                    <div class="detail-box">
+
+                        <strong>
+                            Appliance Type
+                        </strong>
+
+                        <span>
+                            {{ appliance.get_appliance_type_display }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-box">
+
+                        <strong>
+                            Customer Care
+                        </strong>
+
+                        <span>
+                            {{ appliance.customer_care_number|default:"Not provided" }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-box">
+
+                        <strong>
+                            Purchase Date
+                        </strong>
+
+                        <span>
+                            {{ appliance.purchase_date }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="detail-box">
+
+                        <strong>
+                            Service Interval
+                        </strong>
+
+                        <span>
+                            {{ appliance.service_interval_months }} months
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+                <!-- Edit -->
+
+                <a
+                    href="{% url 'edit_appliance' appliance.id %}"
+                    class="btn edit-btn"
+                >
+                    ✏️ Edit Appliance
+                </a>
+
+
+                <!-- Details -->
+
+                <a
+                    href="{% url 'appliance_detail' appliance.id %}"
+                    class="btn"
+                >
+                    👁️ View Details
+                </a>
+
+
+            </div>
+
+
+        {% empty %}
+
+
+            <!-- Empty -->
+
+            <div class="empty">
+
+                <h2>
+                    📋 No Appliances Added
+                </h2>
+
+                <p>
+                    You haven't added any household appliances yet.
+                </p>
+
+                <br>
+
+                <a
+                    href="{% url 'add_appliance' %}"
+                    class="btn"
+                >
+                    + Add Your First Appliance
+                </a>
+
+            </div>
+
+
+        {% endfor %}
+
+
+        <!-- Bottom Actions -->
+
+        <div class="bottom-actions">
+
+            <a
+                href="/users/dashboard/"
+                class="btn dashboard-btn"
+            >
+                ← Back to Dashboard
+            </a>
+
+        </div>
+
+
+        <div class="footer">
+            Smart Household Maintenance Tracking System
+        </div>
+
+
+    </div>
+
 
 </body>
+
 </html>

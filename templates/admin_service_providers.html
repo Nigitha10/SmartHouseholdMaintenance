@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Admin - Service Providers</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+        }
+
+        .header {
+            background: #1e3a8a;
+            color: white;
+            padding: 22px 40px;
+        }
+
+        .header h1 {
+            margin: 0;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 25px;
+            padding: 10px 18px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .provider-grid {
+            display: grid;
+            grid-template-columns:
+                repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .provider-card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            border: 1px solid #e2e8f0;
+            box-shadow:
+                0 5px 18px rgba(30, 58, 138, 0.08);
+        }
+
+        .provider-card h2 {
+            color: #1e3a8a;
+            margin-top: 0;
+        }
+
+        .info {
+            margin: 9px 0;
+            color: #475569;
+        }
+
+        .service {
+            margin-top: 15px;
+            padding: 15px;
+            background: #eff6ff;
+            border-radius: 10px;
+        }
+
+        .service strong {
+            color: #1e3a8a;
+        }
+
+        .empty {
+            background: white;
+            padding: 30px;
+            text-align: center;
+            border-radius: 12px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>🛠️ Service Provider Management</h1>
+    </div>
+
+    <div class="container">
+
+        <a href="{% url 'admin_dashboard' %}"
+           class="back-btn">
+            ← Admin Dashboard
+        </a>
+
+        <h2>Registered Service Providers</h2>
+
+        {% if providers %}
+
+        <div class="provider-grid">
+
+            {% for provider in providers %}
+
+            <div class="provider-card">
+
+                <h2>
+                    🏢 {{ provider.company_name }}
+                </h2>
+
+                <p class="info">
+                    👤 <strong>Owner:</strong>
+                    {{ provider.owner_name }}
+                </p>
+
+                <p class="info">
+                    📞 <strong>Phone:</strong>
+                    {{ provider.phone }}
+                </p>
+
+                <p class="info">
+                    📧 <strong>Email:</strong>
+                    {{ provider.email|default:"Not provided" }}
+                </p>
+
+                <p class="info">
+                    📍 <strong>Address:</strong>
+                    {{ provider.address }}
+                </p>
+
+                <div class="service">
+
+                    <p>
+                        <strong>🔧 Service:</strong>
+                        {{ provider.service_name }}
+                    </p>
+
+                    <p>
+                        <strong>💰 Price:</strong>
+                        ₹{{ provider.price }}
+                    </p>
+
+                    <p>
+                        <strong>🎁 Discount:</strong>
+                        {{ provider.discount }}%
+                    </p>
+
+                    <p>
+                        <strong>🟢 Available:</strong>
+                        {{ provider.is_available|yesno:"Yes,No" }}
+                    </p>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+
+        <div class="empty">
+            <h3>No service providers found.</h3>
+            <p>
+                Add service providers from Django Admin.
+            </p>
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>

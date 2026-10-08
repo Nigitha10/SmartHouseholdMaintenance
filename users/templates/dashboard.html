@@ -1,234 +1,775 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Smart Household Maintenance</title>
 
     <style>
-        body {
+        * {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #f5f7fb;
+            color: #182337;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* HEADER */
 
         .header {
-            background: #1e3a8a;
+            height: 76px;
+            background: #ffffff;
+            border-bottom: 1px solid #e9edf3;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 6%;
+        }
+
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logo {
+            width: 42px;
+            height: 42px;
+            background: #173f73;
+            border-radius: 12px;
             color: white;
-            padding: 25px;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 15px;
         }
 
-        .header h1 {
-            margin: 0;
-            font-size: 28px;
+        .brand-name {
+            font-size: 18px;
+            font-weight: 700;
+            color: #173f73;
         }
 
-        .header p {
-            margin-bottom: 0;
+        .brand-subtitle {
+            font-size: 11px;
+            color: #8993a5;
+            margin-top: 2px;
         }
 
-        .container {
-            max-width: 1100px;
-            margin: auto;
-            padding: 30px;
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .welcome {
-            background: white;
-            padding: 22px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        .user-name {
+            font-size: 13px;
+            color: #687386;
         }
 
-        .welcome h2 {
-            margin-top: 0;
-            color: #1e3a8a;
-        }
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-            gap: 20px;
-        }
-
-        .card {
-            background: white;
-            padding: 22px;
-            border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-        }
-
-        .card h2 {
-            color: #1e3a8a;
-            font-size: 20px;
-        }
-
-        .card p {
-            color: #555;
-            line-height: 1.5;
-        }
-
-        .btn {
-            display: inline-block;
-            background: #2563eb;
-            color: white;
-            padding: 10px 16px;
-            border-radius: 7px;
-            text-decoration: none;
-            margin-top: 8px;
-        }
-
-        .btn:hover {
-            background: #1d4ed8;
-        }
-
-        .quick {
-            background: white;
-            margin-top: 30px;
-            padding: 22px;
-            border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-        }
-
-        .quick h2 {
-            color: #1e3a8a;
+        .profile {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #e9f0fa;
+            color: #173f73;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
         }
 
         .logout {
-            display: block;
-            width: 120px;
-            text-align: center;
-            margin: 30px auto 0;
-            background: #dc2626;
-            color: white;
-            padding: 11px;
-            border-radius: 7px;
-            text-decoration: none;
+            color: #687386;
+            font-size: 13px;
         }
 
         .logout:hover {
-            background: #b91c1c;
+            color: #173f73;
+        }
+
+        /* MAIN */
+
+        .container {
+            width: 88%;
+            max-width: 1180px;
+            margin: auto;
+            padding: 34px 0 55px;
+        }
+
+        /* HERO */
+
+        .hero {
+            background: linear-gradient(120deg, #173f73, #245d9d);
+            border-radius: 24px;
+            padding: 38px 42px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 205px;
+            box-shadow: 0 14px 35px rgba(23, 63, 115, 0.16);
+        }
+
+        .hero-content {
+            max-width: 650px;
+        }
+
+        .hero-small {
+            font-size: 13px;
+            opacity: 0.75;
+            margin-bottom: 9px;
+        }
+
+        .hero h1 {
+            font-size: 31px;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 14px;
+            line-height: 1.7;
+            opacity: 0.86;
+        }
+
+        .hero-button {
+            background: white;
+            color: #173f73;
+            padding: 13px 22px;
+            border-radius: 11px;
+            font-size: 13px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .hero-button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* STATS */
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-top: -27px;
+            position: relative;
+            width: 91%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stat {
+            background: white;
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: 0 8px 25px rgba(28, 47, 76, 0.08);
+            border: 1px solid #edf0f5;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #8993a5;
+            margin-bottom: 8px;
+        }
+
+        .stat-number {
+            font-size: 27px;
+            font-weight: 700;
+            color: #173f73;
+        }
+
+        /* SECTION */
+
+        .section {
+            margin-top: 38px;
+        }
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .section-heading h2 {
+            font-size: 20px;
+        }
+
+        .section-heading p {
+            font-size: 12px;
+            color: #8a94a6;
+        }
+
+        /* QUICK ACTION */
+
+        .quick {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .quick-card {
+            background: white;
+            border: 1px solid #e8edf3;
+            border-radius: 15px;
+            padding: 20px;
+            transition: 0.25s;
+        }
+
+        .quick-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(25, 45, 75, 0.08);
+        }
+
+        .quick-card h3 {
+            font-size: 15px;
+            margin-bottom: 6px;
+        }
+
+        .quick-card p {
+            font-size: 12px;
+            color: #818b9c;
+            line-height: 1.5;
+        }
+
+        .arrow {
+            display: block;
+            margin-top: 14px;
+            color: #245d9d;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* ACTIVITY */
+
+        .activity-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr;
+            gap: 18px;
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid #e8edf3;
+            border-radius: 17px;
+            overflow: hidden;
+        }
+
+        .panel-title {
+            padding: 19px 21px;
+            border-bottom: 1px solid #edf0f4;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .request {
+            padding: 17px 21px;
+            border-bottom: 1px solid #f0f2f5;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .request:last-child {
+            border-bottom: none;
+        }
+
+        .request-company {
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .request-service {
+            font-size: 12px;
+            color: #8a94a6;
+            margin-top: 5px;
+        }
+
+        .status {
+            height: fit-content;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: #edf4ff;
+            color: #245d9d;
+            font-size: 11px;
+        }
+
+        .notification {
+            padding: 17px 21px;
+            border-bottom: 1px solid #f0f2f5;
+        }
+
+        .notification:last-child {
+            border-bottom: none;
+        }
+
+        .notification-message {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .notification-date {
+            color: #919aaa;
+            font-size: 11px;
+            margin-top: 6px;
+        }
+
+        .empty {
+            padding: 30px;
+            text-align: center;
+            color: #9aa2b0;
+            font-size: 13px;
+        }
+
+        /* MAINTENANCE */
+
+        .maintenance {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .maintenance-card {
+            background: white;
+            border: 1px solid #e8edf3;
+            border-radius: 17px;
+            padding: 22px;
+            min-height: 125px;
+            transition: 0.25s;
+            position: relative;
+        }
+
+        .maintenance-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 28px rgba(27, 49, 82, 0.08);
+            border-color: #d5e0ee;
+        }
+
+        .maintenance-card h3 {
+            font-size: 15px;
+            margin-bottom: 8px;
+        }
+
+        .maintenance-card p {
+            color: #818b9c;
+            font-size: 12px;
+            line-height: 1.55;
+        }
+
+        .card-arrow {
+            position: absolute;
+            right: 20px;
+            bottom: 18px;
+            color: #245d9d;
+            font-size: 18px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            text-align: center;
+            color: #98a1b0;
+            font-size: 11px;
+            margin-top: 45px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 850px) {
+
+            .stats,
+            .quick,
+            .maintenance {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .activity-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                display: block;
+            }
+
+            .hero-button {
+                display: inline-block;
+                margin-top: 22px;
+            }
+        }
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 0 5%;
+            }
+
+            .user-name,
+            .logout {
+                display: none;
+            }
+
+            .container {
+                width: 92%;
+                padding-top: 22px;
+            }
+
+            .hero {
+                padding: 28px;
+                border-radius: 20px;
+            }
+
+            .hero h1 {
+                font-size: 25px;
+            }
+
+            .stats {
+                width: 94%;
+                grid-template-columns: 1fr;
+                margin-top: 15px;
+            }
+
+            .quick,
+            .maintenance {
+                grid-template-columns: 1fr;
+            }
+
+            .section {
+                margin-top: 30px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <div class="header">
-        <h1>🏠 Smart Household Maintenance</h1>
-        <p>Smart and easy way to manage your household appliances</p>
+<header class="header">
+
+    <div class="logo-area">
+        <div class="logo">SH</div>
+
+        <div>
+            <div class="brand-name">Smart Household</div>
+            <div class="brand-subtitle">Maintenance Management</div>
+        </div>
     </div>
 
-    <div class="container">
+    <div class="header-right">
+        <span class="user-name">
+            {{ request.user.username }}
+        </span>
 
-        <div class="welcome">
-            <h2>Welcome to Dashboard 👋</h2>
-            <p>
-                Login successful! Manage your appliances, warranty,
-                services and maintenance from one place.
-            </p>
+        <div class="profile">
+            {{ request.user.username|first|upper }}
         </div>
 
-        <div class="cards">
+        <a href="/users/logout/" class="logout">
+            Logout
+        </a>
+    </div>
 
-            <!-- 1. Appliances -->
-            <div class="card">
-                <h2>🔧 Appliances</h2>
-                <p>
-                    Add, view, edit and manage your household appliances.
-                </p>
-                <a href="/appliances/" class="btn">View Appliances</a>
+</header>
+
+
+<main class="container">
+
+    <!-- HERO -->
+
+    <section class="hero">
+
+        <div class="hero-content">
+
+            <div class="hero-small">
+                YOUR HOME, YOUR CONTROL
             </div>
 
-            <!-- 2. Warranty -->
-            <div class="card">
-                <h2>🛡️ Warranty Management</h2>
-                <p>
-                    Track warranty start dates, expiry dates and warranty documents.
-                </p>
-                <a href="/warranty/" class="btn">View Warranty</a>
-            </div>
+            <h1>
+                Welcome, {{ request.user.username }}
+            </h1>
 
-            <!-- 3. Service -->
-            <div class="card">
-                <h2>🛠️ Service & Maintenance</h2>
-                <p>
-                    Manage last service, next service and service details.
-                </p>
-                <a href="#" class="btn">View Service</a>
-            </div>
+            <p>
+                Keep your appliances organized, monitor maintenance,
+                and manage your household services from one simple place.
+            </p>
 
-            <!-- 4. Reminders -->
-            <div class="card">
-                <h2>🔔 Reminders</h2>
-                <p>
-                    Get reminders for upcoming services and warranty expiry.
-                </p>
-                <a href="#" class="btn">View Reminders</a>
-            </div>
+        </div>
 
-            <!-- 5. Maintenance History -->
-            <div class="card">
-                <h2>📜 Maintenance History</h2>
-                <p>
-                    View previous service and maintenance records of appliances.
-                </p>
-                <a href="#" class="btn">View History</a>
-            </div>
+        <a href="{% url 'service_provider_list' %}" class="hero-button">
+            Find a Service
+        </a>
 
-            <!-- 6. Maintenance Cost -->
-            <div class="card">
-                <h2>💰 Maintenance Cost</h2>
-                <p>
-                    Track service expenses and maintenance costs.
-                </p>
-                <a href="#" class="btn">View Costs</a>
-            </div>
+    </section>
 
-            <!-- 7. Health Score -->
-            <div class="card">
-                <h2>❤️ Appliance Health Score</h2>
-                <p>
-                    Check the health condition of your household appliances.
-                </p>
-                <a href="#" class="btn">View Health</a>
-            </div>
 
-            <!-- 8. AI Prediction -->
-            <div class="card">
-                <h2>🤖 AI Maintenance Prediction</h2>
-                <p>
-                    Predict upcoming maintenance needs using intelligent analysis.
-                </p>
-                <a href="#" class="btn">AI Prediction</a>
-            </div>
+    <!-- STATS -->
 
+    <section class="stats">
+
+        <div class="stat">
+            <div class="stat-label">Registered Appliances</div>
+            <div class="stat-number">{{ appliance_count }}</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Service Requests</div>
+            <div class="stat-number">{{ service_request_count }}</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Notifications</div>
+            <div class="stat-number">{{ notification_count }}</div>
+        </div>
+
+    </section>
+
+
+    <!-- QUICK ACTIONS -->
+
+    <section class="section">
+
+        <div class="section-heading">
+            <h2>Quick Access</h2>
+            <p>Frequently used</p>
         </div>
 
         <div class="quick">
-            <h2>⚡ Quick Actions</h2>
 
-            <a href="/appliances/" class="btn">
-                🔧 Manage Appliances
+            <a href="/appliances/" class="quick-card">
+                <h3>My Appliances</h3>
+                <p>
+                    View and manage all your household appliances.
+                </p>
+                <span class="arrow">Open →</span>
             </a>
 
-            <a href="#" class="btn">
-                🛠️ Add Service
+            <a href="{% url 'my_service_requests' %}" class="quick-card">
+                <h3>My Service Requests</h3>
+                <p>
+                    Check the status of your requested services.
+                </p>
+                <span class="arrow">View Requests →</span>
             </a>
 
-            <a href="#" class="btn">
-                🔔 Check Reminders
+            <a href="{% url 'reminders' %}" class="quick-card">
+                <h3>Maintenance Reminders</h3>
+                <p>
+                    Stay aware of your upcoming maintenance tasks.
+                </p>
+                <span class="arrow">View Reminders →</span>
             </a>
+
         </div>
 
-        <a href="/users/logout/" class="logout">Logout</a>
+    </section>
 
-    </div>
+
+    <!-- RECENT ACTIVITY -->
+
+    <section class="section">
+
+        <div class="section-heading">
+            <h2>Recent Activity</h2>
+            <p>Latest updates</p>
+        </div>
+
+        <div class="activity-grid">
+
+            <!-- REQUESTS -->
+
+            <div class="panel">
+
+                <div class="panel-title">
+                    Recent Service Requests
+                </div>
+
+                {% if recent_requests %}
+
+                    {% for request in recent_requests %}
+
+                        <div class="request">
+
+                            <div>
+                                <div class="request-company">
+                                    {{ request.service_provider.company_name }}
+                                </div>
+
+                                <div class="request-service">
+                                    {{ request.service_provider.service_name }}
+                                </div>
+                            </div>
+
+                            <span class="status">
+                                {{ request.status }}
+                            </span>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <div class="empty">
+                        No service requests yet.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- NOTIFICATIONS -->
+
+            <div class="panel">
+
+                <div class="panel-title">
+                    Notifications
+                </div>
+
+                {% if recent_notifications %}
+
+                    {% for notification in recent_notifications %}
+
+                        <div class="notification">
+
+                            <div class="notification-message">
+                                {{ notification.message }}
+                            </div>
+
+                            <div class="notification-date">
+                                {{ notification.created_at|date:"d M Y, h:i A" }}
+                            </div>
+
+                        </div>
+
+                    {% endfor %}
+
+                {% else %}
+
+                    <div class="empty">
+                        No new notifications.
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- MAINTENANCE MANAGEMENT -->
+
+    <section class="section">
+
+        <div class="section-heading">
+            <h2>Manage Your Home</h2>
+            <p>All maintenance tools</p>
+        </div>
+
+        <div class="maintenance">
+
+            <a href="/appliances/" class="maintenance-card">
+                <h3>My Appliances</h3>
+                <p>
+                    Manage your registered household appliances.
+                </p>
+                <span class="card-arrow">→</span>
+            </a>
+
+
+            <a href="/warranty/" class="maintenance-card">
+                <h3>Warranty</h3>
+                <p>
+                    Check warranty information for your appliances.
+                </p>
+                <span class="card-arrow">→</span>
+            </a>
+
+
+            <a href="{% url 'service' %}" class="maintenance-card">
+                <h3>Services</h3>
+                <p>
+                    Explore household maintenance services.
+                </p>
+                <span class="card-arrow">→</span>
+            </a>
+
+
+            <a href="{% url 'reminders' %}" class="maintenance-card">
+                <h3>Reminders</h3>
+                <p>
+                    View upcoming maintenance reminders.
+                </p>
+                <span class="card-arrow">→</span>
+            </a>
+
+
+            <a href="{% url 'history' %}" class="maintenance-card">
+                <h3>Maintenance History</h3>
+                <p>
+                    Review your previous maintenance activities.
+                </p>
+                <span class="card-arrow">→</span>
+            </a>
+
+
+            <a href="{% url 'maintenance_cost' %}" class="maintenance-card">
+                <h3>Maintenance Cost</h3>
+                <p>
+                    Monitor your household maintenance expenses.
+                </p>
+                <span class="card-arrow">→</span>
+            </a>
+
+
+            <a href="{% url 'health_score' %}" class="maintenance-card">
+                <h3>Home Health Score</h3>
+                <p>
+                    Check the overall condition of your home.
+                </p>
+                <span class="card-arrow">→</span>
+            </a>
+
+
+            <a href="{% url 'my_service_requests' %}" class="maintenance-card">
+                <h3>Service Requests</h3>
+                <p>
+                    Track and manage your service requests.
+                </p>
+                <span class="card-arrow">→</span>
+            </a>
+
+
+            <a href="{% url 'notifications' %}" class="maintenance-card">
+                <h3>Notifications</h3>
+                <p>
+                    View important household updates.
+                </p>
+                <span class="card-arrow">→</span>
+            </a>
+
+        </div>
+
+    </section>
+
+
+    <footer>
+        Smart Household Maintenance · Simple · Organized · Reliable
+    </footer>
+
+</main>
 
 </body>
 </html>
-```

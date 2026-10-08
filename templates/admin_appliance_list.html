@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>
+        Appliance Monitoring | Admin
+    </title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+        }
+
+        /* HEADER */
+
+        .header {
+            background: #1e3a8a;
+            color: white;
+
+            padding: 20px 35px;
+
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 23px;
+        }
+
+        .back-btn {
+            background: white;
+            color: #1e3a8a;
+
+            text-decoration: none;
+
+            padding: 9px 17px;
+
+            border-radius: 8px;
+
+            font-weight: bold;
+        }
+
+        .back-btn:hover {
+            background: #e0e7ff;
+        }
+
+
+        /* CONTAINER */
+
+        .container {
+            width: 92%;
+            max-width: 1200px;
+
+            margin: 30px auto;
+        }
+
+
+        /* TITLE */
+
+        .page-title {
+            background: #eef2ff;
+
+            padding: 25px;
+
+            border-radius: 16px;
+
+            margin-bottom: 25px;
+
+            border: 1px solid #dbeafe;
+        }
+
+        .page-title h2 {
+            color: #1e3a8a;
+
+            margin-bottom: 8px;
+        }
+
+        .page-title p {
+            color: #64748b;
+        }
+
+
+        /* SUMMARY */
+
+        .summary-card {
+            background: white;
+
+            padding: 20px;
+
+            border-radius: 14px;
+
+            border: 1px solid #e2e8f0;
+
+            margin-bottom: 25px;
+
+            box-shadow:
+                0 6px 20px
+                rgba(30, 58, 138, 0.06);
+        }
+
+        .summary-card h3 {
+            color: #64748b;
+
+            font-size: 15px;
+
+            margin-bottom: 8px;
+        }
+
+        .count {
+            color: #1e3a8a;
+
+            font-size: 28px;
+
+            font-weight: bold;
+        }
+
+
+        /* APPLIANCE GRID */
+
+        .appliance-grid {
+
+            display: grid;
+
+            grid-template-columns:
+                repeat(auto-fit, minmax(300px, 1fr));
+
+            gap: 20px;
+        }
+
+
+        /* APPLIANCE CARD */
+
+        .appliance-card {
+
+            background: white;
+
+            padding: 22px;
+
+            border-radius: 16px;
+
+            border: 1px solid #e2e8f0;
+
+            box-shadow:
+                0 6px 20px
+                rgba(30, 58, 138, 0.06);
+
+            transition: 0.2s;
+        }
+
+        .appliance-card:hover {
+
+            transform: translateY(-3px);
+
+            border-color: #bfdbfe;
+
+            box-shadow:
+                0 10px 25px
+                rgba(37, 99, 235, 0.12);
+        }
+
+
+        /* ICON */
+
+        .appliance-icon {
+
+            font-size: 35px;
+
+            margin-bottom: 12px;
+        }
+
+
+        /* APPLIANCE NAME */
+
+        .appliance-card h3 {
+
+            color: #1e3a8a;
+
+            font-size: 19px;
+
+            margin-bottom: 15px;
+        }
+
+
+        /* DETAILS */
+
+        .detail {
+
+            margin: 9px 0;
+
+            color: #475569;
+
+            font-size: 14px;
+
+            line-height: 1.5;
+        }
+
+        .detail strong {
+
+            color: #1e293b;
+        }
+
+
+        /* USER */
+
+        .user-box {
+
+            background: #eff6ff;
+
+            border: 1px solid #dbeafe;
+
+            padding: 10px 12px;
+
+            border-radius: 8px;
+
+            margin-bottom: 15px;
+
+            color: #1e3a8a;
+
+            font-weight: 600;
+        }
+
+
+        /* WARRANTY */
+
+        .warranty {
+
+            margin-top: 15px;
+
+            padding: 10px 12px;
+
+            background: #f8fafc;
+
+            border-radius: 8px;
+
+            color: #475569;
+
+            font-size: 14px;
+        }
+
+
+        /* EMPTY */
+
+        .empty {
+
+            background: white;
+
+            padding: 40px;
+
+            text-align: center;
+
+            border-radius: 16px;
+
+            border: 1px solid #e2e8f0;
+
+            color: #64748b;
+        }
+
+
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+
+            .header {
+
+                padding: 17px 20px;
+            }
+
+            .header h1 {
+
+                font-size: 18px;
+            }
+
+            .container {
+
+                width: 94%;
+            }
+
+            .appliance-grid {
+
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- HEADER -->
+
+    <header class="header">
+
+        <h1>
+            🏠 Appliance Monitoring
+        </h1>
+
+        <a href="{% url 'admin_dashboard' %}"
+           class="back-btn">
+
+            ← Admin Dashboard
+
+        </a>
+
+    </header>
+
+
+
+    <main class="container">
+
+
+        <!-- PAGE TITLE -->
+
+        <section class="page-title">
+
+            <h2>
+                Appliance Monitoring
+            </h2>
+
+            <p>
+                View and monitor all appliances
+                registered by users.
+            </p>
+
+        </section>
+
+
+
+        <!-- TOTAL COUNT -->
+
+        <div class="summary-card">
+
+            <h3>
+                Total Registered Appliances
+            </h3>
+
+            <div class="count">
+                {{ appliances|length }}
+            </div>
+
+        </div>
+
+
+
+        <!-- APPLIANCES -->
+
+        {% if appliances %}
+
+            <div class="appliance-grid">
+
+
+                {% for appliance in appliances %}
+
+                    <div class="appliance-card">
+
+
+                        <div class="appliance-icon">
+
+                            {% if appliance.appliance_type == "AC" %}
+                                ❄️
+                            {% elif appliance.appliance_type == "Fridge" %}
+                                🧊
+                            {% elif appliance.appliance_type == "Washing Machine" %}
+                                🧺
+                            {% elif appliance.appliance_type == "TV" %}
+                                📺
+                            {% elif appliance.appliance_type == "Water Purifier" %}
+                                💧
+                            {% else %}
+                                🏠
+                            {% endif %}
+
+                        </div>
+
+
+                        <h3>
+                            {{ appliance.brand }}
+                        </h3>
+
+
+                        <!-- USER -->
+
+                        <div class="user-box">
+
+                            👤 User:
+                            {{ appliance.owner.username }}
+
+                        </div>
+
+
+                        <!-- DETAILS -->
+
+                        <div class="detail">
+
+                            <strong>
+                                Appliance:
+                            </strong>
+
+                            {{ appliance.appliance_type }}
+
+                        </div>
+
+
+                        <div class="detail">
+
+                            <strong>
+                                Model:
+                            </strong>
+
+                            {{ appliance.model }}
+
+                        </div>
+
+
+                        <div class="detail">
+
+                            <strong>
+                                Purchase Date:
+                            </strong>
+
+                            {{ appliance.purchase_date }}
+
+                        </div>
+
+
+                        <div class="detail">
+
+                            <strong>
+                                Location:
+                            </strong>
+
+                            {{ appliance.location }}
+
+                        </div>
+
+
+                        <!-- WARRANTY -->
+
+                        <div class="warranty">
+
+                            <strong>
+                                Warranty Expiry:
+                            </strong>
+
+                            {% if appliance.warranty_expiry_date %}
+
+                                {{ appliance.warranty_expiry_date }}
+
+                            {% else %}
+
+                                Not Available
+
+                            {% endif %}
+
+                        </div>
+
+
+                    </div>
+
+                {% endfor %}
+
+
+            </div>
+
+
+        {% else %}
+
+
+            <div class="empty">
+
+                <h3>
+                    No appliances found
+                </h3>
+
+                <p>
+                    No appliances have been registered
+                    by users yet.
+                </p>
+
+            </div>
+
+
+        {% endif %}
+
+
+    </main>
+
+
+</body>
+
+</html>

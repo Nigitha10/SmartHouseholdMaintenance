@@ -1,135 +1,489 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Edit Appliance</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Edit Appliance | Smart Household Maintenance</title>
 
     <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
         body {
+            margin: 0;
             font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            padding: 40px;
+            background: linear-gradient(135deg, #eff6ff, #f8fafc);
+            color: #334155;
+        }
+
+        .header {
+            background: #1e3a8a;
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .header p {
+            margin: 8px 0 0;
+            color: #dbeafe;
+            font-size: 14px;
         }
 
         .container {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 92%;
+            max-width: 700px;
+            margin: 30px auto;
         }
 
-        h1 {
+        .form-card {
+            background: white;
+            padding: 32px;
+            border-radius: 18px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.09);
+        }
+
+        .form-card h2 {
             text-align: center;
             color: #1e3a8a;
+            margin-top: 0;
+            margin-bottom: 28px;
+        }
+
+        .section-title {
+            color: #1e3a8a;
+            font-size: 17px;
+            margin: 28px 0 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0e7ff;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
         }
 
         label {
             display: block;
-            margin-top: 15px;
+            margin-bottom: 7px;
+            color: #334155;
             font-weight: bold;
+            font-size: 14px;
         }
 
-        input, select {
+        input,
+        select,
+        textarea {
             width: 100%;
-            padding: 10px;
-            margin-top: 6px;
-            box-sizing: border-box;
+            padding: 12px 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
+            font-size: 14px;
+            font-family: Arial, sans-serif;
+            outline: none;
+            transition: 0.2s;
         }
 
-        button {
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+        }
+
+        textarea {
+            min-height: 110px;
+            resize: vertical;
+        }
+
+        .update-btn {
             width: 100%;
-            margin-top: 25px;
-            padding: 12px;
+            margin-top: 12px;
+            padding: 14px;
             background: #2563eb;
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.2s;
         }
+
+        .update-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .back-btn {
+            display: block;
+            width: 200px;
+            text-align: center;
+            margin: 20px auto 0;
+            padding: 11px;
+            background: #e2e8f0;
+            color: #334155;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            background: #cbd5e1;
+        }
+
+        .footer {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 12px;
+            margin: 20px 0;
+        }
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 90%;
+            }
+
+            .form-card {
+                padding: 22px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
-<div class="container">
 
-    <h1>Edit Appliance</h1>
+    <div class="header">
 
-    <form method="POST">
+        <h1>
+            🏠 Smart Household Maintenance
+        </h1>
 
-        {% csrf_token %}
+        <p>
+            Update your household appliance information
+        </p>
 
-        <label>Appliance Type</label>
-        <select name="appliance_type">
-            <option value="AC" {% if appliance.appliance_type == "AC" %}selected{% endif %}>Air Conditioner</option>
-            <option value="FRIDGE" {% if appliance.appliance_type == "FRIDGE" %}selected{% endif %}>Refrigerator</option>
-            <option value="WASHING" {% if appliance.appliance_type == "WASHING" %}selected{% endif %}>Washing Machine</option>
-            <option value="TV" {% if appliance.appliance_type == "TV" %}selected{% endif %}>Television</option>
-            <option value="PURIFIER" {% if appliance.appliance_type == "PURIFIER" %}selected{% endif %}>Water Purifier</option>
-            <option value="OTHER" {% if appliance.appliance_type == "OTHER" %}selected{% endif %}>Other</option>
-        </select>
+    </div>
 
-        <label>Brand</label>
-        <input type="text" name="brand" value="{{ appliance.brand }}" required>
 
-        <label>Model Number</label>
-        <input type="text" name="model_number" value="{{ appliance.model_number }}" required>
+    <div class="container">
 
-        <label>Customer Care Number</label>
-        <input type="text" name="customer_care_number" value="{{ appliance.customer_care_number }}">
 
-        <label>Purchase Date</label>
-        <input type="date" name="purchase_date" value="{{ appliance.purchase_date|date:'Y-m-d' }}" required>
+        <div class="form-card">
 
-        <label>Service Interval (Months)</label>
-        <input type="number" name="service_interval_months"
-               value="{{ appliance.service_interval_months }}" min="1" required>
-               <label>Warranty Start Date</label>
-<input
-    type="date"
-    name="warranty_start_date"
-    value="{{ appliance.warranty_start_date|date:'Y-m-d' }}"
->
+            <h2>
+                ✏️ Edit Appliance
+            </h2>
 
-<label>Warranty Expiry Date</label>
-<input
-    type="date"
-    name="warranty_expiry_date"
-    value="{{ appliance.warranty_expiry_date|date:'Y-m-d' }}"
->
-<label>Last Service Date</label>
-<input
-    type="date"
-    name="last_service_date"
-    value="{{ appliance.last_service_date|date:'Y-m-d' }}"
->
 
-<label>Next Service Date</label>
-<input
-    type="date"
-    name="next_service_date"
-    value="{{ appliance.next_service_date|date:'Y-m-d' }}"
->
+            <form method="POST">
 
-<label>Service Type</label>
-<input
-    type="text"
-    name="service_type"
-    value="{{ appliance.service_type }}"
-    placeholder="Example: General Service"
->
+                {% csrf_token %}
 
-<label>Service Notes</label>
-<textarea
-    name="service_notes"
-    placeholder="Enter service details"
->{{ appliance.service_notes }}</textarea>
 
-        <button type="submit">Update Appliance</button>
+                <!-- Appliance Information -->
 
-    </form>
+                <div class="section-title">
+                    📋 Appliance Information
+                </div>
 
-</div>
+
+                <div class="form-group">
+
+                    <label>
+                        Appliance Type
+                    </label>
+
+                    <select name="appliance_type" required>
+
+                        <option value="AC"
+                            {% if appliance.appliance_type == "AC" %}selected{% endif %}>
+                            Air Conditioner
+                        </option>
+
+                        <option value="FRIDGE"
+                            {% if appliance.appliance_type == "FRIDGE" %}selected{% endif %}>
+                            Refrigerator
+                        </option>
+
+                        <option value="WASHING"
+                            {% if appliance.appliance_type == "WASHING" %}selected{% endif %}>
+                            Washing Machine
+                        </option>
+
+                        <option value="TV"
+                            {% if appliance.appliance_type == "TV" %}selected{% endif %}>
+                            Television
+                        </option>
+
+                        <option value="PURIFIER"
+                            {% if appliance.appliance_type == "PURIFIER" %}selected{% endif %}>
+                            Water Purifier
+                        </option>
+
+                        <option value="OTHER"
+                            {% if appliance.appliance_type == "OTHER" %}selected{% endif %}>
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Brand
+                    </label>
+
+                    <input
+                        type="text"
+                        name="brand"
+                        value="{{ appliance.brand }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Model Number
+                    </label>
+
+                    <input
+                        type="text"
+                        name="model_number"
+                        value="{{ appliance.model_number }}"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Customer Care Number
+                    </label>
+
+                    <input
+                        type="text"
+                        name="customer_care_number"
+                        value="{{ appliance.customer_care_number }}"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Purchase Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="purchase_date"
+                        value="{{ appliance.purchase_date|date:'Y-m-d' }}"
+                        required
+                    >
+
+                </div>
+
+
+                <!-- Warranty -->
+
+                <div class="section-title">
+                    🛡️ Warranty Information
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Warranty Start Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="warranty_start_date"
+                        value="{{ appliance.warranty_start_date|date:'Y-m-d' }}"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Warranty Expiry Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="warranty_expiry_date"
+                        value="{{ appliance.warranty_expiry_date|date:'Y-m-d' }}"
+                    >
+
+                </div>
+
+
+                <!-- Service -->
+
+                <div class="section-title">
+                    🛠️ Service & Maintenance
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Service Interval (Months)
+                    </label>
+
+                    <input
+                        type="number"
+                        name="service_interval_months"
+                        value="{{ appliance.service_interval_months }}"
+                        min="1"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Last Service Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="last_service_date"
+                        value="{{ appliance.last_service_date|date:'Y-m-d' }}"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Next Service Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="next_service_date"
+                        value="{{ appliance.next_service_date|date:'Y-m-d' }}"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Service Type
+                    </label>
+
+                    <input
+                        type="text"
+                        name="service_type"
+                        value="{{ appliance.service_type }}"
+                        placeholder="Example: General Service"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Service Notes
+                    </label>
+
+                    <textarea
+                        name="service_notes"
+                        placeholder="Enter service details"
+                    >{{ appliance.service_notes }}</textarea>
+
+                </div>
+
+
+                <!-- Maintenance Cost -->
+
+                <div class="form-group">
+
+                    <label>
+                        💰 Maintenance Cost (₹)
+                    </label>
+
+                    <input
+                        type="number"
+                        name="maintenance_cost"
+                        step="0.01"
+                        min="0"
+                        value="{{ appliance.maintenance_cost }}"
+                        placeholder="Enter maintenance cost"
+                    >
+
+                </div>
+
+
+                <button
+                    type="submit"
+                    class="update-btn"
+                >
+                    💾 Update Appliance
+                </button>
+
+
+            </form>
+
+
+            <a
+                href="{% url 'appliance_list' %}"
+                class="back-btn"
+            >
+                ← Back to Appliances
+            </a>
+
+
+        </div>
+
+
+        <div class="footer">
+            Smart Household Maintenance Tracking System
+        </div>
+
+
+    </div>
+
 
 </body>
+
 </html>

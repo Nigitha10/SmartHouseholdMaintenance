@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Maintenance History</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #1f2937;
+        }
+
+        .header {
+            background: #2563eb;
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            background: #1d4ed8;
+            padding: 10px 16px;
+            border-radius: 8px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .title {
+            margin-bottom: 20px;
+        }
+
+        .history-card {
+            background: white;
+            padding: 22px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .history-card h2 {
+            margin-top: 0;
+            color: #1e3a8a;
+        }
+
+        .info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .info-box {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .label {
+            font-weight: bold;
+            color: #475569;
+        }
+
+        .completed {
+            display: inline-block;
+            margin-top: 15px;
+            background: #dcfce7;
+            color: #166534;
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .notes {
+            margin-top: 15px;
+            background: #eff6ff;
+            padding: 14px;
+            border-radius: 8px;
+        }
+
+        .empty {
+            background: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        @media (max-width: 700px) {
+            .info {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 18px 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <h1>🔧 Maintenance History</h1>
+
+    <a href="{% url 'dashboard' %}" class="back-btn">
+        ← Dashboard
+    </a>
+</header>
+
+<div class="container">
+
+    <h2 class="title">Completed Service History</h2>
+
+    {% if history %}
+
+        {% for item in history %}
+
+        <div class="history-card">
+
+            <h2>
+                {{ item.appliance.brand }}
+                - 
+                {{ item.appliance.model_number }}
+            </h2>
+
+            <div class="info">
+
+                <div class="info-box">
+                    <span class="label">Service Provider:</span><br>
+                    {{ item.service_provider.company_name }}
+                </div>
+
+                <div class="info-box">
+                    <span class="label">Service:</span><br>
+                    {{ item.service_provider.service_name }}
+                </div>
+
+                <div class="info-box">
+                    <span class="label">Service Date:</span><br>
+                    {{ item.request_date|date:"d M Y" }}
+                </div>
+
+                <div class="info-box">
+                    <span class="label">Status:</span><br>
+                    <span class="completed">
+                        {{ item.status }}
+                    </span>
+                </div>
+
+                <div class="info-box">
+                    <span class="label">Service Cost:</span><br>
+                    ₹{{ item.service_cost }}
+                </div>
+
+                <div class="info-box">
+                    <span class="label">Repair Cost:</span><br>
+                    ₹{{ item.repair_cost }}
+                </div>
+
+                <div class="info-box">
+                    <span class="label">Spare Parts:</span><br>
+                    ₹{{ item.spare_parts_cost }}
+                </div>
+
+                <div class="info-box">
+                    <span class="label">Other Cost:</span><br>
+                    ₹{{ item.other_cost }}
+                </div>
+
+            </div>
+
+            {% if item.notes %}
+            <div class="notes">
+                <strong>Service Notes:</strong><br>
+                {{ item.notes }}
+            </div>
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <div class="empty">
+
+            <h2>📭 No Maintenance History</h2>
+
+            <p>
+                Completed services will appear here.
+            </p>
+
+        </div>
+
+    {% endif %}
+
+</div>
+
+</body>
+</html>

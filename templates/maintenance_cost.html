@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Maintenance Cost</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+        }
+
+        .header {
+            background: #1e3a8a;
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 30px auto;
+        }
+
+        .back {
+            display: inline-block;
+            margin-bottom: 20px;
+            text-decoration: none;
+            color: #1e3a8a;
+            font-weight: bold;
+        }
+
+        .total-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .total-card h2 {
+            color: #1e3a8a;
+            font-size: 30px;
+        }
+
+        .service-card {
+            background: white;
+            padding: 22px;
+            margin-bottom: 20px;
+            border-radius: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        .service-card h3 {
+            color: #1e3a8a;
+        }
+
+        .cost-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #1e3a8a;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: #eef2ff;
+            color: #1e3a8a;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>💰 Maintenance Cost</h1>
+    <p>Track your appliance maintenance expenses</p>
+</div>
+
+<div class="container">
+
+    <a href="{% url 'dashboard' %}" class="back">
+        ← Back to Dashboard
+    </a>
+
+    <div class="total-card">
+        <h3>Total Maintenance Cost</h3>
+        <h2>₹{{ total_cost }}</h2>
+    </div>
+
+    <h2>Service Cost Details</h2>
+
+    {% for item in requests %}
+
+    <div class="service-card">
+
+        <h3>
+            {{ item.service_provider.company_name }}
+        </h3>
+
+        <p>
+            <strong>Appliance:</strong>
+            {% if item.appliance %}
+                {{ item.appliance.brand }} - {{ item.appliance.model }}
+            {% else %}
+                Not specified
+            {% endif %}
+        </p>
+
+        <p>
+            <strong>Service:</strong>
+            {{ item.service_provider.service_name }}
+        </p>
+
+        <p>
+            <strong>Date:</strong>
+            {{ item.request_date|date:"d M Y, h:i A" }}
+        </p>
+
+        <p>
+            <strong>Status:</strong>
+            <span class="status">
+                {{ item.status }}
+            </span>
+        </p>
+
+        <br>
+
+        <div class="cost-row">
+            <span>Service Cost</span>
+            <span>₹{{ item.service_cost }}</span>
+        </div>
+
+        <div class="cost-row">
+            <span>Repair Cost</span>
+            <span>₹{{ item.repair_cost }}</span>
+        </div>
+
+        <div class="cost-row">
+            <span>Spare Parts Cost</span>
+            <span>₹{{ item.spare_parts_cost }}</span>
+        </div>
+
+        <div class="cost-row">
+            <span>Other Cost</span>
+            <span>₹{{ item.other_cost }}</span>
+        </div>
+
+        <div class="total-row">
+            <span>Total Cost</span>
+            <span>₹{{ item.total_cost }}</span>
+        </div>
+
+    </div>
+
+    {% empty %}
+
+    <div class="service-card">
+        <p>No maintenance cost records found.</p>
+    </div>
+
+    {% endfor %}
+
+</div>
+
+</body>
+</html>

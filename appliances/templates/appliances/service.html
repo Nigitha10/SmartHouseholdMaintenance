@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Service & Maintenance</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #334155;
+        }
+
+        /* Header */
+
+        .header {
+            background: #1e3a8a;
+            color: white;
+            padding: 22px 35px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 25px;
+        }
+
+        .header p {
+            margin: 5px 0 0;
+            color: #dbeafe;
+            font-size: 13px;
+        }
+
+        /* Main */
+
+        .container {
+            max-width: 1100px;
+            width: 92%;
+            margin: 30px auto;
+        }
+
+        /* Page title */
+
+        .page-title {
+            margin-bottom: 25px;
+        }
+
+        .page-title h2 {
+            margin: 0;
+            color: #1e293b;
+            font-size: 24px;
+        }
+
+        .page-title p {
+            margin-top: 7px;
+            color: #64748b;
+        }
+
+        /* Grid */
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(
+                auto-fit,
+                minmax(320px, 1fr)
+            );
+            gap: 22px;
+        }
+
+        /* Card */
+
+        .service-card {
+            background: white;
+            border-radius: 14px;
+            padding: 24px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+        }
+
+        /* Appliance heading */
+
+        .appliance-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .appliance-icon {
+            width: 48px;
+            height: 48px;
+            background: #dbeafe;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+        }
+
+        .appliance-header h3 {
+            margin: 0;
+            color: #1e3a8a;
+            font-size: 20px;
+        }
+
+        .model {
+            margin: 5px 0 0;
+            color: #64748b;
+            font-size: 13px;
+        }
+
+        /* Service section */
+
+        .service-section {
+            margin-top: 20px;
+        }
+
+        .service-section h4 {
+            margin: 0 0 12px;
+            color: #1e293b;
+            font-size: 15px;
+        }
+
+        /* Details */
+
+        .details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .detail-box {
+            background: #f8fafc;
+            padding: 12px;
+            border-radius: 9px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .detail-box span {
+            display: block;
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 5px;
+        }
+
+        .detail-box strong {
+            color: #334155;
+            font-size: 14px;
+        }
+
+        /* Notes */
+
+        .notes {
+            background: #eff6ff;
+            padding: 13px;
+            border-radius: 9px;
+            border-left: 4px solid #2563eb;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* No appliances */
+
+        .empty {
+            background: white;
+            padding: 45px;
+            text-align: center;
+            border-radius: 14px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .empty h3 {
+            color: #1e3a8a;
+        }
+
+        .empty p {
+            color: #64748b;
+        }
+
+        /* Back button */
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 28px;
+            padding: 12px 22px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            background: #1d4ed8;
+        }
+
+        /* Mobile */
+
+        @media (max-width: 600px) {
+
+            .header {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 21px;
+            }
+
+            .container {
+                width: 90%;
+            }
+
+            .details {
+                grid-template-columns: 1fr;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- Header -->
+
+    <div class="header">
+
+        <div>
+
+            <h1>
+                🛠️ Service & Maintenance
+            </h1>
+
+            <p>
+                Smart Household Maintenance Tracking System
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <div class="container">
+
+
+        <!-- Page Title -->
+
+        <div class="page-title">
+
+            <h2>
+                Appliance Service Information
+            </h2>
+
+            <p>
+                Track service schedules and maintenance details
+                for your household appliances.
+            </p>
+
+        </div>
+
+
+        <!-- Service Cards -->
+
+        <div class="service-grid">
+
+
+            {% for appliance in appliances %}
+
+
+            <div class="service-card">
+
+
+                <!-- Appliance Header -->
+
+                <div class="appliance-header">
+
+                    <div class="appliance-icon">
+                        🔧
+                    </div>
+
+                    <div>
+
+                        <h3>
+                            {{ appliance.brand }}
+                        </h3>
+
+                        <p class="model">
+                            Model: {{ appliance.model_number }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Service Schedule -->
+
+                <div class="service-section">
+
+                    <h4>
+                        📅 Service Schedule
+                    </h4>
+
+
+                    <div class="details">
+
+
+                        <div class="detail-box">
+
+                            <span>
+                                Service Interval
+                            </span>
+
+                            <strong>
+                                {{ appliance.service_interval_months }}
+                                Months
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-box">
+
+                            <span>
+                                Service Type
+                            </span>
+
+                            <strong>
+                                {{ appliance.service_type|default:"Not Available" }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-box">
+
+                            <span>
+                                Last Service
+                            </span>
+
+                            <strong>
+                                {{ appliance.last_service_date|default:"Not Available" }}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="detail-box">
+
+                            <span>
+                                Next Service
+                            </span>
+
+                            <strong>
+                                {{ appliance.next_service_date|default:"Not Available" }}
+                            </strong>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- Service Notes -->
+
+                <div class="service-section">
+
+                    <h4>
+                        📝 Service Notes
+                    </h4>
+
+                    <div class="notes">
+
+                        {{ appliance.service_notes|default:"No service notes available." }}
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            {% empty %}
+
+
+            <div class="empty">
+
+                <h3>
+                    📭 No Appliances Found
+                </h3>
+
+                <p>
+                    Add an appliance to view its service information.
+                </p>
+
+            </div>
+
+
+            {% endfor %}
+
+
+        </div>
+
+
+        <!-- Back -->
+
+        <a
+            href="{% url 'dashboard' %}"
+            class="back-btn"
+        >
+            ← Back to Dashboard
+        </a>
+
+
+    </div>
+
+
+</body>
+
+</html>

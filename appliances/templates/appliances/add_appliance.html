@@ -1,148 +1,594 @@
-
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-    <title>Add Appliance</title>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Add Appliance | Smart Household Maintenance</title>
 
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            margin: 0;
-            padding: 40px;
+
+        * {
+            box-sizing: border-box;
         }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #eff6ff, #f8fafc);
+            color: #334155;
+        }
+
+        /* Header */
+
+        .header {
+            background: #1e3a8a;
+            color: white;
+            padding: 25px 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .header p {
+            margin: 8px 0 0;
+            color: #dbeafe;
+            font-size: 14px;
+        }
+
+
+        /* Container */
 
         .container {
-            max-width: 600px;
-            margin: auto;
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 92%;
+            max-width: 700px;
+            margin: 30px auto;
         }
 
-        h1 {
+
+        /* Card */
+
+        .form-card {
+            background: white;
+            padding: 32px;
+            border-radius: 18px;
+            box-shadow: 0 8px 25px rgba(30, 58, 138, 0.09);
+            border: 1px solid #e2e8f0;
+        }
+
+
+        h2 {
             text-align: center;
             color: #1e3a8a;
+            margin-top: 0;
+            margin-bottom: 28px;
         }
+
+
+        /* Form group */
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
 
         label {
             display: block;
-            margin-top: 15px;
+            margin-bottom: 7px;
             font-weight: bold;
-            color: #333;
+            color: #334155;
+            font-size: 14px;
         }
+
 
         input,
         select,
         textarea {
             width: 100%;
-            padding: 10px;
-            margin-top: 6px;
-            box-sizing: border-box;
-            border: 1px solid #ccc;
-            border-radius: 6px;
+            padding: 12px 13px;
+            border: 1px solid #cbd5e1;
+            border-radius: 9px;
             font-size: 14px;
+            font-family: Arial, sans-serif;
+            outline: none;
+            transition: 0.2s;
         }
 
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+        }
+
+
         textarea {
-            min-height: 100px;
+            min-height: 110px;
             resize: vertical;
         }
 
-        button {
+
+        /* Section */
+
+        .section-title {
+            color: #1e3a8a;
+            font-size: 17px;
+            margin: 28px 0 16px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #e0e7ff;
+        }
+
+
+        /* File upload */
+
+        input[type="file"] {
+            background: #f8fafc;
+            padding: 10px;
+        }
+
+
+        /* Save button */
+
+        .save-btn {
             width: 100%;
-            margin-top: 25px;
-            padding: 12px;
+            margin-top: 12px;
+            padding: 14px;
             background: #2563eb;
             color: white;
             border: none;
-            border-radius: 6px;
+            border-radius: 9px;
             cursor: pointer;
             font-size: 16px;
+            font-weight: bold;
+            transition: 0.2s;
         }
 
-        button:hover {
+
+        .save-btn:hover {
             background: #1d4ed8;
         }
+
+
+        /* Back button */
+
+        .back-btn {
+            display: block;
+            width: 180px;
+            text-align: center;
+            margin: 20px auto 0;
+            padding: 11px;
+            background: #e2e8f0;
+            color: #334155;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+
+        .back-btn:hover {
+            background: #cbd5e1;
+        }
+
+
+        /* Footer */
+
+        .footer {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 12px;
+            margin: 20px 0;
+        }
+
+
+        /* Mobile */
+
+        @media (max-width: 600px) {
+
+            .container {
+                width: 90%;
+            }
+
+            .form-card {
+                padding: 22px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+        }
+
     </style>
+
 </head>
+
 
 <body>
 
-<div class="container">
 
-    <h1>Add Appliance</h1>
+    <!-- Header -->
 
-    <form method="POST" enctype="multipart/form-data">
+    <div class="header">
 
-        {% csrf_token %}
+        <h1>
+            🏠 Smart Household Maintenance
+        </h1>
 
-        <label>Appliance Type</label>
-        <select name="appliance_type" required>
-            <option value="">Select Appliance</option>
-            <option value="AC">Air Conditioner</option>
-            <option value="FRIDGE">Refrigerator</option>
-            <option value="WASHING">Washing Machine</option>
-            <option value="TV">Television</option>
-            <option value="PURIFIER">Water Purifier</option>
-            <option value="OTHER">Other</option>
-        </select>
+        <p>
+            Add and manage your household appliance details
+        </p>
 
-        <label>Brand</label>
-        <input type="text" name="brand" placeholder="Enter brand" required>
+    </div>
 
-        <label>Model Number</label>
-        <input type="text" name="model_number" placeholder="Enter model number" required>
 
-        <label>Customer Care Number</label>
-        <input type="text" name="customer_care_number">
+    <div class="container">
 
-        <label>Purchase Date</label>
-        <input type="date" name="purchase_date" required>
 
-        <label>Bill Upload</label>
-        <input type="file" name="bill">
+        <div class="form-card">
 
-        <label>Service Interval (Months)</label>
-        <input type="number"
-               name="service_interval_months"
-               value="6"
-               min="1"
-               required>
+            <h2>
+                🔧 Add Appliance
+            </h2>
 
-        <label>Warranty Start Date</label>
-        <input type="date" name="warranty_start_date">
 
-        <label>Warranty Expiry Date</label>
-        <input type="date" name="warranty_expiry_date">
+            <form method="POST" enctype="multipart/form-data">
 
-        <label>Last Service Date</label>
-        <input type="date" name="last_service_date">
+                {% csrf_token %}
 
-        <label>Next Service Date</label>
-        <input type="date" name="next_service_date">
 
-        <label>Service Type</label>
-        <select name="service_type">
-            <option value="">Select Service Type</option>
-            <option value="General Service">General Service</option>
-            <option value="Cleaning">Cleaning</option>
-            <option value="Repair">Repair</option>
-            <option value="Gas Filling">Gas Filling</option>
-            <option value="Parts Replacement">Parts Replacement</option>
-        </select>
+                <!-- Basic Information -->
 
-        <label>Service Notes</label>
-        <textarea name="service_notes"
-                  placeholder="Enter service details"></textarea>
+                <div class="section-title">
+                    📋 Appliance Information
+                </div>
 
-        <button type="submit">Save Appliance</button>
 
-    </form>
+                <div class="form-group">
 
+                    <label>
+                        Appliance Type
+                    </label>
+
+                    <select name="appliance_type" required>
+
+                        <option value="">
+                            Select Appliance
+                        </option>
+
+                        <option value="AC">
+                            Air Conditioner
+                        </option>
+
+                        <option value="FRIDGE">
+                            Refrigerator
+                        </option>
+
+                        <option value="WASHING">
+                            Washing Machine
+                        </option>
+
+                        <option value="TV">
+                            Television
+                        </option>
+
+                        <option value="PURIFIER">
+                            Water Purifier
+                        </option>
+
+                        <option value="OTHER">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Brand
+                    </label>
+
+                    <input
+                        type="text"
+                        name="brand"
+                        placeholder="Enter brand"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Model Number
+                    </label>
+
+                    <input
+                        type="text"
+                        name="model_number"
+                        placeholder="Enter model number"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Customer Care Number
+                    </label>
+
+                    <input
+                        type="text"
+                        name="customer_care_number"
+                        placeholder="Enter customer care number"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Purchase Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="purchase_date"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Bill Upload
+                    </label>
+
+                    <input
+                        type="file"
+                        name="bill"
+                    >
+
+                </div>
+
+
+                <!-- Warranty -->
+
+                <div class="section-title">
+                    🛡️ Warranty Information
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Warranty Start Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="warranty_start_date"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Warranty Expiry Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="warranty_expiry_date"
+                    >
+
+                </div>
+
+
+                <!-- Service -->
+
+                <div class="section-title">
+                    🛠️ Service & Maintenance
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Service Interval (Months)
+                    </label>
+
+                    <input
+                        type="number"
+                        name="service_interval_months"
+                        value="6"
+                        min="1"
+                        required
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Last Service Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="last_service_date"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Next Service Date
+                    </label>
+
+                    <input
+                        type="date"
+                        name="next_service_date"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Service Type
+                    </label>
+
+                    <select name="service_type">
+
+                        <option value="">
+                            Select Service Type
+                        </option>
+
+                        <option value="General Service">
+                            General Service
+                        </option>
+
+                        <option value="Cleaning">
+                            Cleaning
+                        </option>
+
+                        <option value="Repair">
+                            Repair
+                        </option>
+
+                        <option value="Gas Filling">
+                            Gas Filling
+                        </option>
+
+                        <option value="Parts Replacement">
+                            Parts Replacement
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label>
+                        Service Notes
+                    </label>
+
+                    <textarea
+                        name="service_notes"
+                        placeholder="Enter service details"
+                    ></textarea>
+
+                </div>
+               <!-- Maintenance Cost -->
+
+<div class="section-title">
+    💰 Maintenance Cost
 </div>
 
+<div class="form-group">
+    <label>🔧 Service Cost (₹)</label>
+
+    <input
+        type="number"
+        name="service_cost"
+        step="0.01"
+        min="0"
+        value="0"
+        placeholder="Enter service cost"
+    >
+</div>
+
+<div class="form-group">
+    <label>🛠️ Repair Cost (₹)</label>
+
+    <input
+        type="number"
+        name="repair_cost"
+        step="0.01"
+        min="0"
+        value="0"
+        placeholder="Enter repair cost"
+    >
+</div>
+
+<div class="form-group">
+    <label>⚙️ Spare Parts Cost (₹)</label>
+
+    <input
+        type="number"
+        name="spare_parts_cost"
+        step="0.01"
+        min="0"
+        value="0"
+        placeholder="Enter spare parts cost"
+    >
+</div>
+
+<div class="form-group">
+    <label>💵 Other Cost (₹)</label>
+
+    <input
+        type="number"
+        name="other_cost"
+        step="0.01"
+        min="0"
+        value="0"
+        placeholder="Enter other cost"
+    >
+</div>
+
+                <button
+                    type="submit"
+                    class="save-btn"
+                >
+                    💾 Save Appliance
+                </button>
+
+
+            </form>
+
+
+            <a
+                href="/appliances/"
+                class="back-btn"
+            >
+                ← Back to Appliances
+            </a>
+
+        </div>
+
+
+        <div class="footer">
+            Smart Household Maintenance Tracking System
+        </div>
+
+
+    </div>
+
 </body>
+
 </html>
-```

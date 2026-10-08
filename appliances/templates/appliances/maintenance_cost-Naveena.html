@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Maintenance Cost</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f8fafc;
+            color: #334155;
+        }
+
+        .header {
+            background: #1e3a8a;
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .header p {
+            margin: 8px 0 0;
+            color: #dbeafe;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 92%;
+            max-width: 900px;
+            margin: 30px auto;
+        }
+
+        .page-title h2 {
+            margin: 0;
+            color: #1e293b;
+            font-size: 24px;
+        }
+
+        .page-title p {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .section-title {
+            margin-top: 35px;
+            color: #1e293b;
+            font-size: 22px;
+        }
+
+        .cost-card {
+            background: white;
+            padding: 24px;
+            margin-top: 22px;
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.07);
+        }
+
+        .appliance-name {
+            color: #1e3a8a;
+            margin: 0 0 5px;
+            font-size: 20px;
+        }
+
+        .model {
+            color: #64748b;
+            font-size: 13px;
+            margin-bottom: 20px;
+        }
+
+        .cost-list {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .cost-box {
+            padding: 16px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+        }
+
+        .cost-box strong {
+            color: #1e293b;
+            font-size: 14px;
+        }
+
+        .amount {
+            color: #2563eb;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 7px;
+        }
+
+        .total-box {
+            margin-top: 18px;
+            padding: 18px;
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 10px;
+        }
+
+        .total-box strong {
+            color: #1e3a8a;
+            font-size: 16px;
+        }
+
+        .total-amount {
+            color: #1e3a8a;
+            font-size: 25px;
+            font-weight: bold;
+            margin-top: 7px;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 12px;
+            background: #dcfce7;
+            color: #15803d;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .no-cost {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 22px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .back-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .divider {
+            margin: 40px 0;
+            border: none;
+            border-top: 1px solid #e2e8f0;
+        }
+
+        @media (max-width: 600px) {
+            .cost-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+
+    <div class="header">
+
+        <h1>💰 Maintenance Cost</h1>
+
+        <p>
+            Track your appliance maintenance expenses.
+        </p>
+
+    </div>
+
+
+    <div class="container">
+
+        <!-- PAGE TITLE -->
+
+        <div class="page-title">
+
+            <h2>📊 Maintenance Cost Overview</h2>
+
+            <p>
+                View appliance and completed service expenses.
+            </p>
+
+        </div>
+
+
+        <!-- COMPLETED SERVICE COSTS -->
+
+        <h2 class="section-title">
+            🔧 Completed Service Costs
+        </h2>
+
+
+        {% for service in service_requests %}
+
+        <div class="cost-card">
+
+            <span class="status">
+                ✓ Completed
+            </span>
+
+
+            <h3 class="appliance-name">
+
+                🔧 {{ service.service_provider.service_name }}
+
+            </h3>
+
+
+            <div class="model">
+
+                Company:
+                {{ service.service_provider.company_name }}
+
+                <br><br>
+
+                Appliance:
+                {{ service.appliance.brand }}
+                -
+                {{ service.appliance.model_number }}
+
+                <br><br>
+
+                Service Date:
+                {{ service.request_date|date:"d M Y" }}
+
+            </div>
+
+
+            <div class="cost-list">
+
+
+                <!-- SERVICE COST -->
+
+                <div class="cost-box">
+
+                    <strong>
+                        🔧 Service Cost
+                    </strong>
+
+                    <div class="amount">
+
+                        ₹{{ service.service_cost }}
+
+                    </div>
+
+                </div>
+
+
+                <!-- REPAIR COST -->
+
+                <div class="cost-box">
+
+                    <strong>
+                        🛠️ Repair Cost
+                    </strong>
+
+                    <div class="amount">
+
+                        ₹{{ service.repair_cost }}
+
+                    </div>
+
+                </div>
+
+
+                <!-- SPARE PARTS -->
+
+                <div class="cost-box">
+
+                    <strong>
+                        ⚙️ Spare Parts Cost
+                    </strong>
+
+                    <div class="amount">
+
+                        ₹{{ service.spare_parts_cost }}
+
+                    </div>
+
+                </div>
+
+
+                <!-- OTHER COST -->
+
+                <div class="cost-box">
+
+                    <strong>
+                        💰 Other Cost
+                    </strong>
+
+                    <div class="amount">
+
+                        ₹{{ service.other_cost }}
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- TOTAL -->
+
+            <div class="total-box">
+
+                <strong>
+                    📊 Total Service Cost
+                </strong>
+
+                <div class="total-amount">
+
+                    ₹{{ service.service_cost|add:service.repair_cost|add:service.spare_parts_cost|add:service.other_cost }}
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        {% empty %}
+
+        <div class="cost-card">
+
+            <h3>
+                📭 No Completed Services
+            </h3>
+
+            <p class="no-cost">
+
+                Completed service costs will appear here.
+
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+
+        <hr class="divider">
+
+
+        <!-- APPLIANCE COSTS -->
+
+        <h2 class="section-title">
+            🏠 Appliance Maintenance Costs
+        </h2>
+
+        <p class="no-cost">
+            Costs directly recorded for your appliances.
+        </p>
+
+
+        {% for appliance in appliances %}
+
+        <div class="cost-card">
+
+
+            <h3 class="appliance-name">
+
+                🔧 {{ appliance.brand }}
+
+            </h3>
+
+
+            <div class="model">
+
+                Model:
+                {{ appliance.model_number }}
+
+            </div>
+
+
+            <div class="cost-list">
+
+
+                <!-- SERVICE COST -->
+
+                <div class="cost-box">
+
+                    <strong>
+                        🔧 Service Cost
+                    </strong>
+
+                    <div class="amount">
+
+                        ₹{{ appliance.service_cost }}
+
+                    </div>
+
+                </div>
+
+
+                <!-- REPAIR COST -->
+
+                <div class="cost-box">
+
+                    <strong>
+                        🛠️ Repair Cost
+                    </strong>
+
+                    <div class="amount">
+
+                        ₹{{ appliance.repair_cost }}
+
+                    </div>
+
+                </div>
+
+
+                <!-- SPARE PARTS -->
+
+                <div class="cost-box">
+
+                    <strong>
+                        ⚙️ Spare Parts Cost
+                    </strong>
+
+                    <div class="amount">
+
+                        ₹{{ appliance.spare_parts_cost }}
+
+                    </div>
+
+                </div>
+
+
+                <!-- OTHER COST -->
+
+                <div class="cost-box">
+
+                    <strong>
+                        💰 Other Cost
+                    </strong>
+
+                    <div class="amount">
+
+                        ₹{{ appliance.other_cost }}
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- APPLIANCE TOTAL -->
+
+            <div class="total-box">
+
+                <strong>
+                    📊 Total Maintenance Cost
+                </strong>
+
+                <div class="total-amount">
+
+                    ₹{{ appliance.service_cost|add:appliance.repair_cost|add:appliance.spare_parts_cost|add:appliance.other_cost }}
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        {% empty %}
+
+        <div class="cost-card">
+
+            <h3>
+                📭 No Appliances Found
+            </h3>
+
+            <p class="no-cost">
+
+                Add an appliance to track maintenance costs.
+
+            </p>
+
+        </div>
+
+        {% endfor %}
+
+
+        <!-- BACK BUTTON -->
+
+        <a href="{% url 'dashboard' %}" class="back-btn">
+
+            ← Back to Dashboard
+
+        </a>
+
+
+    </div>
+
+</body>
+
+</html>
