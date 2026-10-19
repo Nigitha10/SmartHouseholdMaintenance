@@ -1,7 +1,18 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 
 class ServiceProvider(models.Model):
+
+    # Service Manager
+    manager = models.OneToOneField(
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="managed_service_provider"
+    )
+
     company_name = models.CharField(max_length=150)
     owner_name = models.CharField(max_length=100)
     phone = models.CharField(max_length=15)
@@ -51,12 +62,14 @@ class ServiceRequest(models.Model):
         ServiceProvider,
         on_delete=models.CASCADE
     )
+
     appliance = models.ForeignKey(
-    "appliances.Appliance",
-    on_delete=models.CASCADE,
-    null=True,
-    blank=True
-)
+        "appliances.Appliance",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+
     request_date = models.DateTimeField(
         auto_now_add=True
     )
@@ -132,7 +145,17 @@ class Notification(models.Model):
             + " - "
             + self.message
         )
+
+
 class Offer(models.Model):
+    service_provider = models.ForeignKey(
+        ServiceProvider,
+        on_delete=models.CASCADE,
+        related_name="offers",
+        null=True,
+        blank=True
+    )
+
     title = models.CharField(max_length=150)
     description = models.TextField(blank=True)
     discount_percentage = models.DecimalField(

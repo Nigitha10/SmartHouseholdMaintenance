@@ -1,3 +1,4 @@
+﻿
 <!DOCTYPE html>
 <html lang="en">
 
@@ -57,20 +58,21 @@
             margin-right: 10px;
             margin-bottom: 10px;
             font-weight: bold;
+            transition: 0.2s;
         }
 
         .history-btn {
             background: #2563eb;
         }
 
-        .back-btn {
-            background: #64748b;
+        .history-btn:hover {
+            background: #1d4ed8;
         }
 
         /* STATISTICS */
         .stats {
             display: grid;
-            grid-template-columns: repeat(5, 1fr);
+            grid-template-columns: repeat(5, minmax(0, 1fr));
             gap: 15px;
             margin-bottom: 35px;
         }
@@ -135,11 +137,12 @@
         .request-card h2 {
             margin-top: 0;
             color: #1e3a8a;
+            overflow-wrap: anywhere;
         }
 
         .info-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 12px;
             margin-top: 15px;
         }
@@ -148,6 +151,7 @@
             background: #f8fafc;
             padding: 12px;
             border-radius: 8px;
+            overflow-wrap: anywhere;
         }
 
         .label {
@@ -196,12 +200,18 @@
             border-top: 1px solid #e5e7eb;
         }
 
+        .action-box label {
+            display: block;
+            margin-bottom: 10px;
+        }
+
         select,
         input {
             padding: 10px;
             border: 1px solid #cbd5e1;
             border-radius: 7px;
-            margin-right: 8px;
+            margin: 4px 5px 4px 0;
+            max-width: 100%;
         }
 
         .update-btn {
@@ -212,6 +222,35 @@
             color: white;
             font-weight: bold;
             cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .update-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .cost-heading {
+            margin: 18px 0 10px;
+            color: #1e3a8a;
+        }
+
+        .cost-inputs {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .cost-inputs input {
+            width: 100%;
+            margin: 0;
+        }
+
+        .total-cost {
+            margin-top: 15px;
+            padding: 14px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
         }
 
         .notes {
@@ -219,25 +258,45 @@
             background: #eff6ff;
             padding: 14px;
             border-radius: 8px;
+            overflow-wrap: anywhere;
         }
 
+        /* EMPTY STATE */
         .empty {
             background: white;
             padding: 40px;
             text-align: center;
             border-radius: 12px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        .empty h2 {
+            color: #1e3a8a;
+        }
+
+        .empty p {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        /* FOOTER */
+        .footer {
+            text-align: center;
+            padding: 22px;
+            color: #64748b;
+            font-size: 13px;
         }
 
         /* MOBILE */
         @media (max-width: 1000px) {
             .stats {
-                grid-template-columns: repeat(3, 1fr);
+                grid-template-columns: repeat(3, minmax(0, 1fr));
             }
         }
 
         @media (max-width: 700px) {
             .stats {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
             .info-grid {
@@ -247,10 +306,26 @@
             .header {
                 padding: 20px;
             }
+
+            .header h1 {
+                font-size: 23px;
+            }
+
+            .container {
+                padding: 0 12px;
+            }
+
+            .request-card {
+                padding: 17px;
+            }
         }
 
         @media (max-width: 500px) {
             .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .cost-inputs {
                 grid-template-columns: 1fr;
             }
         }
@@ -261,117 +336,76 @@
 
     <!-- HEADER -->
     <header class="header">
-
         <h1>🔧 Service Manager Dashboard</h1>
-
-        <p>
-            Manage customer service requests and maintenance services
-        </p>
-
+        <p>Manage customer service requests and maintenance services</p>
     </header>
-
 
     <div class="container">
 
-        <!-- TOP BUTTONS -->
+        <!-- MAINTENANCE HISTORY BUTTON ONLY -->
         <div class="top-buttons">
-
             <a href="{% url 'service_history' %}"
                class="btn history-btn">
                 🔧 Maintenance History
             </a>
-
-            <a href="{% url 'service_provider_list' %}"
-               class="btn back-btn">
-                ← Home Appliance Services
-            </a>
-
         </div>
-
 
         <!-- STATISTICS -->
         <div class="stats">
 
             <!-- TOTAL -->
             <a href="?status=all"
-               class="stat-card
-               {% if selected_status == 'all' %}active-card{% endif %}">
+               class="stat-card {% if selected_status == 'all' %}active-card{% endif %}">
 
                 <h3>Total Requests</h3>
-
-                <h2>
-                    {{ service_requests|length }}
-                </h2>
+                <h2>{{ total_requests|default:0 }}</h2>
 
             </a>
-
 
             <!-- PENDING -->
             <a href="?status=Pending"
-               class="stat-card
-               {% if selected_status == 'Pending' %}active-card{% endif %}">
+               class="stat-card {% if selected_status == 'Pending' %}active-card{% endif %}">
 
                 <h3>Pending</h3>
-
-                <h2>
-                    {{ pending_count }}
-                </h2>
+                <h2>{{ pending_count|default:0 }}</h2>
 
             </a>
-
 
             <!-- ACCEPTED -->
             <a href="?status=Accepted"
-               class="stat-card
-               {% if selected_status == 'Accepted' %}active-card{% endif %}">
+               class="stat-card {% if selected_status == 'Accepted' %}active-card{% endif %}">
 
                 <h3>Accepted</h3>
-
-                <h2>
-                    {{ accepted_count }}
-                </h2>
+                <h2>{{ accepted_count|default:0 }}</h2>
 
             </a>
-
 
             <!-- IN PROGRESS -->
             <a href="?status=In%20Progress"
-               class="stat-card
-               {% if selected_status == 'In Progress' %}active-card{% endif %}">
+               class="stat-card {% if selected_status == 'In Progress' %}active-card{% endif %}">
 
                 <h3>In Progress</h3>
-
-                <h2>
-                    {{ in_progress_count }}
-                </h2>
+                <h2>{{ in_progress_count|default:0 }}</h2>
 
             </a>
 
-
             <!-- COMPLETED -->
             <a href="?status=Completed"
-               class="stat-card
-               {% if selected_status == 'Completed' %}active-card{% endif %}">
+               class="stat-card {% if selected_status == 'Completed' %}active-card{% endif %}">
 
                 <h3>Completed</h3>
-
-                <h2>
-                    {{ completed_count }}
-                </h2>
+                <h2>{{ completed_count|default:0 }}</h2>
 
             </a>
 
         </div>
-
 
         <!-- CUSTOMER REQUESTS -->
         <h2 class="section-title">
             📋 Customer Service Requests
         </h2>
 
-
         <!-- FILTER INFORMATION -->
-
         {% if selected_status == "all" %}
 
             <div class="filter-info">
@@ -402,278 +436,228 @@
                 🟢 Showing Completed Requests
             </div>
 
-        {% endif %}
+        {% elif selected_status == "Rejected" %}
 
+            <div class="filter-info">
+                🔴 Showing Rejected Requests
+            </div>
+
+        {% endif %}
 
         {% if service_requests %}
 
             {% for item in service_requests %}
 
-            <div class="request-card">
+                <div class="request-card">
 
-                <h2>
-                    👤 {{ item.user.username }}
-                </h2>
+                    <!-- CUSTOMER -->
+                    <h2>
+                        👤 {{ item.user.username }}
+                    </h2>
 
+                    <div class="info-grid">
 
-                <div class="info-grid">
+                        <!-- SERVICE -->
+                        <div class="info-box">
+                            <span class="label">Service:</span>
+                            <br>
+                            {{ item.service_provider.service_name }}
+                        </div>
 
-                    <!-- SERVICE -->
-                    <div class="info-box">
+                        <!-- COMPANY -->
+                        <div class="info-box">
+                            <span class="label">Company:</span>
+                            <br>
+                            {{ item.service_provider.company_name|default:item.service_provider.service_name }}
+                        </div>
 
-                        <span class="label">
-                            Service:
-                        </span>
+                        <!-- REQUEST DATE -->
+                        <div class="info-box">
+                            <span class="label">Request Date:</span>
+                            <br>
+                            {{ item.request_date|date:"d M Y, h:i A"|default:"Not available" }}
+                        </div>
 
-                        <br>
+                        <!-- STATUS -->
+                        <div class="info-box">
+                            <span class="label">Status:</span>
+                            <br>
 
-                        {{ item.service_provider.service_name }}
+                            {% if item.status == "Pending" %}
 
-                    </div>
+                                <span class="status pending">Pending</span>
 
+                            {% elif item.status == "Accepted" %}
 
-                    <!-- COMPANY -->
-                    <div class="info-box">
+                                <span class="status accepted">Accepted</span>
 
-                        <span class="label">
-                            Company:
-                        </span>
+                            {% elif item.status == "In Progress" %}
 
-                        <br>
+                                <span class="status progress">In Progress</span>
 
-                        {{ item.service_provider.company_name }}
+                            {% elif item.status == "Completed" %}
 
-                    </div>
+                                <span class="status completed">Completed</span>
 
+                            {% elif item.status == "Rejected" %}
 
-                    <!-- REQUEST DATE -->
-                    <div class="info-box">
+                                <span class="status rejected">Rejected</span>
 
-                        <span class="label">
-                            Request Date:
-                        </span>
+                            {% else %}
 
-                        <br>
+                                <span class="status">{{ item.status }}</span>
 
-                        {{ item.request_date|date:"d M Y, h:i A" }}
+                            {% endif %}
+                        </div>
 
-                    </div>
+                        <!-- APPLIANCE -->
+                        {% if item.appliance %}
 
+                            <div class="info-box">
+                                <span class="label">Appliance:</span>
+                                <br>
 
-                    <!-- STATUS -->
-                    <div class="info-box">
-
-                        <span class="label">
-                            Status:
-                        </span>
-
-                        <br>
-
-
-                        {% if item.status == "Pending" %}
-
-                            <span class="status pending">
-                                Pending
-                            </span>
-
-
-                        {% elif item.status == "Accepted" %}
-
-                            <span class="status accepted">
-                                Accepted
-                            </span>
-
-
-                        {% elif item.status == "In Progress" %}
-
-                            <span class="status progress">
-                                In Progress
-                            </span>
-
-
-                        {% elif item.status == "Completed" %}
-
-                            <span class="status completed">
-                                Completed
-                            </span>
-
-
-                        {% elif item.status == "Rejected" %}
-
-                            <span class="status rejected">
-                                Rejected
-                            </span>
+                                {{ item.appliance.brand }}
+                                -
+                                {{ item.appliance.model_number }}
+                            </div>
 
                         {% endif %}
 
                     </div>
 
+                    <!-- NOTES -->
+                    {% if item.notes %}
 
-                    <!-- APPLIANCE -->
-                    {% if item.appliance %}
-
-                    <div class="info-box">
-
-                        <span class="label">
-                            Appliance:
-                        </span>
-
-                        <br>
-
-                        {{ item.appliance.brand }}
-                        -
-                        {{ item.appliance.model_number }}
-
-                    </div>
+                        <div class="notes">
+                            <strong>📝 Service Notes:</strong>
+                            <br><br>
+                            {{ item.notes }}
+                        </div>
 
                     {% endif %}
 
+                    <!-- ACTION FORM -->
+                    <div class="action-box">
+
+                        <form method="POST"
+                              action="{% url 'update_service_request' item.id %}">
+
+                            {% csrf_token %}
+
+                            <label for="status-{{ item.id }}">
+                                <strong>Update Status:</strong>
+                            </label>
+
+                            <select name="status"
+                                    id="status-{{ item.id }}"
+                                    required>
+
+                                <option value="Pending"
+                                    {% if item.status == "Pending" %}selected{% endif %}>
+                                    Pending
+                                </option>
+
+                                <option value="Accepted"
+                                    {% if item.status == "Accepted" %}selected{% endif %}>
+                                    Accepted
+                                </option>
+
+                                <option value="In Progress"
+                                    {% if item.status == "In Progress" %}selected{% endif %}>
+                                    In Progress
+                                </option>
+
+                                <option value="Completed"
+                                    {% if item.status == "Completed" %}selected{% endif %}>
+                                    Completed
+                                </option>
+
+                                <option value="Rejected"
+                                    {% if item.status == "Rejected" %}selected{% endif %}>
+                                    Rejected
+                                </option>
+
+                            </select>
+
+                            <!-- COST DETAILS -->
+                            <h3 class="cost-heading">
+                                💰 Maintenance Cost Details
+                            </h3>
+
+                            <div class="cost-inputs">
+
+                                <input
+                                    type="number"
+                                    name="service_cost"
+                                    placeholder="Service Cost"
+                                    min="0"
+                                    step="0.01"
+                                    value="{{ item.service_cost|default_if_none:'' }}"
+                                >
+
+                                <input
+                                    type="number"
+                                    name="repair_cost"
+                                    placeholder="Repair Cost"
+                                    min="0"
+                                    step="0.01"
+                                    value="{{ item.repair_cost|default_if_none:'' }}"
+                                >
+
+                                <input
+                                    type="number"
+                                    name="spare_parts_cost"
+                                    placeholder="Spare Parts Cost"
+                                    min="0"
+                                    step="0.01"
+                                    value="{{ item.spare_parts_cost|default_if_none:'' }}"
+                                >
+
+                                <input
+                                    type="number"
+                                    name="other_cost"
+                                    placeholder="Other Cost"
+                                    min="0"
+                                    step="0.01"
+                                    value="{{ item.other_cost|default_if_none:'' }}"
+                                >
+
+                            </div>
+
+                            <!-- TOTAL COST -->
+                            <div class="total-cost">
+                                <strong>💰 Total Maintenance Cost:</strong>
+                                <span>
+                                    ₹{{ item.service_cost|default_if_none:0|add:item.repair_cost|default_if_none:0|add:item.spare_parts_cost|default_if_none:0|add:item.other_cost|default_if_none:0 }}
+                                </span>
+                            </div>
+
+                            <br>
+
+                            <button type="submit" class="update-btn">
+                                Update Request
+                            </button>
+
+                        </form>
+
+                    </div>
+
                 </div>
-
-
-                <!-- NOTES -->
-                {% if item.notes %}
-
-                <div class="notes">
-
-                    <strong>
-                        Service Notes:
-                    </strong>
-
-                    <br>
-
-                    {{ item.notes }}
-
-                </div>
-
-                {% endif %}
-
-
-            <!-- ACTION -->
-<div class="action-box">
-
-    <form method="POST"
-          action="{% url 'update_service_request' item.id %}">
-
-        {% csrf_token %}
-
-        <label>
-            <strong>Update Status:</strong>
-        </label>
-
-        <select name="status">
-
-            <option value="Pending"
-                {% if item.status == "Pending" %}selected{% endif %}>
-                Pending
-            </option>
-
-            <option value="Accepted"
-                {% if item.status == "Accepted" %}selected{% endif %}>
-                Accepted
-            </option>
-
-            <option value="In Progress"
-                {% if item.status == "In Progress" %}selected{% endif %}>
-                In Progress
-            </option>
-
-            <option value="Completed"
-                {% if item.status == "Completed" %}selected{% endif %}>
-                Completed
-            </option>
-
-            <option value="Rejected"
-                {% if item.status == "Rejected" %}selected{% endif %}>
-                Rejected
-            </option>
-
-        </select>
-
-
-        <!-- COST DETAILS -->
-
-        <div style="margin-top: 15px;">
-
-            <strong>💰 Maintenance Cost Details</strong>
-
-            <br><br>
-
-            <input
-                type="number"
-                name="service_cost"
-                placeholder="Service Cost"
-                min="0"
-                step="0.01"
-                value="{{ item.service_cost }}"
-            >
-
-            <input
-                type="number"
-                name="repair_cost"
-                placeholder="Repair Cost"
-                min="0"
-                step="0.01"
-                value="{{ item.repair_cost }}"
-            >
-
-            <input
-                type="number"
-                name="spare_parts_cost"
-                placeholder="Spare Parts Cost"
-                min="0"
-                step="0.01"
-                value="{{ item.spare_parts_cost }}"
-            >
-
-            <input
-                type="number"
-                name="other_cost"
-                placeholder="Other Cost"
-                min="0"
-                step="0.01"
-                value="{{ item.other_cost }}"
-            >
-
-        </div>
-
-
-       <br>
-
-<div style="margin-top: 12px; padding: 12px; background: #f8fafc; border-radius: 8px;">
-    <strong>Total Maintenance Cost:</strong>
-    ₹{{ item.service_cost|add:item.repair_cost|add:item.spare_parts_cost|add:item.other_cost }}
-</div>
-
-<br>
-
-<button type="submit"
-        class="update-btn">
-    Update
-</button>
-    </form>
-
-</div>
-
-            </div>
 
             {% endfor %}
-
 
         {% else %}
 
             <div class="empty">
 
-                <h2>
-                    📭 No {{ selected_status }} Requests
-                </h2>
+                <h2>📭 No {{ selected_status }} Requests</h2>
 
                 <p>
                     There are currently no requests with this status.
                 </p>
 
-                <a href="?status=all"
-                   class="btn back-btn">
+                <a href="?status=all" class="btn history-btn">
                     View All Requests
                 </a>
 
@@ -683,6 +667,11 @@
 
     </div>
 
-</body>
+    <!-- FOOTER -->
+    <footer class="footer">
+        Smart Household Maintenance System
+    </footer>
 
+</body>
 </html>
+

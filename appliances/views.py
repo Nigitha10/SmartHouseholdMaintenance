@@ -152,11 +152,12 @@ def appliance_list(request):
 # APPLIANCE DETAIL
 # =========================================================
 
+@login_required
 def appliance_detail(request, pk):
-
     appliance = get_object_or_404(
         Appliance,
-        pk=pk
+        pk=pk,
+        owner=request.user
     )
 
     return render(
@@ -167,7 +168,6 @@ def appliance_detail(request, pk):
             "today": date.today()
         }
     )
-
 
 # =========================================================
 # EDIT APPLIANCE
@@ -298,64 +298,56 @@ def edit_appliance(request, pk):
 # QR CODES
 # =========================================================
 
+@login_required
 def qr_codes(request):
-
-    appliances = Appliance.objects.all()
+    # Login pannina user-oda appliances mattum
+    appliances = Appliance.objects.filter(owner=request.user)
 
     qr_data = []
 
     for appliance in appliances:
-
-        # Create URL if QR URL doesn't exist
-        if not appliance.qr_code:
-
-            appliance.qr_code = (
-                f"https://smarthouseholdmaintenance.onrender.com/"
-                f"appliances/{appliance.id}/"
-            )
-
-            appliance.save()
+        # Always generate the correct appliance details URL
+        appliance.qr_code = request.build_absolute_uri(
+            f"/appliances/{appliance.id}/"
+        )
+        appliance.save(update_fields=["qr_code"])
 
         url = appliance.qr_code
 
         # Generate QR code
         qr = qrcode.make(url)
-
         buffer = BytesIO()
-
-        qr.save(
-            buffer,
-            format="PNG"
-        )
+        qr.save(buffer, format="PNG")
 
         # Convert image to Base64
         qr_code = base64.b64encode(
             buffer.getvalue()
         ).decode()
 
-        qr_data.append(
-            {
-                "appliance": appliance,
-                "qr_code": qr_code
-            }
-        )
+        qr_data.append({
+            "appliance": appliance,
+            "qr_code": qr_code,
+        })
 
     return render(
         request,
         "appliances/qr_codes.html",
-        {
-            "qr_data": qr_data
-        }
+        {"qr_data": qr_data},
     )
-
 
 # =========================================================
 # SERVICE & MAINTENANCE
 # =========================================================
 
-def service(request):
+# =========================================================
+# SERVICE & MAINTENANCE
+# =========================================================
 
-    appliances = Appliance.objects.all()
+@login_required
+def service(request):
+    appliances = Appliance.objects.filter(
+        owner=request.user
+    )
 
     return render(
         request,
@@ -387,9 +379,15 @@ def reminders(request):
 # MAINTENANCE HISTORY
 # =========================================================
 
-def history(request):
+# =========================================================
+# MAINTENANCE HISTORY
+# =========================================================
 
-    appliances = Appliance.objects.all()
+@login_required
+def history(request):
+    appliances = Appliance.objects.filter(
+        owner=request.user
+    )
 
     return render(
         request,
@@ -404,9 +402,15 @@ def history(request):
 # MAINTENANCE COST
 # =========================================================
 
-def maintenance_cost(request):
+# =========================================================
+# MAINTENANCE COST
+# =========================================================
 
-    appliances = Appliance.objects.all()
+@login_required
+def maintenance_cost(request):
+    appliances = Appliance.objects.filter(
+        owner=request.user
+    )
 
     return render(
         request,
@@ -415,43 +419,48 @@ def maintenance_cost(request):
             "appliances": appliances
         }
     )
-def health_score(request):
+# =========================================================
+# APPLIANCE HEALTH SCORE
+# =========================================================
 
-    appliances = Appliance.objects.all()
+@login_required
+def health_score(request):
+    appliances = Appliance.objects.filter(
+        owner=request.user
+    )
+
     today = date.today()
 
     for appliance in appliances:
-
         score = 100
 
-        # 1. Warranty expired
+        # Warranty expired
         if appliance.warranty_expiry_date:
             if appliance.warranty_expiry_date < today:
                 score -= 15
 
-        # 2. No service history
+        # No service history
         if not appliance.last_service_date:
             score -= 15
 
-        # 3. Service overdue
+        # Service overdue
         if appliance.next_service_date:
             if appliance.next_service_date < today:
                 score -= 20
 
-        # 4. Maintenance cost
+        # Maintenance cost
         if appliance.maintenance_cost:
-
             if appliance.maintenance_cost >= 5000:
                 score -= 20
-
             elif appliance.maintenance_cost >= 2000:
                 score -= 10
-
             elif appliance.maintenance_cost >= 1000:
                 score -= 5
 
-        # Keep score between 0 and 100
-        appliance.health_score = max(0, min(score, 100))
+        appliance.health_score = max(
+            0,
+            min(score, 100)
+        )
 
         appliance.save()
 

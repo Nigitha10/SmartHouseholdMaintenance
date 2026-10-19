@@ -1,5 +1,5 @@
-
 from django.db import models
+from django.conf import settings
 
 
 class Appliance(models.Model):
@@ -83,5 +83,23 @@ class Appliance(models.Model):
 
     def __str__(self):
         return f"{self.brand} - {self.model_number}"
+        from django.conf import settings
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="profile"
+    )
+
+    mobile_number = models.CharField(
+        max_length=15,
+        blank=True,
+        default=""
+    )
+
+def __str__(self):
+    return f"{self.user.username} Profile"
 
 

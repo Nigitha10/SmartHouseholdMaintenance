@@ -1,15 +1,13 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Appliance Details | Smart Household Maintenance</title>
 
     <style>
-
         * {
             box-sizing: border-box;
         }
@@ -20,8 +18,6 @@
             background: linear-gradient(135deg, #eff6ff, #f8fafc);
             color: #334155;
         }
-
-        /* Header */
 
         .header {
             background: #1e3a8a;
@@ -41,17 +37,11 @@
             font-size: 14px;
         }
 
-
-        /* Container */
-
         .container {
             width: 92%;
             max-width: 750px;
             margin: 30px auto;
         }
-
-
-        /* Main Card */
 
         .details-card {
             background: white;
@@ -61,7 +51,6 @@
             box-shadow: 0 8px 25px rgba(30, 58, 138, 0.09);
         }
 
-
         .title-section {
             text-align: center;
             padding-bottom: 20px;
@@ -69,21 +58,17 @@
             margin-bottom: 25px;
         }
 
-
         .title-section h2 {
             color: #1e3a8a;
             margin: 0;
             font-size: 25px;
+            overflow-wrap: anywhere;
         }
-
 
         .title-section p {
             color: #64748b;
             margin: 8px 0 0;
         }
-
-
-        /* Section */
 
         .section-title {
             color: #1e3a8a;
@@ -93,23 +78,19 @@
             border-bottom: 2px solid #e0e7ff;
         }
 
-
-        /* Details Grid */
-
         .details {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 15px;
         }
-
 
         .detail-box {
             background: #eef2ff;
             padding: 15px;
             border-radius: 10px;
             border: 1px solid #e0e7ff;
+            overflow-wrap: anywhere;
         }
-
 
         .detail-box strong {
             display: block;
@@ -118,15 +99,11 @@
             margin-bottom: 6px;
         }
 
-
         .detail-box span {
             color: #1e3a8a;
             font-weight: bold;
             font-size: 15px;
         }
-
-
-        /* Warranty */
 
         .warranty-box {
             background: #f8fafc;
@@ -135,29 +112,24 @@
             margin-top: 15px;
         }
 
-
         .warranty-status {
             font-weight: bold;
             padding: 8px 14px;
             border-radius: 20px;
             display: inline-block;
             font-size: 13px;
+            margin-left: 8px;
         }
-
 
         .active {
             color: #166534;
             background: #dcfce7;
         }
 
-
         .expired {
             color: #991b1b;
             background: #fee2e2;
         }
-
-
-        /* Service Notes */
 
         .notes {
             background: #f8fafc;
@@ -165,16 +137,15 @@
             border-radius: 10px;
             color: #475569;
             line-height: 1.6;
+            overflow-wrap: anywhere;
         }
-
-
-        /* Back Button */
 
         .back-btn {
             display: block;
-            width: 200px;
-            margin: 28px auto 0;
-            padding: 12px;
+            width: fit-content;
+            max-width: 100%;
+            margin: 20px auto 0;
+            padding: 12px 20px;
             text-align: center;
             background: #2563eb;
             color: white;
@@ -183,32 +154,25 @@
             font-weight: bold;
         }
 
-
         .back-btn:hover {
             background: #1d4ed8;
         }
-
-
-        /* Footer */
 
         .footer {
             text-align: center;
             color: #94a3b8;
             font-size: 12px;
             margin-top: 20px;
+            padding-bottom: 20px;
         }
 
-
-        /* Mobile */
-
         @media (max-width: 600px) {
-
             .container {
-                width: 90%;
+                width: 92%;
             }
 
             .details-card {
-                padding: 22px;
+                padding: 20px;
             }
 
             .details {
@@ -218,298 +182,181 @@
             .header h1 {
                 font-size: 24px;
             }
-
         }
-
     </style>
-
 </head>
-
 
 <body>
 
-
-    <!-- Header -->
-
     <div class="header">
-
-        <h1>
-            🏠 Smart Household Maintenance
-        </h1>
-
-        <p>
-            Appliance information and maintenance details
-        </p>
-
+        <h1>Smart Household Maintenance</h1>
+        <p>Appliance information and maintenance details</p>
     </div>
 
-
     <div class="container">
-
-
         <div class="details-card">
 
-
-            <!-- Title -->
-
+            <!-- Appliance Title -->
             <div class="title-section">
-
-                <h2>
-                    🔧 {{ appliance.brand }} - {{ appliance.model_number }}
-                </h2>
-
-                <p>
-                    Appliance Details
-                </p>
-
+                <h2>{{ appliance.brand }} - {{ appliance.model_number }}</h2>
+                <p>Appliance Details</p>
             </div>
-
 
             <!-- Basic Information -->
-
-            <div class="section-title">
-                📋 Basic Information
-            </div>
-
+            <div class="section-title">Basic Information</div>
 
             <div class="details">
-
-
                 <div class="detail-box">
-
-                    <strong>
-                        Appliance Type
-                    </strong>
-
-                    <span>
-                        {{ appliance.get_appliance_type_display }}
-                    </span>
-
+                    <strong>Appliance Type</strong>
+                    <span>{{ appliance.get_appliance_type_display }}</span>
                 </div>
 
-
                 <div class="detail-box">
-
-                    <strong>
-                        Brand
-                    </strong>
-
-                    <span>
-                        {{ appliance.brand }}
-                    </span>
-
+                    <strong>Brand</strong>
+                    <span>{{ appliance.brand }}</span>
                 </div>
 
-
                 <div class="detail-box">
-
-                    <strong>
-                        Model Number
-                    </strong>
-
-                    <span>
-                        {{ appliance.model_number }}
-                    </span>
-
+                    <strong>Model Number</strong>
+                    <span>{{ appliance.model_number }}</span>
                 </div>
 
-
                 <div class="detail-box">
-
-                    <strong>
-                        Customer Care
-                    </strong>
-
-                    <span>
-                        {{ appliance.customer_care_number|default:"Not provided" }}
-                    </span>
-
+                    <strong>Customer Care</strong>
+                    <span>{{ appliance.customer_care_number|default:"Not provided" }}</span>
                 </div>
 
-
                 <div class="detail-box">
-
-                    <strong>
-                        Purchase Date
-                    </strong>
-
-                    <span>
-                        {{ appliance.purchase_date }}
-                    </span>
-
+                    <strong>Purchase Date</strong>
+                    <span>{{ appliance.purchase_date|default:"Not provided" }}</span>
                 </div>
 
-
                 <div class="detail-box">
-
-                    <strong>
-                        Service Interval
-                    </strong>
-
-                    <span>
-                        {{ appliance.service_interval_months }} months
-                    </span>
-
+                    <strong>Service Interval</strong>
+                    <span>{{ appliance.service_interval_months }} months</span>
                 </div>
-
-
             </div>
-
 
             <!-- Warranty -->
-
-            <div class="section-title">
-                🛡️ Warranty Information
-            </div>
-
+            <div class="section-title">Warranty Information</div>
 
             <div class="details">
-
-
                 <div class="detail-box">
-
-                    <strong>
-                        Warranty Start Date
-                    </strong>
-
-                    <span>
-                        {{ appliance.warranty_start_date|default:"Not provided" }}
-                    </span>
-
+                    <strong>Warranty Start Date</strong>
+                    <span>{{ appliance.warranty_start_date|default:"Not provided" }}</span>
                 </div>
 
-
                 <div class="detail-box">
-
-                    <strong>
-                        Warranty Expiry Date
-                    </strong>
-
-                    <span>
-                        {{ appliance.warranty_expiry_date|default:"Not provided" }}
-                    </span>
-
+                    <strong>Warranty Expiry Date</strong>
+                    <span>{{ appliance.warranty_expiry_date|default:"Not provided" }}</span>
                 </div>
-
-
             </div>
-
 
             {% if appliance.warranty_expiry_date %}
-
                 <div class="warranty-box">
-
-                    <strong>
-                        Warranty Status:
-                    </strong>
-
+                    <strong>Warranty Status:</strong>
 
                     {% if appliance.warranty_expiry_date >= today %}
-
-                        <span class="warranty-status active">
-                            🟢 Active
-                        </span>
-
+                        <span class="warranty-status active">Active</span>
                     {% else %}
-
-                        <span class="warranty-status expired">
-                            🔴 Expired
-                        </span>
-
+                        <span class="warranty-status expired">Expired</span>
                     {% endif %}
-
                 </div>
-
             {% endif %}
 
-
-            <!-- Service -->
-
-            <div class="section-title">
-                🛠️ Service & Maintenance
-            </div>
-
+            <!-- Service and Maintenance -->
+            <div class="section-title">Service &amp; Maintenance</div>
 
             <div class="details">
-
-
                 <div class="detail-box">
-
-                    <strong>
-                        Last Service Date
-                    </strong>
-
-                    <span>
-                        {{ appliance.last_service_date|default:"Not provided" }}
-                    </span>
-
+                    <strong>Last Service Date</strong>
+                    <span>{{ appliance.last_service_date|default:"Not provided" }}</span>
                 </div>
 
-
                 <div class="detail-box">
-
-                    <strong>
-                        Next Service Date
-                    </strong>
-
-                    <span>
-                        {{ appliance.next_service_date|default:"Not provided" }}
-                    </span>
-
+                    <strong>Next Service Date</strong>
+                    <span>{{ appliance.next_service_date|default:"Not provided" }}</span>
                 </div>
 
-
                 <div class="detail-box">
-
-                    <strong>
-                        Service Type
-                    </strong>
-
-                    <span>
-                        {{ appliance.service_type|default:"Not provided" }}
-                    </span>
-
+                    <strong>Service Type</strong>
+                    <span>{{ appliance.service_type|default:"Not provided" }}</span>
                 </div>
-
-
             </div>
-
 
             <!-- Service Notes -->
-
-            <div class="section-title">
-                📝 Service Notes
-            </div>
-
+            <div class="section-title">Service Notes</div>
 
             <div class="notes">
-
-                {{ appliance.service_notes|default:"No service notes available." }}
-
+                {{ appliance.service_notes|default:"No service notes available."|linebreaksbr }}
             </div>
 
+            <!-- Maintenance Costs -->
+            <div class="section-title">Maintenance Cost</div>
 
-            <!-- Back -->
+            <div class="details">
+                <div class="detail-box">
+                    <strong>Recorded Maintenance Cost</strong>
+                    <span>Rs. {{ appliance.maintenance_cost|default:0 }}</span>
+                </div>
 
-            <a
-                href="{% url 'appliance_list' %}"
-                class="back-btn"
-            >
-                ← Back to Appliances
+                <div class="detail-box">
+                    <strong>Service Cost</strong>
+                    <span>Rs. {{ appliance.service_cost|default:0 }}</span>
+                </div>
+
+                <div class="detail-box">
+                    <strong>Repair Cost</strong>
+                    <span>Rs. {{ appliance.repair_cost|default:0 }}</span>
+                </div>
+
+                <div class="detail-box">
+                    <strong>Spare Parts Cost</strong>
+                    <span>Rs. {{ appliance.spare_parts_cost|default:0 }}</span>
+                </div>
+
+                <div class="detail-box">
+                    <strong>Other Cost</strong>
+                    <span>Rs. {{ appliance.other_cost|default:0 }}</span>
+                </div>
+            </div>
+
+            <!-- Appliance Health Score -->
+            <div class="section-title">Appliance Health Score</div>
+
+            <div class="details">
+                <div class="detail-box">
+                    <strong>Current Health Score</strong>
+                    <span>{{ appliance.health_score }} / 100</span>
+                </div>
+            </div>
+
+            <!-- Purchase Bill -->
+            <div class="section-title">Purchase Bill</div>
+
+            <div class="notes">
+                {% if appliance.bill %}
+                    <p>A bill has been uploaded for this appliance.</p>
+                    <a href="{% url 'view_bill' appliance.id %}" class="back-btn">
+                        View Uploaded Bill
+                    </a>
+                {% else %}
+                    No bill uploaded for this appliance.
+                {% endif %}
+            </div>
+
+            <!-- Back to Appliances -->
+            <a href="{% url 'appliance_list' %}" class="back-btn">
+                Back to Appliances
             </a>
 
-
         </div>
-
 
         <div class="footer">
             Smart Household Maintenance Tracking System
         </div>
-
-
     </div>
 
-
 </body>
-
 </html>
+

@@ -1,11 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Offers & Discounts</title>
+    <title>Offers and Discounts</title>
 
     <style>
         * {
@@ -15,55 +13,58 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            color: #1f2937;
+            background: #f1f5f9;
+            color: #1e293b;
         }
 
         .header {
-            background: #1e3a8a;
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
             color: white;
-            padding: 25px 40px;
+            padding: 32px 7%;
         }
 
         .header h1 {
             margin: 0;
-            font-size: 30px;
+            font-size: 32px;
         }
 
         .header p {
-            margin: 8px 0 0;
+            margin-bottom: 0;
             color: #dbeafe;
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1150px;
             margin: 35px auto;
-            padding: 0 20px;
+            padding: 0 22px;
         }
 
         .top-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 15px;
             margin-bottom: 25px;
         }
 
         .top-bar h2 {
-            margin: 0;
             color: #1e3a8a;
+            margin: 0;
+        }
+
+        .back-btn,
+        .explore-btn {
+            display: inline-block;
+            text-decoration: none;
+            padding: 11px 17px;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
         }
 
         .back-btn {
-            text-decoration: none;
-            background: #2563eb;
-            color: white;
-            padding: 10px 18px;
-            border-radius: 8px;
-            font-weight: bold;
-        }
-
-        .back-btn:hover {
-            background: #1d4ed8;
+            background: #e2e8f0;
+            color: #1e293b;
         }
 
         .offers-grid {
@@ -74,80 +75,85 @@
 
         .offer-card {
             background: white;
-            border-radius: 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
-            border: 1px solid #e5e7eb;
-            position: relative;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, 0.06);
+            display: flex;
+            flex-direction: column;
         }
 
         .offer-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-4px);
             transition: 0.2s;
+            box-shadow: 0 10px 25px rgba(15, 23, 42, 0.10);
         }
 
         .discount {
-            position: absolute;
-            top: 18px;
-            right: 18px;
-            background: #dc2626;
-            color: white;
-            padding: 7px 12px;
+            display: inline-block;
+            background: #dcfce7;
+            color: #166534;
+            padding: 8px 12px;
             border-radius: 20px;
             font-weight: bold;
             font-size: 14px;
+            align-self: flex-start;
+            margin-bottom: 15px;
         }
 
         .offer-card h3 {
-            margin-top: 0;
-            margin-right: 90px;
             color: #1e3a8a;
-            font-size: 21px;
+            margin: 0 0 12px;
+            font-size: 22px;
         }
 
         .description {
-            color: #4b5563;
-            line-height: 1.6;
-            min-height: 60px;
+            color: #64748b;
+            line-height: 1.7;
+            flex-grow: 1;
+        }
+
+        .company-name {
+            background: #eff6ff;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 12px 0;
+            color: #1d4ed8;
+            font-weight: bold;
         }
 
         .date-box {
             background: #f8fafc;
             border-radius: 8px;
-            padding: 12px;
-            margin-top: 18px;
+            padding: 13px;
+            margin: 10px 0 18px;
             font-size: 14px;
+            line-height: 1.8;
         }
 
-        .date-box strong {
-            color: #1e3a8a;
+        .explore-btn {
+            background: #2563eb;
+            color: white;
+            margin-top: auto;
         }
 
-        .status {
-            display: inline-block;
-            margin-top: 15px;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: bold;
+        .explore-btn:hover {
+            background: #1d4ed8;
         }
 
-        .active {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .inactive {
-            background: #fee2e2;
-            color: #991b1b;
+        .disabled-btn {
+            background: #cbd5e1;
+            color: #475569;
+            padding: 11px;
+            border-radius: 8px;
+            text-align: center;
         }
 
         .empty {
             background: white;
+            padding: 45px 20px;
             text-align: center;
-            padding: 50px 20px;
-            border-radius: 14px;
-            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.08);
+            border-radius: 15px;
         }
 
         .empty h3 {
@@ -155,19 +161,17 @@
         }
 
         @media (max-width: 600px) {
-
             .header {
-                padding: 20px;
+                padding: 25px 20px;
             }
 
             .header h1 {
-                font-size: 24px;
+                font-size: 26px;
             }
 
             .top-bar {
-                flex-direction: column;
                 align-items: flex-start;
-                gap: 15px;
+                flex-direction: column;
             }
         }
     </style>
@@ -175,82 +179,84 @@
 
 <body>
 
-    <div class="header">
-        <h1>🎁 Offers & Discounts</h1>
-        <p>Explore the latest appliance service offers and special discounts.</p>
-    </div>
+    <header class="header">
+        <h1>Offers and Discounts</h1>
+        <p>Discover appliance services and special offers from our service companies.</p>
+    </header>
 
-    <div class="container">
+    <main class="container">
 
         <div class="top-bar">
             <h2>Available Offers</h2>
-
-            <a href="{% url 'dashboard' %}" class="back-btn">
-                ← Back to Dashboard
-            </a>
+            <a href="{% url 'dashboard' %}" class="back-btn">Back to Dashboard</a>
         </div>
 
         {% if offers %}
+            <div class="offers-grid">
 
-        <div class="offers-grid">
+                {% for offer in offers %}
+                    <article class="offer-card">
 
-            {% for offer in offers %}
+                        <span class="discount">
+                            {{ offer.discount_percentage }}% OFF
+                        </span>
 
-            <div class="offer-card">
+                        <h3>{{ offer.title }}</h3>
 
-                <div class="discount">
-                    {{ offer.discount_percentage }}% OFF
-                </div>
+                        <p class="description">
+                            {% if offer.description %}
+                                {{ offer.description }}
+                            {% else %}
+                                Explore this special appliance service offer.
+                            {% endif %}
+                        </p>
 
-                <h3>
-                    {{ offer.title }}
-                </h3>
+                        {% if offer.service_provider %}
+                            <div class="company-name">
+                                Company: {{ offer.service_provider.company_name }}
+                            </div>
 
-                <p class="description">
-                    {{ offer.description }}
-                </p>
+                            <div class="date-box">
+                                <strong>Service:</strong>
+                                {{ offer.service_provider.service_name }}<br>
 
-                <div class="date-box">
-                    <strong>Valid From:</strong>
-                    {{ offer.valid_from }}
-                    <br><br>
-                    <strong>Valid Until:</strong>
-                    {{ offer.valid_until }}
-                </div>
+                                <strong>Offer valid from:</strong>
+                                {{ offer.valid_from|date:"d M Y" }}<br>
 
-                {% if offer.is_active %}
-                    <span class="status active">
-                        ✓ Active Offer
-                    </span>
-                {% else %}
-                    <span class="status inactive">
-                        ✕ Inactive Offer
-                    </span>
-                {% endif %}
+                                <strong>Offer valid until:</strong>
+                                {{ offer.valid_until|date:"d M Y" }}
+                            </div>
+
+                            <a href="{% url 'company_detail' offer.service_provider.id %}"
+                               class="explore-btn">
+                                Explore Company
+                            </a>
+                        {% else %}
+                            <div class="date-box">
+                                <strong>Offer valid from:</strong>
+                                {{ offer.valid_from|date:"d M Y" }}<br>
+
+                                <strong>Offer valid until:</strong>
+                                {{ offer.valid_until|date:"d M Y" }}
+                            </div>
+
+                            <div class="disabled-btn">
+                                Company details not available
+                            </div>
+                        {% endif %}
+
+                    </article>
+                {% endfor %}
 
             </div>
-
-            {% endfor %}
-
-        </div>
-
         {% else %}
-
-        <div class="empty">
-
-            <h3>📭 No Offers Available</h3>
-
-            <p>
-                There are currently no offers or discounts available.
-                Please check again later.
-            </p>
-
-        </div>
-
+            <div class="empty">
+                <h3>No Offers Available</h3>
+                <p>New offers will appear here when service companies publish them.</p>
+            </div>
         {% endif %}
 
-    </div>
+    </main>
 
 </body>
-
 </html>

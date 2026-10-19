@@ -1,9 +1,11 @@
+
 from datetime import date
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 from appliances.models import Appliance
 from service_provider.models import (
@@ -13,13 +15,35 @@ from service_provider.models import (
     Offer
 )
 
+from .models import UserProfile
+from django.shortcuts import render, redirect, get_object_or_404
+
+from email_utils import send_twilio_email
+
+
+# =========================
+# USER REGISTRATION
+# =========================
+
 
 def register(request):
     if request.method == "POST":
-        username = request.POST.get("username")
-        email = request.POST.get("email")
-        password = request.POST.get("password")
-        confirm_password = request.POST.get("confirm_password")
+        username = request.POST.get("username", "").strip()
+        email = request.POST.get("email", "").strip()
+        mobile_number = request.POST.get("mobile_number", "").strip()
+        password = request.POST.get("password", "")
+        confirm_password = request.POST.get("confirm_password", "")
+
+        if not username or not email or not password or not mobile_number:
+            messages.error(request, "All fields are required.")
+            return redirect("register")
+
+        if not mobile_number.isdigit() or not 10 <= len(mobile_number) <= 15:
+            messages.error(
+                request,
+                "Enter a valid mobile number using digits only."
+            )
+            return redirect("register")
 
         if password != confirm_password:
             messages.error(request, "Passwords do not match.")
@@ -29,17 +53,59 @@ def register(request):
             messages.error(request, "Username already exists.")
             return redirect("register")
 
-        User.objects.create_user(
+        user = User.objects.create_user(
             username=username,
             email=email,
             password=password
         )
 
-        messages.success(request, "Registration successful!")
+        UserProfile.objects.create(
+            user=user,
+            mobile_number=mobile_number
+        )
+                # Send registration welcome email
+        try:
+            if email:
+                send_twilio_email(
+                    email,
+                    "Welcome to Smart Household Maintenance",
+                    (
+                        "<h2>Welcome to Smart Household Maintenance!</h2>"
+                        f"<p>Hello {username},</p>"
+                        "<p>Your registration was successful.</p>"
+                        "<p>You can now log in and manage your household "
+                        "appliance service requests.</p>"
+                        "<p>Thank you for joining us!</p>"
+                    ),
+                )
+        except Exception:
+            import logging
+            logging.getLogger(__name__).exception(
+                "Registration email failed."
+            )
+
+        # SMS testing only; real SMS will not be sent yet.
+       
+
+        messages.success(
+            request,
+            "Registration successful! Please log in."
+        )
         return redirect("login")
 
     return render(request, "users/register.html")
 
+
+
+# =========================
+# USER LOGIN
+# =========================
+# =========================
+# USER LOGIN
+# =========================
+# =========================
+# USER LOGIN
+# =========================
 
 def user_login(request):
     if request.method == "POST":
@@ -55,20 +121,55 @@ def user_login(request):
         if user is not None:
             login(request, user)
 
+            print("LOGIN USER:", user.username)
+            print("IS SUPERUSER:", user.is_superuser)
+
+            # Check assigned service manager company
+            managed_provider = ServiceProvider.objects.filter(
+                manager=user
+            ).first()
+
+            print("MANAGED PROVIDER:", managed_provider)
+
             if user.is_superuser:
                 return redirect("admin_dashboard")
 
+            if managed_provider is not None:
+                return redirect("service_provider_dashboard")
+
             return redirect("dashboard")
 
-        else:
-            messages.error(request, "Invalid username or password.")
-            return redirect("login")
+        messages.error(
+            request,
+            "Invalid username or password."
+        )
+        return redirect("login")
 
     return render(request, "users/login.html")
 
 
+
+# =========================
+# USER DASHBOARD
+# =========================
+
+@login_required
 def dashboard(request):
 
+    # Admin users should use the Admin Dashboard
+    if request.user.is_superuser:
+        return redirect("admin_dashboard")
+
+    # Check whether the logged-in user manages a service company
+    managed_provider = ServiceProvider.objects.filter(
+        manager=request.user
+    ).first()
+
+    # Service Managers should use their own company dashboard
+    if managed_provider is not None:
+        return redirect("service_provider_dashboard")
+
+    # Normal user's dashboard
     appliances = Appliance.objects.filter(
         owner=request.user
     )
@@ -84,19 +185,39 @@ def dashboard(request):
         is_read=False
     ).count()
 
+    recent_requests = ServiceRequest.objects.filter(
+        user=request.user
+    ).select_related(
+        "service_provider",
+        "appliance"
+    ).order_by("-request_date")[:5]
+
+    recent_notifications = Notification.objects.filter(
+        user=request.user
+    ).order_by("-id")[:5]
+
     return render(
         request,
         "dashboard.html",
         {
+            "appliances": appliances,
             "appliance_count": appliance_count,
             "service_request_count": service_request_count,
             "notification_count": notification_count,
+            "service_requests": recent_requests,
+            "recent_requests": recent_requests,
+            "recent_notifications": recent_notifications,
         }
     )
 
 
-def admin_dashboard(request):
 
+
+# =========================
+# ADMIN DASHBOARD
+# =========================
+@login_required
+def admin_dashboard(request):
     if not request.user.is_superuser:
         return redirect("dashboard")
 
@@ -105,9 +226,7 @@ def admin_dashboard(request):
     ).count()
 
     total_appliances = Appliance.objects.count()
-
     total_requests = ServiceRequest.objects.count()
-
     total_providers = ServiceProvider.objects.count()
 
     service_requests = ServiceRequest.objects.select_related(
@@ -129,8 +248,11 @@ def admin_dashboard(request):
     )
 
 
+# =========================
+# WARRANTY
+# =========================
+@login_required
 def warranty(request):
-
     appliances = Appliance.objects.filter(
         owner=request.user
     )
@@ -138,22 +260,17 @@ def warranty(request):
     today = date.today()
 
     for appliance in appliances:
-
         if appliance.warranty_expiry_date:
-
             days_left = (
                 appliance.warranty_expiry_date - today
             ).days
 
             if days_left < 0:
                 appliance.warranty_status = "Expired"
-
             elif days_left <= 30:
                 appliance.warranty_status = "Expiring Soon"
-
             else:
                 appliance.warranty_status = "Active"
-
         else:
             appliance.warranty_status = "Not Available"
 
@@ -162,11 +279,16 @@ def warranty(request):
         "warranty.html",
         {
             "appliances": appliances,
-            "today": today
+            "today": today,
         }
     )
-def admin_appliance_list(request):
 
+
+# =========================
+# ADMIN APPLIANCE LIST
+# =========================
+@login_required
+def admin_appliance_list(request):
     if not request.user.is_superuser:
         return redirect("dashboard")
 
@@ -178,11 +300,16 @@ def admin_appliance_list(request):
         request,
         "admin_appliance_list.html",
         {
-            "appliances": appliances
+            "appliances": appliances,
         }
     )
-def admin_service_requests(request):
 
+
+# =========================
+# ADMIN SERVICE REQUESTS
+# =========================
+@login_required
+def admin_service_requests(request):
     if not request.user.is_superuser:
         return redirect("dashboard")
 
@@ -196,11 +323,16 @@ def admin_service_requests(request):
         request,
         "admin_service_requests.html",
         {
-            "service_requests": service_requests
+            "service_requests": service_requests,
         }
     )
-def admin_service_provider_list(request):
 
+
+# =========================
+# ADMIN SERVICE PROVIDERS
+# =========================
+@login_required
+def admin_service_provider_list(request):
     if not request.user.is_superuser:
         return redirect("dashboard")
 
@@ -210,11 +342,16 @@ def admin_service_provider_list(request):
         request,
         "admin_service_providers.html",
         {
-            "providers": providers
+            "providers": providers,
         }
     )
-def admin_offers(request):
 
+
+# =========================
+# ADMIN OFFERS
+# =========================
+@login_required
+def admin_offers(request):
     if not request.user.is_superuser:
         return redirect("dashboard")
 
@@ -224,11 +361,16 @@ def admin_offers(request):
         request,
         "admin_offers.html",
         {
-            "offers": offers
+            "offers": offers,
         }
     )
-def admin_notifications(request):
 
+
+# =========================
+# ADMIN NOTIFICATIONS
+# =========================
+@login_required
+def admin_notifications(request):
     if not request.user.is_superuser:
         return redirect("dashboard")
 
@@ -256,8 +398,13 @@ def admin_notifications(request):
             "read_notifications": read_notifications,
         }
     )
-def admin_reports(request):
 
+
+# =========================
+# ADMIN REPORTS
+# =========================
+@login_required
+def admin_reports(request):
     if not request.user.is_superuser:
         return redirect("dashboard")
 
@@ -266,9 +413,7 @@ def admin_reports(request):
     ).count()
 
     total_appliances = Appliance.objects.count()
-
     total_requests = ServiceRequest.objects.count()
-
     total_providers = ServiceProvider.objects.count()
 
     completed_requests = ServiceRequest.objects.filter(
@@ -292,8 +437,8 @@ def admin_reports(request):
     ).count()
 
     total_service_cost = sum(
-        request.service_cost or 0
-        for request in ServiceRequest.objects.all()
+        service_request.service_cost or 0
+        for service_request in ServiceRequest.objects.all()
     )
 
     return render(
@@ -312,6 +457,12 @@ def admin_reports(request):
             "total_service_cost": total_service_cost,
         }
     )
+
+
+# =========================
+# ADMIN USER LIST
+# =========================
+@login_required
 def admin_user_list(request):
     if not request.user.is_superuser:
         return redirect("dashboard")
@@ -327,8 +478,87 @@ def admin_user_list(request):
             "users": users,
         }
     )
-    
 
+
+# =========================
+# USER LOGOUT
+# =========================
 def user_logout(request):
     logout(request)
     return redirect("login")
+@login_required
+def view_bill(request, appliance_id):
+    appliance = get_object_or_404(
+        Appliance,
+        id=appliance_id,
+        owner=request.user
+    )
+
+    if not appliance.bill:
+        return redirect("warranty")
+
+    return render(
+        request,
+        "view_bill.html",
+        {
+           "bill_url": "/media/" + appliance.bill.name.split("/")[-1],
+            "appliance": appliance,
+        }
+    )
+    # =========================
+
+# =========================
+# USER OFFERS
+# =========================
+
+@login_required
+def user_offers(request):
+    offers = Offer.objects.filter(
+        is_active=True
+    ).select_related(
+        "service_provider"
+    ).order_by("-id")
+
+    return render(
+        request,
+        "user_offers.html",
+        {"offers": offers}
+    )
+# =========================
+# USER PROFILE
+# =========================
+
+@login_required
+def user_profile(request):
+    profile, created = UserProfile.objects.get_or_create(
+        user=request.user
+    )
+
+    if request.method == "POST":
+        mobile_number = request.POST.get(
+            "mobile_number", ""
+        ).strip()
+
+        if not mobile_number.isdigit() or len(mobile_number) != 10:
+            messages.error(
+                request,
+                "Please enter a valid 10-digit mobile number."
+            )
+        else:
+            profile.mobile_number = mobile_number
+            profile.save()
+
+            messages.success(
+                request,
+                "Mobile number updated successfully!"
+            )
+
+            return redirect("user_profile")
+
+    return render(
+        request,
+        "users/profile.html",
+        {
+            "profile": profile,
+        }
+    )

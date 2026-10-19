@@ -11,6 +11,8 @@ urlpatterns = [
     path("login/", views.user_login, name="login"),
 
     path("dashboard/", views.dashboard, name="dashboard"),
+    path("offers/", views.user_offers, name="user_offers"),
+    path("profile/", views.user_profile, name="user_profile"),
     path("logout/", views.user_logout, name="logout"),
 
     # Admin Dashboard
@@ -69,5 +71,10 @@ path(
         views.admin_service_provider_list,
         name="admin_service_provider_list"
     ),
+    path(
+    "view-bill/<int:appliance_id>/",
+    views.view_bill,
+    name="view_bill"
+),
 
 ]

@@ -1,614 +1,633 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Service Provider Dashboard</title>
+    <title>Service Manager Dashboard</title>
 
     <style>
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            font-family: Arial, sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         body {
             background: #f4f7fb;
-            color: #1f2937;
+            color: #263238;
         }
 
         .header {
-            background: #1e3a8a;
+            background: linear-gradient(135deg, #123b70, #1976d2);
             color: white;
-            padding: 18px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+            padding: 25px 5%;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
         }
 
-        .logo {
-            font-size: 22px;
-            font-weight: bold;
-        }
-
-        .header-text {
-            font-size: 14px;
-        }
-
-        .container {
-            max-width: 1200px;
-            margin: 35px auto;
-            padding: 0 20px;
-        }
-
-        .welcome {
-            margin-bottom: 30px;
-        }
-
-        .welcome h1 {
-            color: #1e3a8a;
-            font-size: 30px;
+        .header h1 {
+            font-size: 28px;
             margin-bottom: 8px;
         }
 
-        .welcome p {
-            color: #64748b;
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
         }
 
-        .section-title {
-            color: #1e3a8a;
-            font-size: 21px;
-            margin-bottom: 18px;
+        .container {
+            width: 90%;
+            max-width: 1400px;
+            margin: 30px auto;
         }
 
-        .provider-card,
-        .request-card {
-            background: white;
-            border-radius: 14px;
-            padding: 25px;
+        .top-actions {
+            display: flex;
+            justify-content: flex-end;
             margin-bottom: 25px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.06);
         }
 
-        .provider-name {
-            font-size: 24px;
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            padding: 11px 18px;
+            border: none;
+            border-radius: 7px;
+            font-size: 14px;
             font-weight: bold;
-            margin-bottom: 20px;
+            cursor: pointer;
+            transition: 0.2s ease;
         }
 
-        .details,
-        .request-details {
+        .history-btn {
+            background: #123b70;
+            color: white;
+        }
+
+        .history-btn:hover {
+            background: #0b2850;
+            transform: translateY(-2px);
+        }
+
+        .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            gap: 18px;
+            margin-bottom: 35px;
         }
 
-        .detail-box,
-        .request-detail {
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 10px;
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 23px 18px;
+            box-shadow: 0 4px 15px rgba(25, 55, 90, 0.07);
+            border-top: 4px solid #1976d2;
+            transition: 0.2s ease;
         }
 
-        .detail-box strong,
-        .request-detail strong {
-            display: block;
-            color: #64748b;
-            font-size: 13px;
-            margin-bottom: 6px;
+        .stat-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(25, 55, 90, 0.12);
         }
 
-        .available {
-            color: #15803d;
-            font-weight: bold;
+        .stat-card h3 {
+            color: #687789;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 13px;
         }
 
-        .not-available {
-            color: #dc2626;
-            font-weight: bold;
+        .stat-card h2 {
+            font-size: 30px;
+            color: #123b70;
         }
 
-        .request-card {
-            border-left: 5px solid #2563eb;
+        .stat-card.pending {
+            border-top-color: #f39c12;
         }
 
-        .request-header {
+        .stat-card.accepted {
+            border-top-color: #2980b9;
+        }
+
+        .stat-card.progress {
+            border-top-color: #8e44ad;
+        }
+
+        .stat-card.completed {
+            border-top-color: #27ae60;
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(25, 55, 90, 0.07);
+            margin-bottom: 30px;
+        }
+
+        .section-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 18px;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .section-title {
+            font-size: 22px;
+            color: #123b70;
+        }
+
+        .filter-form {
+            display: flex;
+            align-items: center;
             gap: 10px;
             flex-wrap: wrap;
         }
 
-        .customer-name {
-            font-size: 19px;
+        .filter-form label {
+            font-size: 14px;
             font-weight: bold;
+            color: #526273;
         }
 
-        .status {
-            padding: 7px 13px;
-            border-radius: 20px;
-            background: #e0f2fe;
-            color: #0369a1;
+        .filter-form select {
+            padding: 10px 12px;
+            border: 1px solid #d5deea;
+            border-radius: 7px;
+            background: white;
+            font-size: 14px;
+            min-width: 150px;
+        }
+
+        .filter-btn {
+            background: #1976d2;
+            color: white;
+        }
+
+        .filter-btn:hover {
+            background: #125da8;
+        }
+
+        .table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 1000px;
+        }
+
+        thead {
+            background: #edf4fc;
+        }
+
+        th {
+            padding: 15px 12px;
+            text-align: left;
+            color: #23466d;
             font-size: 13px;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 15px 12px;
+            border-bottom: 1px solid #edf0f5;
+            font-size: 14px;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+            background: #f8fbff;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
             font-weight: bold;
+            white-space: nowrap;
         }
 
-        .notes {
-            background: #f8fafc;
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 18px;
+        .status-pending {
+            background: #fff1d6;
+            color: #996000;
         }
 
-        .notes strong {
-            display: block;
-            margin-bottom: 6px;
+        .status-accepted {
+            background: #dceeff;
+            color: #145b9a;
         }
 
-        .actions {
+        .status-in-progress {
+            background: #f0e2ff;
+            color: #7139a0;
+        }
+
+        .status-completed {
+            background: #d9f7e6;
+            color: #187443;
+        }
+
+        .status-rejected {
+            background: #ffe0e0;
+            color: #a52828;
+        }
+
+        .update-form {
             display: flex;
-            gap: 10px;
-            margin-top: 20px;
+            flex-direction: column;
+            gap: 8px;
+            min-width: 145px;
         }
 
-        .btn {
+        .update-form select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d5deea;
+            border-radius: 6px;
+            background: white;
+        }
+
+        .update-btn {
+            background: #1976d2;
+            color: white;
+            padding: 9px 12px;
             border: none;
-            padding: 11px 18px;
-            border-radius: 8px;
+            border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
+            font-size: 12px;
         }
 
-        .accept {
-            background: #16a34a;
-            color: white;
+        .update-btn:hover {
+            background: #125da8;
         }
 
-        .reject {
-            background: #dc2626;
-            color: white;
-        }
-
-        .cost-box {
-            background: #f8fafc;
-            padding: 20px;
-            border-radius: 12px;
-            margin-top: 20px;
-            border: 1px solid #e2e8f0;
-        }
-
-        .cost-box h3 {
-            color: #1e3a8a;
-            margin-bottom: 18px;
-        }
-
-        .cost-box label {
-            display: block;
-            margin-top: 12px;
-            margin-bottom: 6px;
-            font-size: 13px;
-            font-weight: bold;
-            color: #475569;
-        }
-
-        .cost-box input {
-            width: 100%;
-            padding: 11px;
-            border: 1px solid #cbd5e1;
-            border-radius: 8px;
-            background: white;
-        }
-
-        .cost-box button {
-            margin-top: 18px;
-        }
-
-        .message {
-            margin-top: 18px;
-            color: #64748b;
-            font-weight: bold;
-        }
-
-        .empty {
-            background: white;
-            padding: 30px;
-            border-radius: 14px;
+        .empty-state {
             text-align: center;
-            color: #64748b;
+            padding: 45px 20px;
+            color: #718096;
+        }
+
+        .empty-state h3 {
+            color: #23466d;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            line-height: 1.7;
         }
 
         .footer {
             text-align: center;
-            padding: 25px;
-            color: #64748b;
+            padding: 22px;
+            color: #778397;
+            font-size: 13px;
         }
-        .progress-box {
-    margin-top: 18px;
-    padding: 18px;
-    background: #eff6ff;
-    border: 1px solid #bfdbfe;
-    border-radius: 12px;
-}
 
-.complete {
-    margin-top: 14px;
-    background: #2563eb;
-    color: white;
-    border: none;
-    padding: 11px 18px;
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.2s;
-}
+        @media (max-width: 1100px) {
+            .stats-grid {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
 
-.complete:hover {
-    background: #1d4ed8;
-    transform: translateY(-1px);
-}
+        @media (max-width: 700px) {
+            .header {
+                padding: 22px 5%;
+            }
+
+            .header h1 {
+                font-size: 23px;
+            }
+
+            .container {
+                width: 94%;
+                margin: 20px auto;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 12px;
+            }
+
+            .stat-card {
+                padding: 18px 14px;
+            }
+
+            .stat-card h2 {
+                font-size: 25px;
+            }
+
+            .section {
+                padding: 18px 14px;
+            }
+
+            .section-title {
+                font-size: 19px;
+            }
+
+            .section-header {
+                align-items: flex-start;
+            }
+
+            .filter-form {
+                width: 100%;
+            }
+
+            .filter-form select {
+                flex: 1;
+                min-width: 120px;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
     </style>
 </head>
 
 <body>
 
-<div class="header">
-    <div class="logo">🏠 Smart Household</div>
-    <div class="header-text">Service Provider Portal</div>
-</div>
+    <!-- HEADER -->
+    <header class="header">
+        <h1>Service Manager Dashboard</h1>
+        <p>Manage customer service requests and maintenance activities.</p>
+    </header>
 
-<div class="container">
+    <main class="container">
 
-    <div class="welcome">
-        <h1>Service Provider Dashboard 👋</h1>
-        <p>Manage customer service requests and maintenance.</p>
-    </div>
-
-    <h2 class="section-title">🏢 Service Provider Details</h2>
-
-    {% if providers %}
-
-        {% for provider in providers %}
-
-        <div class="provider-card">
-
-            <div class="provider-name">
-                {{ provider.company_name }}
-            </div>
-
-            <div class="details">
-
-                <div class="detail-box">
-                    <strong>Owner</strong>
-                    {{ provider.owner_name }}
-                </div>
-
-                <div class="detail-box">
-                    <strong>Phone</strong>
-                    {{ provider.phone }}
-                </div>
-
-                <div class="detail-box">
-                    <strong>Email</strong>
-                    {{ provider.email }}
-                </div>
-
-                <div class="detail-box">
-                    <strong>Address</strong>
-                    {{ provider.address }}
-                </div>
-
-                <div class="detail-box">
-                    <strong>Service</strong>
-                    {{ provider.service_name }}
-                </div>
-
-                <div class="detail-box">
-                    <strong>Price</strong>
-                    ₹{{ provider.price }}
-                </div>
-
-                <div class="detail-box">
-                    <strong>Discount</strong>
-                    {{ provider.discount }}%
-                </div>
-
-                <div class="detail-box">
-                    <strong>Availability</strong>
-
-                    {% if provider.is_available %}
-                        <span class="available">
-                            🟢 Available
-                        </span>
-                    {% else %}
-                        <span class="not-available">
-                            🔴 Not Available
-                        </span>
-                    {% endif %}
-
-                </div>
-
-            </div>
-
+        <!-- TOP ACTIONS -->
+        <div class="top-actions">
+            <a href="{% url 'service_history' %}" class="btn history-btn">
+                Maintenance History
+            </a>
         </div>
 
-        {% endfor %}
+        <!-- REQUEST STATISTICS -->
+        <section class="stats-grid">
 
-    {% endif %}
+            <div class="stat-card">
+                <h3>Total Requests</h3>
+                <h2>{{ total_requests|default:0 }}</h2>
+            </div>
 
+            <div class="stat-card pending">
+                <h3>Pending</h3>
+                <h2>{{ pending_count|default:0 }}</h2>
+            </div>
 
-    <h2 class="section-title">
-        📋 Customer Service Requests
-    </h2>
+            <div class="stat-card accepted">
+                <h3>Accepted</h3>
+                <h2>{{ accepted_count|default:0 }}</h2>
+            </div>
 
+            <div class="stat-card progress">
+                <h3>In Progress</h3>
+                <h2>{{ in_progress_count|default:0 }}</h2>
+            </div>
 
-    {% if service_requests %}
+            <div class="stat-card completed">
+                <h3>Completed</h3>
+                <h2>{{ completed_count|default:0 }}</h2>
+            </div>
 
-        {% for request in service_requests %}
+        </section>
 
-        <div class="request-card">
+        <!-- CUSTOMER SERVICE REQUESTS -->
+        <section class="section">
 
-            <div class="request-header">
+            <div class="section-header">
 
-                <div class="customer-name">
-                    👤 {{ request.user.username }}
-                </div>
+                <h2 class="section-title">Customer Service Requests</h2>
 
-                <div class="status">
-                    {{ request.status }}
-                </div>
+                <form method="GET"
+                      action="{% url 'service_provider_dashboard' %}"
+                      class="filter-form">
+
+                    <label for="status">Filter by Status:</label>
+
+                    <select name="status" id="status">
+
+                        <option value="all"
+                            {% if selected_status == 'all' %}selected{% endif %}>
+                            All Requests
+                        </option>
+
+                        <option value="Pending"
+                            {% if selected_status == 'Pending' %}selected{% endif %}>
+                            Pending
+                        </option>
+
+                        <option value="Accepted"
+                            {% if selected_status == 'Accepted' %}selected{% endif %}>
+                            Accepted
+                        </option>
+
+                        <option value="In Progress"
+                            {% if selected_status == 'In Progress' %}selected{% endif %}>
+                            In Progress
+                        </option>
+
+                        <option value="Completed"
+                            {% if selected_status == 'Completed' %}selected{% endif %}>
+                            Completed
+                        </option>
+
+                        <option value="Rejected"
+                            {% if selected_status == 'Rejected' %}selected{% endif %}>
+                            Rejected
+                        </option>
+
+                    </select>
+
+                    <button type="submit" class="btn filter-btn">
+                        Apply Filter
+                    </button>
+
+                </form>
 
             </div>
 
+            {% if service_requests %}
 
-            <div class="request-details">
+                <div class="table-wrapper">
 
-                <div class="request-detail">
-                    <strong>Service</strong>
-                    {{ request.service_provider.service_name }}
-                </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Request ID</th>
+                                <th>Customer</th>
+                                <th>Appliance</th>
+                                <th>Service Type</th>
+                                <th>Request Date</th>
+                                <th>Status</th>
+                                <th>Update Status</th>
+                            </tr>
+                        </thead>
 
-                <div class="request-detail">
-                    <strong>Company</strong>
-                    {{ request.service_provider.company_name }}
-                </div>
+                        <tbody>
 
-                <div class="request-detail">
-                    <strong>Request Date</strong>
-                    {{ request.request_date }}
-                </div>
+                            {% for service_request in service_requests %}
 
+                                <tr>
 
-                {% if request.appliance %}
+                                    <td>
+                                        #{{ service_request.id }}
+                                    </td>
 
-                <div class="request-detail">
-                    <strong>Appliance</strong>
-                    {{ request.appliance.brand }}
-                    -
-                    {{ request.appliance.model_number }}
-                </div>
+                                    <td>
+                                        {% if service_request.user %}
+                                            {{ service_request.user.username }}
+                                        {% elif service_request.customer %}
+                                            {{ service_request.customer }}
+                                        {% else %}
+                                            Not available
+                                        {% endif %}
+                                    </td>
 
-                {% endif %}
+                                    <td>
+                                        {% if service_request.appliance %}
+                                            {{ service_request.appliance }}
+                                        {% else %}
+                                            Not specified
+                                        {% endif %}
+                                    </td>
 
-            </div>
+                                    <td>
+                                        {% if service_request.service_type %}
+                                            {{ service_request.service_type }}
+                                        {% else %}
+                                            Service Request
+                                        {% endif %}
+                                    </td>
 
+                                    <td>
+                                        {{ service_request.request_date|date:"d M Y, h:i A"|default:"Not available" }}
+                                    </td>
 
-            <div class="notes">
+                                    <td>
+                                        {% if service_request.status == 'Pending' %}
+                                            <span class="status-badge status-pending">
+                                                Pending
+                                            </span>
 
-                <strong>Service Notes</strong>
+                                        {% elif service_request.status == 'Accepted' %}
+                                            <span class="status-badge status-accepted">
+                                                Accepted
+                                            </span>
 
-                {% if request.notes %}
-                    {{ request.notes }}
-                {% else %}
-                    No additional notes provided.
-                {% endif %}
+                                        {% elif service_request.status == 'In Progress' %}
+                                            <span class="status-badge status-in-progress">
+                                                In Progress
+                                            </span>
 
-            </div>
+                                        {% elif service_request.status == 'Completed' %}
+                                            <span class="status-badge status-completed">
+                                                Completed
+                                            </span>
 
+                                        {% elif service_request.status == 'Rejected' %}
+                                            <span class="status-badge status-rejected">
+                                                Rejected
+                                            </span>
 
-            {% if request.status == "Pending" %}
+                                        {% else %}
+                                            <span class="status-badge">
+                                                {{ service_request.status }}
+                                            </span>
+                                        {% endif %}
+                                    </td>
 
-                <div class="actions">
+                                    <td>
 
-                    <form method="POST"
-                          action="{% url 'update_service_request' request.id %}">
+                                        <form method="POST"
+                                              action="{% url 'update_service_request' service_request.id %}"
+                                              class="update-form">
 
-                        {% csrf_token %}
+                                            {% csrf_token %}
 
-                        <button
-                            type="submit"
-                            name="status"
-                            value="Accepted"
-                            class="btn accept">
+                                            <select name="status" required>
 
-                            ✅ Accept
+                                                <option value="Pending"
+                                                    {% if service_request.status == 'Pending' %}selected{% endif %}>
+                                                    Pending
+                                                </option>
 
-                        </button>
+                                                <option value="Accepted"
+                                                    {% if service_request.status == 'Accepted' %}selected{% endif %}>
+                                                    Accepted
+                                                </option>
 
-                    </form>
+                                                <option value="In Progress"
+                                                    {% if service_request.status == 'In Progress' %}selected{% endif %}>
+                                                    In Progress
+                                                </option>
 
+                                                <option value="Completed"
+                                                    {% if service_request.status == 'Completed' %}selected{% endif %}>
+                                                    Completed
+                                                </option>
 
-                    <form method="POST"
-                          action="{% url 'update_service_request' request.id %}">
+                                                <option value="Rejected"
+                                                    {% if service_request.status == 'Rejected' %}selected{% endif %}>
+                                                    Rejected
+                                                </option>
 
-                        {% csrf_token %}
+                                            </select>
 
-                        <button
-                            type="submit"
-                            name="status"
-                            value="Rejected"
-                            class="btn reject">
+                                            <button type="submit" class="update-btn">
+                                                Update Status
+                                            </button>
 
-                            ❌ Reject
+                                        </form>
 
-                        </button>
+                                    </td>
 
-                    </form>
+                                </tr>
 
-                </div>
+                            {% endfor %}
 
-
-            {% elif request.status == "Accepted" %}
-
-                <div class="cost-box">
-
-                    <h3>
-                        💰 Actual Maintenance Cost
-                    </h3>
-
-                    <form method="POST"
-                          action="{% url 'update_service_request' request.id %}">
-
-                        {% csrf_token %}
-
-                        <input
-                            type="hidden"
-                            name="status"
-                            value="In Progress"
-                        >
-
-                        <label>
-                            🔧 Service Cost (₹)
-                        </label>
-
-                        <input
-                            type="number"
-                            name="service_cost"
-                            step="0.01"
-                            min="0"
-                            value="{{ request.service_cost }}"
-                            placeholder="Enter service cost"
-                        >
-
-
-                        <label>
-                            🛠️ Repair Cost (₹)
-                        </label>
-
-                        <input
-                            type="number"
-                            name="repair_cost"
-                            step="0.01"
-                            min="0"
-                            value="{{ request.repair_cost }}"
-                            placeholder="Enter repair cost"
-                        >
-
-
-                        <label>
-                            ⚙️ Spare Parts Cost (₹)
-                        </label>
-
-                        <input
-                            type="number"
-                            name="spare_parts_cost"
-                            step="0.01"
-                            min="0"
-                            value="{{ request.spare_parts_cost }}"
-                            placeholder="Enter spare parts cost"
-                        >
-
-
-                        <label>
-                            💵 Other Cost (₹)
-                        </label>
-
-                        <input
-                            type="number"
-                            name="other_cost"
-                            step="0.01"
-                            min="0"
-                            value="{{ request.other_cost }}"
-                            placeholder="Enter other cost"
-                        >
-
-
-                        <button
-                            type="submit"
-                            class="btn accept">
-
-                            💾 Save Cost & Start Service
-
-                        </button>
-
-                    </form>
+                        </tbody>
+                    </table>
 
                 </div>
 
+            {% else %}
 
-            {% elif request.status == "In Progress" %}
+                <div class="empty-state">
+                    <h3>No Service Requests Found</h3>
 
-    <div class="progress-box">
-
-        <p class="message">
-            🔵 Service is currently in progress.
-        </p>
-
-        <form method="POST"
-              action="{% url 'update_service_request' request.id %}">
-
-            {% csrf_token %}
-
-            <input
-                type="hidden"
-                name="status"
-                value="Completed"
-            >
-
-            <button
-                type="submit"
-                class="btn complete">
-
-                ✓ Mark Service as Completed
-
-            </button>
-
-        </form>
-
-    </div>
-
-
-{% elif request.status == "Completed" %}
-
-    <p class="message">
-        ✅ Service has been completed.
-    </p>
-
-
-            {% elif request.status == "Rejected" %}
-
-                <p class="message">
-                    🔴 Service request rejected.
-                </p>
+                    <p>
+                        There are no service requests for the selected status.
+                        <br>
+                        New requests assigned to your company will appear here.
+                    </p>
+                </div>
 
             {% endif %}
 
-        </div>
+        </section>
 
-        {% endfor %}
+    </main>
 
-
-    {% else %}
-
-        <div class="empty">
-
-            <p>
-                No customer service requests found.
-            </p>
-
-        </div>
-
-    {% endif %}
-
-</div>
-
-
-<div class="footer">
-    Smart Household Maintenance Tracking System © 2026
-</div>
+    <!-- FOOTER -->
+    <footer class="footer">
+        Smart Household Maintenance System
+    </footer>
 
 </body>
 </html>
+

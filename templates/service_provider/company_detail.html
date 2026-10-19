@@ -1,0 +1,271 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>{{ provider.company_name }} | Company Details</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f1f5f9;
+            color: #1e293b;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            color: white;
+            padding: 35px 7%;
+        }
+
+        .header h1 {
+            margin: 0 0 10px;
+            font-size: 32px;
+        }
+
+        .header p {
+            margin: 0;
+            color: #dbeafe;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 35px auto;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 28px;
+            margin-bottom: 24px;
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, 0.06);
+        }
+
+        .card h2 {
+            margin-top: 0;
+            color: #1e3a8a;
+        }
+
+        .detail-row {
+            padding: 13px 0;
+            border-bottom: 1px solid #e2e8f0;
+            line-height: 1.6;
+        }
+
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .label {
+            display: inline-block;
+            min-width: 145px;
+            font-weight: bold;
+            color: #475569;
+        }
+
+        .price {
+            color: #15803d;
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .offer {
+            background: #eff6ff;
+            padding: 16px;
+            border-radius: 10px;
+            margin: 12px 0;
+        }
+
+        .offer h3 {
+            color: #1d4ed8;
+            margin-top: 0;
+        }
+
+        .discount {
+            color: #15803d;
+            font-weight: bold;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 25px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 13px 20px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .book-btn {
+            background: #2563eb;
+            color: white;
+        }
+
+        .book-btn:hover {
+            background: #1d4ed8;
+        }
+
+        .back-btn {
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        .empty {
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 600px) {
+            .header {
+                padding: 25px 20px;
+            }
+
+            .header h1 {
+                font-size: 26px;
+            }
+
+            .label {
+                display: block;
+                margin-bottom: 5px;
+            }
+
+            .actions .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="header">
+        <h1>{{ provider.company_name }}</h1>
+        <p>Company information, available services and special offers.</p>
+    </header>
+
+    <main class="container">
+
+        <section class="card">
+            <h2>Company Information</h2>
+
+            <div class="detail-row">
+                <span class="label">Company Name</span>
+                {{ provider.company_name }}
+            </div>
+
+            <div class="detail-row">
+                <span class="label">Owner / Contact</span>
+                {{ provider.owner_name }}
+            </div>
+
+            <div class="detail-row">
+                <span class="label">Phone</span>
+                {{ provider.phone }}
+            </div>
+
+            {% if provider.email %}
+                <div class="detail-row">
+                    <span class="label">Email</span>
+                    {{ provider.email }}
+                </div>
+            {% endif %}
+
+            <div class="detail-row">
+                <span class="label">Address</span>
+                {{ provider.address|linebreaksbr }}
+            </div>
+
+            {% if provider.description %}
+                <div class="detail-row">
+                    <span class="label">About Company</span>
+                    {{ provider.description|linebreaksbr }}
+                </div>
+            {% endif %}
+        </section>
+
+        <section class="card">
+            <h2>Service Details</h2>
+
+            <div class="detail-row">
+                <span class="label">Service Name</span>
+                {{ provider.service_name }}
+            </div>
+
+            {% if provider.service_description %}
+                <div class="detail-row">
+                    <span class="label">Description</span>
+                    {{ provider.service_description|linebreaksbr }}
+                </div>
+            {% endif %}
+
+            <div class="detail-row">
+                <span class="label">Service Price</span>
+                <span class="price">Rs. {{ provider.price }}</span>
+            </div>
+
+            {% if provider.discount %}
+                <div class="detail-row">
+                    <span class="label">Company Discount</span>
+                    {{ provider.discount }}%
+                </div>
+            {% endif %}
+
+            <div class="actions">
+                <a href="{% url 'request_service' provider.id %}" class="btn book-btn">
+                    Book Service
+                </a>
+
+                <a href="{% url 'user_offers' %}" class="btn back-btn">
+                    Back to Offers
+                </a>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>Available Company Offers</h2>
+
+            {% if offers %}
+                {% for offer in offers %}
+                    <div class="offer">
+                        <h3>{{ offer.title }}</h3>
+
+                        <p>{{ offer.description|default:"Special service offer available." }}</p>
+
+                        <p class="discount">
+                            {{ offer.discount_percentage }}% Discount
+                        </p>
+
+                        <p>
+                            <strong>Valid:</strong>
+                            {{ offer.valid_from|date:"d M Y" }}
+                            to
+                            {{ offer.valid_until|date:"d M Y" }}
+                        </p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p class="empty">
+                    No additional active offers are available from this company.
+                </p>
+            {% endif %}
+        </section>
+
+    </main>
+
+</body>
+</html>

@@ -230,6 +230,30 @@
             }
 
         }
+      
+.bill-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 15px;
+}
+
+.back-btn {
+    background: #64748b;
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.back-btn:hover {
+    background: #475569;
+}
+
+
 
     </style>
 
@@ -412,19 +436,25 @@
                 </div>
 
 
-                <!-- Bill -->
+             
+<!-- Bill Buttons -->
+
+<!-- Bill Button -->
+
+<!-- Bill Button -->
+
+                <!-- Bill Button -->
 
                 {% if appliance.bill %}
-
-                    <a href="{{ appliance.bill.url }}"
-                       class="btn bill-btn"
-                       target="_blank">
-
-                        📄 View Bill
-
-                    </a>
-
+                    <div class="bill-actions">
+                        <a href="{% url 'view_bill' appliance.id %}"
+                           class="btn bill-btn">
+                            📄 View Bill
+                        </a>
+                    </div>
                 {% endif %}
+
+            </div>
 
 
             </div>

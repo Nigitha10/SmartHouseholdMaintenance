@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile | Smart Household Maintenance</title>
+
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        padding: 30px 15px;
+        font-family: Arial, sans-serif;
+        background: linear-gradient(135deg, #eff6ff, #eef2ff);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .profile-card {
+        width: 100%;
+        max-width: 480px;
+        background: white;
+        padding: 35px;
+        border-radius: 20px;
+        box-shadow: 0 12px 35px rgba(30, 58, 138, 0.12);
+    }
+
+    .avatar {
+        width: 75px;
+        height: 75px;
+        margin: 0 auto 18px;
+        border-radius: 50%;
+        background: #dbeafe;
+        color: #1d4ed8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 34px;
+    }
+
+    h1 {
+        text-align: center;
+        color: #1e3a8a;
+        margin-bottom: 8px;
+    }
+
+    .subtitle {
+        text-align: center;
+        color: #64748b;
+        margin-bottom: 28px;
+    }
+
+    .detail {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        color: #475569;
+        font-size: 14px;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .value,
+    input {
+        width: 100%;
+        padding: 13px;
+        border: 1px solid #cbd5e1;
+        border-radius: 9px;
+        font-size: 15px;
+        background: #f8fafc;
+        color: #1e293b;
+    }
+
+    input {
+        background: white;
+    }
+
+    .save-btn,
+    .back-btn {
+        display: block;
+        width: 100%;
+        padding: 13px;
+        border: none;
+        border-radius: 9px;
+        text-align: center;
+        text-decoration: none;
+        font-size: 15px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .save-btn {
+        background: #2563eb;
+        color: white;
+        margin-top: 8px;
+    }
+
+    .save-btn:hover {
+        background: #1d4ed8;
+    }
+
+    .back-btn {
+        background: #eff6ff;
+        color: #1d4ed8;
+        margin-top: 12px;
+    }
+
+    .message {
+        padding: 12px;
+        margin-bottom: 18px;
+        border-radius: 8px;
+        background: #eff6ff;
+        color: #1d4ed8;
+        font-size: 14px;
+    }
+
+    @media (max-width: 480px) {
+        .profile-card {
+            padding: 25px 20px;
+        }
+    }
+</style>
+
+
+</head>
+
+<body>
+    <main class="profile-card">
+
+
+    <div class="avatar">👤</div>
+
+    <h1>My Profile</h1>
+    <p class="subtitle">Manage your account information</p>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="message">{{ message }}</div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="detail">
+        <label>Username</label>
+        <div class="value">{{ request.user.username }}</div>
+    </div>
+
+    <div class="detail">
+        <label>Email Address</label>
+        <div class="value">
+            {{ request.user.email|default:"Not provided" }}
+        </div>
+    </div>
+
+    <form method="POST">
+        {% csrf_token %}
+
+        <div class="detail">
+            <label for="mobile_number">Mobile Number</label>
+
+            <input
+                type="tel"
+                id="mobile_number"
+                name="mobile_number"
+                value="{{ profile.mobile_number }}"
+                placeholder="Enter your 10-digit mobile number"
+                inputmode="numeric"
+                pattern="[0-9]{10}"
+                minlength="10"
+                maxlength="10"
+                required
+            >
+        </div>
+
+        <button type="submit" class="save-btn">
+            Save Changes
+        </button>
+    </form>
+
+    <a href="{% url 'dashboard' %}" class="back-btn">
+        Back to Dashboard
+    </a>
+
+</main>
+
+
+</body>
+</html>
