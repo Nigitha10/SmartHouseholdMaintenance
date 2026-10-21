@@ -1,507 +1,421 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Warranty | Smart Household Maintenance</title>
+    <title>Warranty Management | Smart Household Maintenance</title>
 
     <style>
+        :root {
+            --primary: #3156c9;
+            --primary-dark: #1d347e;
+            --purple: #7653d6;
+            --background: #f4f6fc;
+            --white: #ffffff;
+            --text: #202b45;
+            --muted: #7d879c;
+            --border: #e7eaf3;
+            --shadow: 0 8px 25px rgba(36, 54, 100, 0.07);
+        }
 
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
         }
 
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(135deg, #eff6ff, #f8fafc);
-            color: #334155;
+            min-height: 100vh;
+            background: var(--background);
+            color: var(--text);
         }
 
-        /* Header */
-
         .header {
-            background: #1e3a8a;
+            background: linear-gradient(115deg, #273c9a 0%, #4658d5 52%, #8052d6 100%);
             color: white;
             padding: 28px 20px;
             text-align: center;
+            box-shadow: 0 5px 20px rgba(39, 60, 154, 0.18);
         }
 
         .header h1 {
-            margin: 0;
             font-size: 30px;
+            line-height: 1.4;
+            margin-bottom: 8px;
         }
 
         .header p {
-            margin: 8px 0 0;
-            color: #dbeafe;
+            color: #e5e9ff;
             font-size: 14px;
+            line-height: 1.7;
         }
-
-
-        /* Container */
 
         .container {
             width: 92%;
-            max-width: 1050px;
-            margin: auto;
-            padding: 30px 0;
+            max-width: 1100px;
+            margin: 35px auto;
         }
 
-
-        /* Top section */
-
         .top-section {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
             margin-bottom: 25px;
         }
 
         .top-section h2 {
-            color: #1e3a8a;
-            margin: 0;
-            font-size: 24px;
+            color: var(--primary-dark);
+            font-size: 27px;
+            margin-bottom: 9px;
         }
 
-
-        /* Buttons */
-
-        .btn {
-            background: #2563eb;
-            color: white;
-            padding: 11px 17px;
-            border-radius: 8px;
-            text-decoration: none;
-            display: inline-block;
+        .top-section p {
+            color: var(--muted);
             font-size: 14px;
-            font-weight: bold;
-            transition: 0.2s;
+            line-height: 1.7;
         }
-
-        .btn:hover {
-            background: #1d4ed8;
-        }
-
-
-        /* Warranty Card */
 
         .warranty-card {
-            background: white;
-            padding: 25px;
-            margin-bottom: 20px;
-            border-radius: 16px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 6px 20px rgba(30, 58, 138, 0.07);
-            transition: 0.25s;
+            background: var(--white);
+            padding: 26px;
+            margin-bottom: 23px;
+            border: 1px solid var(--border);
+            border-left: 5px solid var(--primary);
+            border-radius: 17px;
+            box-shadow: var(--shadow);
+            overflow-wrap: anywhere;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .warranty-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 25px rgba(30, 58, 138, 0.11);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 30px rgba(36, 54, 100, 0.11);
         }
 
+        .card-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-bottom: 21px;
+        }
 
         .warranty-card h3 {
-            color: #1e3a8a;
-            margin-top: 0;
-            margin-bottom: 15px;
-            font-size: 20px;
+            color: var(--primary-dark);
+            font-size: 21px;
+            line-height: 1.5;
         }
 
-
-        /* Status */
-
         .status {
-            display: inline-block;
-            padding: 7px 13px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 13px;
-            background: #f1f5f9;
-            color: #475569;
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 14px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: 700;
+            line-height: 1.5;
         }
 
         .status.active {
-            background: #dcfce7;
-            color: #166534;
+            background: #e8f9ef;
+            color: #167345;
+            border: 1px solid #c6efd5;
         }
 
         .status.expiring {
-            background: #ffedd5;
-            color: #9a3412;
+            background: #fff4df;
+            color: #925c08;
+            border: 1px solid #f8dfaa;
         }
 
         .status.expired {
-            background: #fee2e2;
-            color: #991b1b;
+            background: #ffeded;
+            color: #a12626;
+            border: 1px solid #f7cccc;
         }
 
-
-        /* Details */
+        .status.unknown {
+            background: #eef1f8;
+            color: #58647b;
+            border: 1px solid #dfe4ef;
+        }
 
         .details {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 15px;
-            margin-top: 20px;
         }
 
-
         .detail-box {
-            background: #eef2ff;
-            padding: 15px;
-            border-radius: 10px;
-            border: 1px solid #e0e7ff;
+            min-width: 0;
+            background: #f8f9fe;
+            padding: 17px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            overflow-wrap: anywhere;
         }
 
         .detail-box strong {
-            color: #475569;
-            font-size: 13px;
+            display: block;
+            color: var(--muted);
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            margin-bottom: 8px;
         }
 
         .detail-box p {
-            margin: 7px 0 0;
-            color: #1e3a8a;
-            font-weight: bold;
+            color: var(--primary-dark);
+            font-size: 15px;
+            font-weight: 600;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
         }
 
-
-        /* Bill button */
-
-        .bill-btn {
-            margin-top: 18px;
+        .bill-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 20px;
         }
 
+        .btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 45px;
+            padding: 12px 20px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 700;
+            text-align: center;
+            background: linear-gradient(115deg, #3156c9, #7653d6);
+            color: white;
+            box-shadow: 0 5px 14px rgba(75, 77, 190, 0.18);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
 
-        /* Empty */
+        .btn:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(75, 77, 190, 0.27);
+        }
 
         .empty {
             text-align: center;
             background: white;
             padding: 55px 25px;
-            border-radius: 16px;
-            box-shadow: 0 6px 20px rgba(30, 58, 138, 0.07);
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            box-shadow: var(--shadow);
+        }
+
+        .empty-icon {
+            font-size: 42px;
+            margin-bottom: 15px;
         }
 
         .empty h2 {
-            color: #1e3a8a;
+            color: var(--primary-dark);
+            font-size: 23px;
+            margin-bottom: 10px;
         }
 
         .empty p {
-            color: #64748b;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
         }
 
-
-        /* Back button */
+        .back-button-container {
+            display: flex;
+            justify-content: center;
+            margin: 32px 0 15px;
+        }
 
         .back-btn {
-            margin-top: 5px;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 47px;
+            min-width: 210px;
+            padding: 13px 24px;
+            border-radius: 10px;
+            text-decoration: none;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 700;
+            color: white;
+            background: linear-gradient(115deg, #3156c9, #7653d6);
+            box-shadow: 0 6px 16px rgba(75, 77, 190, 0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
+        .back-btn:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 9px 20px rgba(75, 77, 190, 0.3);
+        }
 
-        /* Mobile */
+        .back-btn:focus-visible,
+        .btn:focus-visible {
+            outline: 3px solid #a5b4fc;
+            outline-offset: 4px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 25px 20px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.7;
+        }
 
         @media (max-width: 600px) {
-
-            .top-section {
-                flex-direction: column;
-                gap: 15px;
-                align-items: stretch;
-            }
-
-            .top-section .btn {
-                text-align: center;
-            }
-
-            .details {
-                grid-template-columns: 1fr;
+            .header {
+                padding: 23px 16px;
             }
 
             .header h1 {
                 font-size: 24px;
             }
 
-            .container {
-                width: 90%;
+            .header p {
+                font-size: 13px;
             }
 
+            .container {
+                width: 91%;
+                margin: 26px auto;
+            }
+
+            .top-section h2 {
+                font-size: 23px;
+            }
+
+            .warranty-card {
+                padding: 19px;
+            }
+
+            .warranty-card h3 {
+                font-size: 19px;
+            }
+
+            .card-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .details {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .detail-box {
+                padding: 15px;
+            }
+
+            .back-btn {
+                width: 100%;
+                max-width: 320px;
+            }
+
+            .empty {
+                padding: 40px 18px;
+            }
         }
-      
-.bill-actions {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-    margin-top: 15px;
-}
-
-.back-btn {
-    background: #64748b;
-    color: white;
-    border: none;
-    padding: 10px 18px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 14px;
-}
-
-.back-btn:hover {
-    background: #475569;
-}
-
-
-
     </style>
-
 </head>
 
-
 <body>
+    <header class="header">
+        <h1>Warranty Management</h1>
+        <p>Track your appliance warranty status and expiry dates in one place.</p>
+    </header>
 
-
-    <!-- Header -->
-
-    <div class="header">
-
-        <h1>
-            🛡️ Warranty Management
-        </h1>
-
-        <p>
-            Track and manage your appliance warranties
-        </p>
-
-    </div>
-
-
-    <div class="container">
-
-
-        <!-- Top Section -->
-
-        <div class="top-section">
-
-            <h2>
-                Warranty Details
-            </h2>
-
-            <a href="/appliances/" class="btn">
-                + Add Appliance
-            </a>
-
-        </div>
-
+    <main class="container">
+        <section class="top-section">
+            <h2>Warranty Details</h2>
+            <p>Check warranty information, appliance details and purchase bills.</p>
+        </section>
 
         {% if appliances %}
-
-
             {% for appliance in appliances %}
+                <article class="warranty-card">
+                    <div class="card-heading">
+                        <h3>{{ appliance.get_appliance_type_display }}</h3>
 
+                        {% if appliance.warranty_expiry_date %}
+                            {% if appliance.warranty_status == "Expired" %}
+                                <span class="status expired">Warranty Expired</span>
+                            {% elif appliance.warranty_status == "Expiring Soon" %}
+                                <span class="status expiring">Warranty Expiring Soon</span>
+                            {% else %}
+                                <span class="status active">Active Warranty</span>
+                            {% endif %}
+                        {% else %}
+                            <span class="status unknown">Date Not Available</span>
+                        {% endif %}
+                    </div>
 
-            <!-- Warranty Card -->
+                    <div class="details">
+                        <div class="detail-box">
+                            <strong>Brand</strong>
+                            <p>{{ appliance.brand|default:"Not provided" }}</p>
+                        </div>
 
-            <div class="warranty-card">
+                        <div class="detail-box">
+                            <strong>Model Number</strong>
+                            <p>{{ appliance.model_number|default:"Not provided" }}</p>
+                        </div>
 
+                        <div class="detail-box">
+                            <strong>Warranty Start</strong>
+                            <p>{{ appliance.warranty_start_date|default:"Not provided" }}</p>
+                        </div>
 
-                <h3>
-                    🔧 {{ appliance.appliance_type }}
-                </h3>
+                        <div class="detail-box">
+                            <strong>Warranty Expiry</strong>
+                            <p>{{ appliance.warranty_expiry_date|default:"Not provided" }}</p>
+                        </div>
 
+                        <div class="detail-box">
+                            <strong>Purchase Date</strong>
+                            <p>{{ appliance.purchase_date|default:"Not provided" }}</p>
+                        </div>
 
-                <!-- Warranty Status -->
+                        <div class="detail-box">
+                            <strong>Customer Care</strong>
+                            <p>{{ appliance.customer_care_number|default:"Not provided" }}</p>
+                        </div>
+                    </div>
 
-
-                {% if appliance.warranty_expiry_date %}
-
-
-                    {% if appliance.warranty_status == "Expired" %}
-
-                        <span class="status expired">
-                            🔴 Warranty Expired
-                        </span>
-
-
-                    {% elif appliance.warranty_status == "Expiring Soon" %}
-
-                        <span class="status expiring">
-                            🟠 Warranty Expiring Soon
-                        </span>
-
-
-                    {% else %}
-
-                        <span class="status active">
-                            🟢 Active Warranty
-                        </span>
-
+                    {% if appliance.bill %}
+                        <div class="bill-actions">
+                            <a href="{% url 'view_bill' appliance.id %}" class="btn">
+                                View Purchase Bill
+                            </a>
+                        </div>
                     {% endif %}
-
-
-                {% else %}
-
-                    <span class="status">
-                        ⚪ Date Not Available
-                    </span>
-
-                {% endif %}
-
-
-                <!-- Appliance Details -->
-
-                <div class="details">
-
-
-                    <div class="detail-box">
-
-                        <strong>
-                            Brand
-                        </strong>
-
-                        <p>
-                            {{ appliance.brand }}
-                        </p>
-
-                    </div>
-
-
-                    <div class="detail-box">
-
-                        <strong>
-                            Model Number
-                        </strong>
-
-                        <p>
-                            {{ appliance.model_number }}
-                        </p>
-
-                    </div>
-
-
-                    <div class="detail-box">
-
-                        <strong>
-                            Warranty Start
-                        </strong>
-
-                        <p>
-                            {{ appliance.warranty_start_date|default:"Not provided" }}
-                        </p>
-
-                    </div>
-
-
-                    <div class="detail-box">
-
-                        <strong>
-                            Warranty Expiry
-                        </strong>
-
-                        <p>
-                            {{ appliance.warranty_expiry_date|default:"Not provided" }}
-                        </p>
-
-                    </div>
-
-
-                    <div class="detail-box">
-
-                        <strong>
-                            Purchase Date
-                        </strong>
-
-                        <p>
-                            {{ appliance.purchase_date }}
-                        </p>
-
-                    </div>
-
-
-                    <div class="detail-box">
-
-                        <strong>
-                            Customer Care
-                        </strong>
-
-                        <p>
-                            {{ appliance.customer_care_number|default:"Not provided" }}
-                        </p>
-
-                    </div>
-
-
-                </div>
-
-
-             
-<!-- Bill Buttons -->
-
-<!-- Bill Button -->
-
-<!-- Bill Button -->
-
-                <!-- Bill Button -->
-
-                {% if appliance.bill %}
-                    <div class="bill-actions">
-                        <a href="{% url 'view_bill' appliance.id %}"
-                           class="btn bill-btn">
-                            📄 View Bill
-                        </a>
-                    </div>
-                {% endif %}
-
-            </div>
-
-
-            </div>
-
-
+                </article>
             {% endfor %}
-
-
         {% else %}
-
-
-            <!-- No Appliances -->
-
-            <div class="empty">
-
-                <h2>
-                    📋 No Appliances Found
-                </h2>
-
-                <p>
-                    Add an appliance to view its warranty information.
-                </p>
-
-                <br>
-
-                <a href="/appliances/" class="btn">
-                    + Add Appliance
-                </a>
-
-            </div>
-
-
+            <section class="empty">
+                <div class="empty-icon">W</div>
+                <h2>No Appliances Found</h2>
+                <p>No appliance warranty details are available yet. Add an appliance to view its warranty information here.</p>
+            </section>
         {% endif %}
 
+        <div class="back-button-container">
+            <a href="/users/dashboard/" class="back-btn">Back to Dashboard</a>
+        </div>
+    </main>
 
-        <!-- Back -->
-
-        <br>
-
-        <a href="/users/dashboard/" class="btn back-btn">
-            ← Back to Dashboard
-        </a>
-
-
-    </div>
-
-
+    <footer class="footer">
+        Smart Household Maintenance<br>
+        Keep track of your home appliances with ease.
+    </footer>
 </body>
-
 </html>

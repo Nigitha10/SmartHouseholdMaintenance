@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -16,14 +16,14 @@
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #f1f5f9;
-            color: #334155;
+            background: #f4f6fc;
+            color: #202b45;
         }
 
         /* Header */
 
         .header {
-            background: #1e3a8a;
+            background: linear-gradient(115deg, #273c9a 0%, #4658d5 52%, #8052d6 100%);
             color: white;
             padding: 22px 35px;
             display: flex;
@@ -38,7 +38,7 @@
 
         .header p {
             margin: 5px 0 0;
-            color: #dbeafe;
+            color: #e7eaff;
             font-size: 13px;
         }
 
@@ -58,13 +58,13 @@
 
         .page-title h2 {
             margin: 0;
-            color: #1e293b;
+            color: #1d347e;
             font-size: 24px;
         }
 
         .page-title p {
             margin-top: 7px;
-            color: #64748b;
+            color: #7d879c;
         }
 
         /* Grid */
@@ -84,7 +84,7 @@
             background: white;
             border-radius: 14px;
             padding: 24px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #e7eaf3;
             box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
         }
 
@@ -95,13 +95,13 @@
             align-items: center;
             gap: 14px;
             padding-bottom: 18px;
-            border-bottom: 1px solid #e2e8f0;
+            border-bottom: 1px solid #e7eaf3;
         }
 
         .appliance-icon {
             width: 48px;
             height: 48px;
-            background: #dbeafe;
+            background: #e7eaff;
             border-radius: 12px;
             display: flex;
             align-items: center;
@@ -111,13 +111,13 @@
 
         .appliance-header h3 {
             margin: 0;
-            color: #1e3a8a;
+            color: #3156c9;
             font-size: 20px;
         }
 
         .model {
             margin: 5px 0 0;
-            color: #64748b;
+            color: #7d879c;
             font-size: 13px;
         }
 
@@ -129,7 +129,7 @@
 
         .service-section h4 {
             margin: 0 0 12px;
-            color: #1e293b;
+            color: #1d347e;
             font-size: 15px;
         }
 
@@ -145,18 +145,18 @@
             background: #f8fafc;
             padding: 12px;
             border-radius: 9px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #e7eaf3;
         }
 
         .detail-box span {
             display: block;
             font-size: 12px;
-            color: #64748b;
+            color: #7d879c;
             margin-bottom: 5px;
         }
 
         .detail-box strong {
-            color: #334155;
+            color: #202b45;
             font-size: 14px;
         }
 
@@ -178,15 +178,15 @@
             padding: 45px;
             text-align: center;
             border-radius: 14px;
-            border: 1px solid #e2e8f0;
+            border: 1px solid #e7eaf3;
         }
 
         .empty h3 {
-            color: #1e3a8a;
+            color: #3156c9;
         }
 
         .empty p {
-            color: #64748b;
+            color: #7d879c;
         }
 
         /* Back button */
@@ -244,7 +244,7 @@
         <div>
 
             <h1>
-                🛠️ Service & Maintenance
+                Service & Maintenance
             </h1>
 
             <p>
@@ -291,7 +291,7 @@
                 <div class="appliance-header">
 
                     <div class="appliance-icon">
-                        🔧
+
                     </div>
 
                     <div>
@@ -314,7 +314,7 @@
                 <div class="service-section">
 
                     <h4>
-                        📅 Service Schedule
+                        Service Schedule
                     </h4>
 
 
@@ -384,7 +384,7 @@
                 <div class="service-section">
 
                     <h4>
-                        📝 Service Notes
+                        Service Notes
                     </h4>
 
                     <div class="notes">
@@ -405,7 +405,7 @@
             <div class="empty">
 
                 <h3>
-                    📭 No Appliances Found
+                    ðŸ“­ No Appliances Found
                 </h3>
 
                 <p>
@@ -427,7 +427,7 @@
             href="{% url 'dashboard' %}"
             class="back-btn"
         >
-            ← Back to Dashboard
+            Back to Dashboard
         </a>
 
 
@@ -437,3 +437,4 @@
 </body>
 
 </html>
+

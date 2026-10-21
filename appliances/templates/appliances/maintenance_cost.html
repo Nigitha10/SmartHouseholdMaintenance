@@ -1,241 +1,132 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Maintenance Cost</title>
-
+    <title>Maintenance Cost | Smart Household Maintenance</title>
     <style>
-        * {
-            box-sizing: border-box;
+        * { box-sizing: border-box; }
+        :root {
+            --primary: #3156c9;
+            --primary-dark: #1d347e;
+            --purple: #7653d6;
+            --background: #f4f6fc;
+            --white: #ffffff;
+            --text: #202b45;
+            --muted: #7d879c;
+            --border: #e7eaf3;
+            --shadow: 0 8px 25px rgba(36,54,100,.07);
         }
-
         body {
             margin: 0;
             font-family: Arial, sans-serif;
-            background: #f8fafc;
-            color: #334155;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
         }
-
         .header {
-            background: #1e3a8a;
+            background: linear-gradient(115deg,#273c9a 0%,#4658d5 52%,#8052d6 100%);
             color: white;
-            padding: 25px 30px;
-            text-align: center;
+            padding: 38px 7%;
         }
-
-        .header h1 {
-            margin: 0;
-            font-size: 28px;
-        }
-
-        .header p {
-            margin: 8px 0 0;
-            color: #dbeafe;
-            font-size: 14px;
-        }
-
-        .container {
-            width: 92%;
-            max-width: 900px;
-            margin: 30px auto;
-        }
-
-        .page-title h2 {
-            margin: 0;
-            color: #1e293b;
-            font-size: 24px;
-        }
-
-        .page-title p {
-            color: #64748b;
-            font-size: 14px;
-        }
-
-        .cost-card {
+        .header h1 { margin: 0; font-size: 32px; }
+        .header p { color: #edf1ff; margin: 12px 0 0; line-height: 1.7; }
+        .container { max-width: 1150px; margin: 35px auto; padding: 0 22px; }
+        .section-title { color: var(--primary-dark); font-size: 25px; margin: 0 0 22px; }
+        .total-card,.cost-card,.empty {
             background: white;
-            padding: 24px;
-            margin-top: 22px;
-            border-radius: 15px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.07);
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            padding: 26px;
+            box-shadow: var(--shadow);
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
         }
-
-        .appliance-name {
-            color: #1e3a8a;
-            margin: 0 0 5px;
-            font-size: 20px;
+        .total-card::before,.cost-card::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 22px; right: 22px;
+            height: 4px;
+            background: linear-gradient(90deg,var(--primary),var(--purple));
+            border-radius: 0 0 5px 5px;
         }
-
-        .model {
-            color: #64748b;
-            font-size: 13px;
-            margin-bottom: 20px;
-        }
-
-        .cost-list {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-        }
-
-        .cost-box {
-            padding: 16px;
-            background: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 10px;
-        }
-
-        .cost-box strong {
-            color: #1e293b;
-            font-size: 14px;
-        }
-
-        .amount {
-            color: #2563eb;
-            font-size: 20px;
-            font-weight: bold;
-            margin-top: 7px;
-        }
-
-        .total-box {
-            margin-top: 18px;
-            padding: 18px;
-            background: #eff6ff;
-            border: 1px solid #bfdbfe;
-            border-radius: 10px;
-        }
-
-        .total-box strong {
-            color: #1e3a8a;
-            font-size: 16px;
-        }
-
-        .total-amount {
-            color: #1e3a8a;
-            font-size: 25px;
-            font-weight: bold;
-            margin-top: 7px;
-        }
-
-        .no-cost {
-            color: #64748b;
-            font-size: 14px;
-        }
-
-        .back-btn {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 12px 22px;
-            background: #2563eb;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .back-btn:hover {
-            background: #1d4ed8;
-        }
-
-        @media (max-width: 600px) {
-            .cost-list {
-                grid-template-columns: 1fr;
-            }
+        .total-label { color: var(--muted); font-weight: 600; margin: 5px 0 12px; }
+        .total-amount { font-size: 36px; color: var(--primary-dark); margin: 0; overflow-wrap: anywhere; }
+        .description { color: var(--muted); line-height: 1.7; }
+        .cost-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(280px,1fr)); gap: 22px; }
+        .cost-card { margin-bottom: 0; padding: 25px; }
+        .cost-card h3 { color: var(--primary-dark); font-size: 21px; margin: 8px 0 16px; }
+        .cost-card p { color: var(--muted); font-size: 14px; line-height: 1.8; overflow-wrap: anywhere; }
+        .cost-card strong { color: var(--primary-dark); }
+        .cost-details { background: #f8f9fe; border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; margin-top: 15px; }
+        .cost-row { display: flex; justify-content: space-between; gap: 12px; padding: 11px 0; border-bottom: 1px solid var(--border); font-size: 14px; }
+        .cost-row:last-child { border-bottom: none; }
+        .cost-row span:first-child { color: var(--muted); }
+        .cost-row span:last-child { color: var(--text); font-weight: 600; text-align: right; overflow-wrap: anywhere; }
+        .total-row { display: flex; justify-content: space-between; gap: 12px; padding: 14px; margin-top: 15px; background: #edf1ff; border: 1px solid #d9e1ff; border-radius: 10px; font-weight: 700; color: var(--primary-dark); }
+        .total-row span:last-child { color: var(--primary); text-align: right; }
+        .empty { text-align: center; padding: 40px 20px; }
+        .empty h3 { color: var(--primary-dark); }
+        .back-container { display: flex; justify-content: center; margin: 32px auto 10px; }
+        .back-btn { display: inline-flex; justify-content: center; align-items: center; min-height: 46px; min-width: 200px; padding: 12px 24px; background: #edf1ff; color: var(--primary-dark); text-decoration: none; font-weight: 600; border: 1px solid #d9e1ff; border-radius: 9px; transition: .2s; }
+        .back-btn:hover { background: var(--primary); color: white; }
+        .footer { text-align: center; padding: 28px 20px; color: var(--muted); font-size: 13px; border-top: 1px solid var(--border); background: white; margin-top: 40px; }
+        @media(max-width:600px) {
+            .header { padding: 28px 20px; }
+            .header h1 { font-size: 26px; }
+            .container { padding: 0 15px; margin: 28px auto; }
+            .cost-grid { grid-template-columns: 1fr; }
+            .total-amount { font-size: 30px; }
+            .back-btn { width: 100%; max-width: 320px; }
         }
     </style>
 </head>
-
 <body>
+<header class="header">
+    <h1>Maintenance Cost</h1>
+    <p>Track your appliance maintenance expenses and service costs.</p>
+</header>
+<main class="container">
+    <section class="total-card">
+        <p class="total-label">Total Maintenance Cost</p>
+        <h2 class="total-amount">Rs. {{ total_cost|default:0 }}</h2>
+        <p class="description">Overview of your appliance maintenance expenses.</p>
+    </section>
 
-    <div class="header">
-        <h1>💰 Maintenance Cost</h1>
-        <p>Track your appliance maintenance expenses.</p>
-    </div>
+    <h2 class="section-title">Maintenance Overview</h2>
 
-    <div class="container">
-
-        <div class="page-title">
-            <h2>📊 Appliance Costs</h2>
-            <p>View the maintenance cost of your appliances.</p>
-        </div>
-
+    {% if appliances %}
+    <div class="cost-grid">
         {% for appliance in appliances %}
-
-        <div class="cost-card">
-
-            <h3 class="appliance-name">
-                🔧 {{ appliance.brand }}
-            </h3>
-
-            <div class="model">
-                Model: {{ appliance.model_number }}
+        <article class="cost-card">
+            <h3>{{ appliance.brand|default:"Appliance" }}</h3>
+            <p><strong>Model:</strong> {{ appliance.model_number|default:"Not specified" }}</p>
+            <p><strong>Appliance Type:</strong> {{ appliance.get_appliance_type_display|default:appliance.appliance_type|default:"Not specified" }}</p>
+            <div class="cost-details">
+                <div class="cost-row"><span>Service Cost</span><span>Rs. {{ appliance.service_cost|default:0 }}</span></div>
+                <div class="cost-row"><span>Repair Cost</span><span>Rs. {{ appliance.repair_cost|default:0 }}</span></div>
+                <div class="cost-row"><span>Spare Parts Cost</span><span>Rs. {{ appliance.spare_parts_cost|default:0 }}</span></div>
+                <div class="cost-row"><span>Other Cost</span><span>Rs. {{ appliance.other_cost|default:0 }}</span></div>
             </div>
-
-            <div class="cost-list">
-
-                <div class="cost-box">
-                    <strong>🔧 Service Cost</strong>
-                    <div class="amount">
-                        ₹{{ appliance.service_cost }}
-                    </div>
-                </div>
-
-                <div class="cost-box">
-                    <strong>🛠️ Repair Cost</strong>
-                    <div class="amount">
-                        ₹{{ appliance.repair_cost }}
-                    </div>
-                </div>
-
-                <div class="cost-box">
-                    <strong>⚙️ Spare Parts Cost</strong>
-                    <div class="amount">
-                        ₹{{ appliance.spare_parts_cost }}
-                    </div>
-                </div>
-
-                <div class="cost-box">
-                    <strong>💰 Other Cost</strong>
-                    <div class="amount">
-                        ₹{{ appliance.other_cost }}
-                    </div>
-                </div>
-
+            <div class="total-row">
+                <span>Total Cost</span>
+                <span>Rs. {{ appliance.service_cost|default:0|add:appliance.repair_cost|default:0|add:appliance.spare_parts_cost|default:0|add:appliance.other_cost|default:0 }}</span>
             </div>
-
-            <div class="total-box">
-
-                <strong>📊 Total Maintenance Cost</strong>
-
-                <div class="total-amount">
-                    ₹{{ appliance.service_cost|add:appliance.repair_cost|add:appliance.spare_parts_cost|add:appliance.other_cost }}
-                </div>
-
-            </div>
-
-        </div>
-
-        {% empty %}
-
-        <div class="cost-card">
-            <h3>📭 No Appliances Found</h3>
-            <p class="no-cost">
-                Add an appliance to track maintenance costs.
-            </p>
-        </div>
-
+        </article>
         {% endfor %}
-
-        <a href="{% url 'dashboard' %}" class="back-btn">
-            ← Back to Dashboard
-        </a>
-
     </div>
+    {% else %}
+    <div class="empty">
+        <h3>No Maintenance Records Found</h3>
+        <p class="description">Add an appliance to track maintenance costs.</p>
+    </div>
+    {% endif %}
 
+    <div class="back-container">
+        <a href="{% url 'dashboard' %}" class="back-btn">Back to Dashboard</a>
+    </div>
+</main>
+<footer class="footer">Smart Household Maintenance Tracking System &copy; 2026</footer>
 </body>
-
 </html>

@@ -1,13 +1,23 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Find Service Providers</title>
+    <title>Available Services | Smart Household Maintenance</title>
 
     <style>
+        :root {
+            --primary: #3156c9;
+            --primary-dark: #1d347e;
+            --purple: #7653d6;
+            --background: #f4f6fc;
+            --white: #ffffff;
+            --text: #202b45;
+            --muted: #7d879c;
+            --border: #e7eaf3;
+            --shadow: 0 8px 25px rgba(36, 54, 100, 0.07);
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -16,14 +26,15 @@
         }
 
         body {
-            background: #f4f7fb;
-            color: #1f2937;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
         }
 
         .header {
-            background: #1e3a8a;
+            background: linear-gradient(115deg, #273c9a 0%, #4658d5 52%, #8052d6 100%);
             color: white;
-            padding: 18px 40px;
+            padding: 20px;
         }
 
         .header-content {
@@ -39,137 +50,193 @@
         .logo {
             font-size: 22px;
             font-weight: bold;
+            letter-spacing: 0.2px;
         }
 
         .header-link {
             color: white;
             text-decoration: none;
-            border: 1px solid rgba(255,255,255,0.6);
+            border: 1px solid rgba(255,255,255,0.55);
+            background: rgba(255,255,255,0.1);
             padding: 10px 16px;
-            border-radius: 8px;
+            border-radius: 9px;
+            font-size: 14px;
+            font-weight: bold;
+            transition: background 0.2s;
         }
 
         .header-link:hover {
-            background: rgba(255,255,255,0.15);
+            background: rgba(255,255,255,0.22);
         }
 
         .container {
             max-width: 1200px;
             margin: 35px auto;
-            padding: 0 20px;
+            padding: 0 22px;
+        }
+
+        .intro {
+            margin-bottom: 28px;
         }
 
         .page-title {
-            color: #1e3a8a;
+            color: var(--primary-dark);
             font-size: 30px;
-            margin-bottom: 8px;
+            margin-bottom: 9px;
         }
 
         .subtitle {
-            color: #64748b;
-            margin-bottom: 30px;
+            color: var(--muted);
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .info-banner {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px 18px;
+            margin-bottom: 25px;
+            background: linear-gradient(110deg, #edf1ff, #f4edff);
+            border: 1px solid #e1e3ff;
+            border-radius: 12px;
+            color: var(--primary-dark);
             line-height: 1.6;
+            font-size: 14px;
         }
 
         .provider-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 22px;
+            grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
+            gap: 23px;
         }
 
         .provider-card {
-            background: white;
-            border-radius: 15px;
-            padding: 24px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.07);
-            border-top: 4px solid #2563eb;
-            transition: transform 0.2s, box-shadow 0.2s;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            border-top: 4px solid var(--primary);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
             display: flex;
             flex-direction: column;
+            min-width: 0;
+        }
+
+        .provider-card:nth-child(even) {
+            border-top-color: var(--purple);
         }
 
         .provider-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 9px 25px rgba(0,0,0,0.12);
+            box-shadow: 0 13px 30px rgba(36, 54, 100, 0.12);
         }
 
         .provider-icon {
-            width: 55px;
-            height: 55px;
+            width: 56px;
+            height: 56px;
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #dbeafe;
-            border-radius: 12px;
-            font-size: 28px;
+            background: linear-gradient(135deg, #e8edff, #f0e8ff);
+            border-radius: 14px;
+            font-size: 25px;
             margin-bottom: 18px;
+            color: var(--primary-dark);
+            font-weight: bold;
         }
 
         .provider-name {
-            color: #1e3a8a;
+            color: var(--primary-dark);
             font-size: 21px;
-            margin-bottom: 10px;
+            line-height: 1.4;
+            margin-bottom: 13px;
             overflow-wrap: anywhere;
         }
 
         .provider-detail {
-            color: #64748b;
+            color: #59647d;
             font-size: 14px;
             line-height: 1.7;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
             overflow-wrap: anywhere;
+        }
+
+        .provider-detail strong {
+            color: var(--text);
         }
 
         .service-label {
             display: inline-block;
-            background: #eff6ff;
-            color: #1d4ed8;
-            padding: 7px 11px;
+            background: #eef1ff;
+            color: var(--primary-dark);
+            padding: 7px 12px;
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: bold;
-            margin: 8px 0 14px;
+            margin: 0 0 15px;
             align-self: flex-start;
+            border: 1px solid #e0e5ff;
         }
 
         .provider-footer {
             margin-top: auto;
-            padding-top: 18px;
+            padding-top: 20px;
         }
 
         .request-btn {
             display: block;
             width: 100%;
             text-align: center;
-            background: #2563eb;
+            background: linear-gradient(115deg, var(--primary), var(--purple));
             color: white;
             text-decoration: none;
-            padding: 12px 16px;
-            border-radius: 8px;
+            padding: 13px 16px;
+            border-radius: 10px;
             font-weight: bold;
-            transition: background 0.2s;
+            font-size: 14px;
+            box-shadow: 0 5px 13px rgba(49, 86, 201, 0.18);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .request-btn:hover {
-            background: #1d4ed8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(49, 86, 201, 0.25);
         }
 
         .empty-state {
             background: white;
-            padding: 40px 20px;
+            padding: 45px 25px;
             text-align: center;
-            border-radius: 14px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            border-radius: 17px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .empty-icon {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 18px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #eef1ff;
+            color: var(--primary);
+            border-radius: 50%;
+            font-size: 27px;
+            font-weight: bold;
         }
 
         .empty-state h2 {
-            color: #1e3a8a;
+            color: var(--primary-dark);
             margin-bottom: 12px;
+            font-size: 22px;
         }
 
         .empty-state p {
-            color: #64748b;
-            line-height: 1.6;
+            color: var(--muted);
+            line-height: 1.7;
         }
 
         .messages {
@@ -177,27 +244,37 @@
         }
 
         .message {
-            padding: 12px 16px;
+            padding: 13px 16px;
             margin-bottom: 10px;
-            border-radius: 8px;
+            border-radius: 10px;
             background: #dcfce7;
             color: #166534;
+            border: 1px solid #bbf7d0;
+            line-height: 1.5;
         }
 
         .footer {
             text-align: center;
-            color: #64748b;
+            color: var(--muted);
             padding: 25px 15px;
-            font-size: 13px;
+            font-size: 12px;
         }
 
         @media (max-width: 600px) {
             .header {
-                padding: 16px 20px;
+                padding: 17px 18px;
+            }
+
+            .logo {
+                font-size: 19px;
+            }
+
+            .header-content {
+                align-items: flex-start;
             }
 
             .container {
-                margin: 25px auto;
+                margin: 27px auto;
                 padding: 0 15px;
             }
 
@@ -207,6 +284,15 @@
 
             .provider-grid {
                 grid-template-columns: 1fr;
+                gap: 17px;
+            }
+
+            .provider-card {
+                padding: 21px;
+            }
+
+            .info-banner {
+                align-items: flex-start;
             }
         }
     </style>
@@ -216,22 +302,25 @@
 
 <header class="header">
     <div class="header-content">
-        <div class="logo">🔧 Smart Household Services</div>
-
-        <a href="{% url 'dashboard' %}" class="header-link">
-            ← Dashboard
-        </a>
+        <div class="logo">Smart Household Services</div>
+        <a href="{% url 'dashboard' %}" class="header-link">Back to Dashboard</a>
     </div>
 </header>
 
 <main class="container">
 
-    <h1 class="page-title">Find Service Providers</h1>
+    <section class="intro">
+        <h1 class="page-title">Available Services</h1>
+        <p class="subtitle">
+            Find the right service provider for your household appliances.
+            Compare service details and choose the support you need.
+        </p>
+    </section>
 
-    <p class="subtitle">
-        Find the right service provider for your home appliances.
-        Choose a provider and submit your service request.
-    </p>
+    <div class="info-banner">
+        <span><strong>Service Center</strong></span>
+        <span>Explore available providers, check service information, and submit a service request when you are ready.</span>
+    </div>
 
     {% if messages %}
         <div class="messages">
@@ -245,10 +334,9 @@
         <div class="provider-grid">
 
             {% for provider in providers %}
-
                 <article class="provider-card">
 
-                    <div class="provider-icon">🛠️</div>
+                    <div class="provider-icon">SH</div>
 
                     <h2 class="provider-name">
                         {{ provider.service_name }}
@@ -256,7 +344,7 @@
 
                     {% if provider.company_name %}
                         <p class="provider-detail">
-                            🏢 <strong>Company:</strong>
+                            <strong>Company:</strong>
                             {{ provider.company_name }}
                         </p>
                     {% endif %}
@@ -275,48 +363,44 @@
 
                     {% if provider.address %}
                         <p class="provider-detail">
-                            📍 <strong>Address:</strong>
+                            <strong>Address:</strong>
                             {{ provider.address }}
                         </p>
                     {% endif %}
 
                     {% if provider.phone %}
                         <p class="provider-detail">
-                            📞 <strong>Phone:</strong>
+                            <strong>Phone:</strong>
                             {{ provider.phone }}
                         </p>
                     {% endif %}
 
                     {% if provider.service_cost %}
                         <p class="provider-detail">
-                            💰 <strong>Service Cost:</strong>
-                            ₹{{ provider.service_cost }}
+                            <strong>Service Cost:</strong>
+                            Rs. {{ provider.service_cost }}
                         </p>
                     {% elif provider.price %}
                         <p class="provider-detail">
-                            💰 <strong>Price:</strong>
-                            ₹{{ provider.price }}
+                            <strong>Price:</strong>
+                            Rs. {{ provider.price }}
                         </p>
                     {% endif %}
 
                     {% if provider.discount %}
                         <p class="provider-detail">
-                            🎉 <strong>Discount:</strong>
+                            <strong>Discount:</strong>
                             {{ provider.discount }}%
                         </p>
                     {% endif %}
 
                     <div class="provider-footer">
-                        <a
-                            href="{% url 'request_service' provider.id %}"
-                            class="request-btn"
-                        >
-                            Request Service →
+                        <a href="{% url 'request_service' provider.id %}" class="request-btn">
+                            Request Service
                         </a>
                     </div>
 
                 </article>
-
             {% endfor %}
 
         </div>
@@ -324,8 +408,8 @@
     {% else %}
 
         <div class="empty-state">
-            <h2>🔍 No Service Providers Available</h2>
-
+            <div class="empty-icon">SH</div>
+            <h2>No Service Providers Available</h2>
             <p>
                 Currently, no service providers are available.
                 Please check again later.
@@ -337,9 +421,8 @@
 </main>
 
 <footer class="footer">
-    Smart Household Maintenance System
+    Smart Household Maintenance Tracking System
 </footer>
 
 </body>
 </html>
-

@@ -1,181 +1,545 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Maintenance Cost</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Maintenance Cost | Smart Household Maintenance</title>
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #3156c9;
+            --primary-dark: #1d347e;
+            --purple: #7653d6;
+            --teal: #159b91;
+            --orange: #e89535;
+            --background: #f4f6fc;
+            --white: #ffffff;
+            --text: #202b45;
+            --muted: #7d879c;
+            --border: #e7eaf3;
+            --shadow: 0 8px 25px rgba(36, 54, 100, 0.07);
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
             margin: 0;
+            font-family: Arial, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
         }
 
+        /* Header - Same as Offers and Discounts */
         .header {
-            background: #1e3a8a;
-            color: white;
-            padding: 25px;
-            text-align: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(
+                115deg,
+                #273c9a 0%,
+                #4658d5 52%,
+                #8052d6 100%
+            );
+            color: var(--white);
+            padding: 38px 7%;
         }
 
+        .header::after {
+            content: "";
+            position: absolute;
+            width: 230px;
+            height: 230px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.08);
+            right: 7%;
+            top: -110px;
+        }
+
+        .header h1 {
+            position: relative;
+            z-index: 1;
+            margin: 0;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .header p {
+            position: relative;
+            z-index: 1;
+            margin: 12px 0 0;
+            color: #edf1ff;
+            line-height: 1.7;
+            font-size: 15px;
+        }
+
+        /* Main container */
         .container {
-            width: 90%;
-            max-width: 1000px;
-            margin: 30px auto;
+            max-width: 1150px;
+            margin: 35px auto;
+            padding: 0 22px;
         }
 
-        .back {
-            display: inline-block;
-            margin-bottom: 20px;
-            text-decoration: none;
-            color: #1e3a8a;
-            font-weight: bold;
-        }
-
-        .total-card {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            text-align: center;
+        /* Top section */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
             margin-bottom: 25px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
         }
 
-        .total-card h2 {
-            color: #1e3a8a;
-            font-size: 30px;
+        .top-bar h2 {
+            color: var(--primary-dark);
+            margin: 0;
+            font-size: 25px;
+        }
+
+        /* Total cost card */
+        .total-card {
+            position: relative;
+            overflow: hidden;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            padding: 28px;
+            margin-bottom: 32px;
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .total-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 22px;
+            right: 22px;
+            height: 4px;
+            border-radius: 0 0 5px 5px;
+            background: linear-gradient(
+                90deg,
+                var(--primary),
+                var(--purple)
+            );
+        }
+
+        .total-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 14px 32px rgba(36, 54, 100, 0.12);
+        }
+
+        .total-label {
+            color: var(--muted);
+            font-size: 15px;
+            font-weight: 600;
+            margin: 5px 0 12px;
+        }
+
+        .total-amount {
+            color: var(--primary-dark);
+            font-size: 36px;
+            font-weight: 700;
+            margin: 0;
+            overflow-wrap: anywhere;
+        }
+
+        .total-description {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+            margin: 12px 0 0;
+        }
+
+        /* Section heading */
+        .section-title {
+            color: var(--primary-dark);
+            margin: 0 0 22px;
+            font-size: 25px;
+        }
+
+        /* Service cards */
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 22px;
         }
 
         .service-card {
-            background: white;
-            padding: 22px;
-            margin-bottom: 20px;
-            border-radius: 12px;
-            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            position: relative;
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            overflow-wrap: anywhere;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .service-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 22px;
+            right: 22px;
+            height: 4px;
+            border-radius: 0 0 5px 5px;
+            background: linear-gradient(
+                90deg,
+                var(--primary),
+                var(--purple)
+            );
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 32px rgba(36, 54, 100, 0.12);
+            border-color: #cbd5f5;
         }
 
         .service-card h3 {
-            color: #1e3a8a;
+            color: var(--primary-dark);
+            margin: 8px 0 15px;
+            font-size: 21px;
+            line-height: 1.5;
+        }
+
+        /* Status badge */
+        .status {
+            display: inline-block;
+            background: #edf1ff;
+            color: var(--primary-dark);
+            padding: 7px 12px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 12px;
+            border: 1px solid #d9e1ff;
+        }
+
+        .service-card p {
+            color: var(--muted);
+            line-height: 1.8;
+            font-size: 14px;
+            margin: 8px 0;
+        }
+
+        .service-card p strong {
+            color: var(--primary-dark);
+        }
+
+        /* Cost details */
+        .cost-details {
+            background: #f8f9fe;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 14px;
+            margin-top: 16px;
         }
 
         .cost-row {
             display: flex;
             justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 11px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
         }
 
+        .cost-row:last-child {
+            border-bottom: none;
+        }
+
+        .cost-row span:first-child {
+            color: var(--muted);
+        }
+
+        .cost-row span:last-child {
+            color: var(--text);
+            font-weight: 600;
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+
+        /* Individual total */
         .total-row {
             display: flex;
             justify-content: space-between;
-            padding-top: 15px;
-            font-size: 18px;
-            font-weight: bold;
-            color: #1e3a8a;
+            align-items: center;
+            gap: 12px;
+            background: #edf1ff;
+            color: var(--primary-dark);
+            border: 1px solid #d9e1ff;
+            padding: 14px;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 15px;
+            font-weight: 700;
         }
 
-        .status {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 20px;
-            background: #eef2ff;
-            color: #1e3a8a;
-            font-size: 14px;
+        .total-row span:last-child {
+            color: var(--primary);
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+
+        /* Empty state */
+        .empty {
+            background: var(--white);
+            padding: 45px 20px;
+            text-align: center;
+            border-radius: 17px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .empty-icon {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .empty h3 {
+            color: var(--primary-dark);
+            font-size: 22px;
+        }
+
+        .empty p {
+            color: var(--muted);
+            line-height: 1.8;
+        }
+
+        /* Back button */
+        .back-button-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            margin: 32px auto 10px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 46px;
+            min-width: 200px;
+            padding: 12px 24px;
+            background: #edf1ff;
+            color: var(--primary-dark);
+            text-decoration: none;
+            text-align: center;
+            font-size: 15px;
+            font-weight: 600;
+            border: 1px solid #d9e1ff;
+            border-radius: 9px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .back-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        .back-btn:focus-visible {
+            outline: 3px solid #aebdf5;
+            outline-offset: 3px;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 28px 20px;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.8;
+            border-top: 1px solid var(--border);
+            background: var(--white);
+            margin-top: 40px;
+        }
+
+        /* Mobile responsive */
+        @media (max-width: 600px) {
+            .header {
+                padding: 28px 20px;
+            }
+
+            .header h1 {
+                font-size: 26px;
+                line-height: 1.4;
+            }
+
+            .header p {
+                font-size: 14px;
+            }
+
+            .container {
+                margin: 28px auto;
+                padding: 0 15px;
+            }
+
+            .top-bar h2,
+            .section-title {
+                font-size: 22px;
+            }
+
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .total-card,
+            .service-card {
+                padding: 22px;
+            }
+
+            .total-amount {
+                font-size: 30px;
+            }
+
+            .back-button-container {
+                margin: 28px 0 10px;
+            }
+
+            .back-btn {
+                width: 100%;
+                max-width: 320px;
+                min-height: 48px;
+            }
+
+            .empty {
+                padding: 35px 18px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<div class="header">
+<header class="header">
     <h1>💰 Maintenance Cost</h1>
-    <p>Track your appliance maintenance expenses</p>
-</div>
+    <p>Track your appliance maintenance expenses and service costs.</p>
+</header>
 
-<div class="container">
+<main class="container">
 
-    <a href="{% url 'dashboard' %}" class="back">
-        ← Back to Dashboard
-    </a>
-
-    <div class="total-card">
-        <h3>Total Maintenance Cost</h3>
-        <h2>₹{{ total_cost }}</h2>
+    <div class="top-bar">
+        <h2>Maintenance Overview</h2>
     </div>
 
-    <h2>Service Cost Details</h2>
-
-    {% for item in requests %}
-
-    <div class="service-card">
-
-        <h3>
-            {{ item.service_provider.company_name }}
-        </h3>
-
-        <p>
-            <strong>Appliance:</strong>
-            {% if item.appliance %}
-                {{ item.appliance.brand }} - {{ item.appliance.model }}
-            {% else %}
-                Not specified
-            {% endif %}
+    <!-- Total Maintenance Cost -->
+    <section class="total-card">
+        <p class="total-label">Total Maintenance Cost</p>
+        <h2 class="total-amount">₹{{ total_cost|default:0 }}</h2>
+        <p class="total-description">
+            Overview of your appliance maintenance expenses.
         </p>
+    </section>
 
-        <p>
-            <strong>Service:</strong>
-            {{ item.service_provider.service_name }}
-        </p>
+    <h2 class="section-title">Service Cost Details</h2>
 
-        <p>
-            <strong>Date:</strong>
-            {{ item.request_date|date:"d M Y, h:i A" }}
-        </p>
+    {% if requests %}
 
-        <p>
-            <strong>Status:</strong>
-            <span class="status">
-                {{ item.status }}
-            </span>
-        </p>
+        <div class="service-grid">
 
-        <br>
+            {% for item in requests %}
 
-        <div class="cost-row">
-            <span>Service Cost</span>
-            <span>₹{{ item.service_cost }}</span>
+                <article class="service-card">
+
+                    <h3>
+                        {{ item.service_provider.company_name|default:"Service Provider" }}
+                    </h3>
+
+                    <p>
+                        <strong>Appliance:</strong>
+                        {% if item.appliance %}
+                            {{ item.appliance.brand }} -
+                            {{ item.appliance.model_number }}
+                        {% else %}
+                            Not specified
+                        {% endif %}
+                    </p>
+
+                    <p>
+                        <strong>Service:</strong>
+                        {{ item.service_provider.service_name|default:"General Service" }}
+                    </p>
+
+                    <p>
+                        <strong>Date:</strong>
+                        {{ item.request_date|date:"d M Y, h:i A" }}
+                    </p>
+
+                    <p>
+                        <strong>Status:</strong>
+                        <span class="status">{{ item.status }}</span>
+                    </p>
+
+                    <div class="cost-details">
+
+                        <div class="cost-row">
+                            <span>Service Cost</span>
+                            <span>₹{{ item.service_cost|default:0 }}</span>
+                        </div>
+
+                        <div class="cost-row">
+                            <span>Repair Cost</span>
+                            <span>₹{{ item.repair_cost|default:0 }}</span>
+                        </div>
+
+                        <div class="cost-row">
+                            <span>Spare Parts Cost</span>
+                            <span>₹{{ item.spare_parts_cost|default:0 }}</span>
+                        </div>
+
+                        <div class="cost-row">
+                            <span>Other Cost</span>
+                            <span>₹{{ item.other_cost|default:0 }}</span>
+                        </div>
+
+                    </div>
+
+                    <div class="total-row">
+                        <span>Total Cost</span>
+                        <span>₹{{ item.total_cost|default:0 }}</span>
+                    </div>
+
+                </article>
+
+            {% endfor %}
+
         </div>
 
-        <div class="cost-row">
-            <span>Repair Cost</span>
-            <span>₹{{ item.repair_cost }}</span>
+    {% else %}
+
+        <div class="empty">
+            <div class="empty-icon">📋</div>
+            <h3>No Maintenance Records Found</h3>
+            <p>
+                Your maintenance cost details will appear here
+                when service records are available.
+            </p>
         </div>
 
-        <div class="cost-row">
-            <span>Spare Parts Cost</span>
-            <span>₹{{ item.spare_parts_cost }}</span>
-        </div>
+    {% endif %}
 
-        <div class="cost-row">
-            <span>Other Cost</span>
-            <span>₹{{ item.other_cost }}</span>
-        </div>
-
-        <div class="total-row">
-            <span>Total Cost</span>
-            <span>₹{{ item.total_cost }}</span>
-        </div>
-
+    <div class="back-button-container">
+        <a href="{% url 'dashboard' %}" class="back-btn">
+            ← Back to Dashboard
+        </a>
     </div>
 
-    {% empty %}
+</main>
 
-    <div class="service-card">
-        <p>No maintenance cost records found.</p>
-    </div>
-
-    {% endfor %}
-
-</div>
+<footer class="footer">
+    Smart Household Maintenance Tracking System © 2026
+</footer>
 
 </body>
 </html>
+

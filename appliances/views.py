@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+﻿from django.shortcuts import render, redirect, get_object_or_404
 from .models import Appliance
 from django.contrib.auth.decorators import login_required
 from service_provider.models import Notification
@@ -114,13 +114,6 @@ def add_appliance(request):
             spare_parts_cost=spare_parts_cost,
             other_cost=other_cost
         )
-
-        # Public Render URL for QR Code
-        appliance.qr_code = (
-            f"https://smarthouseholdmaintenance.onrender.com/"
-            f"appliances/{appliance.id}/"
-        )
-
         appliance.save()
 
         return redirect("appliance_list")
@@ -408,15 +401,22 @@ def history(request):
 
 @login_required
 def maintenance_cost(request):
-    appliances = Appliance.objects.filter(
-        owner=request.user
+    appliances = Appliance.objects.filter(owner=request.user)
+
+    total_cost = sum(
+        (appliance.service_cost or 0)
+        + (appliance.repair_cost or 0)
+        + (appliance.spare_parts_cost or 0)
+        + (appliance.other_cost or 0)
+        for appliance in appliances
     )
 
     return render(
         request,
         "appliances/maintenance_cost.html",
         {
-            "appliances": appliances
+            "appliances": appliances,
+            "total_cost": total_cost,
         }
     )
 # =========================================================
@@ -481,7 +481,7 @@ def ai_assistant(request):
 
         if question:
 
-            # 👋 Greeting
+            # ≡ƒæï Greeting
             if question in [
                 "hi",
                 "hello",
@@ -493,36 +493,36 @@ def ai_assistant(request):
                 "good afternoon"
             ]:
                 response = (
-                    "Hi! 👋😊 Welcome to your AI Maintenance Assistant! "
+                    "Hi! ≡ƒæï≡ƒÿè Welcome to your AI Maintenance Assistant! "
                     "I'm here to help you with your household appliances, "
-                    "maintenance, warranty, service and appliance care. 🔧🏠 "
+                    "maintenance, warranty, service and appliance care. ≡ƒöº≡ƒÅá "
                     "What appliance would you like help with today?"
                 )
 
-            # ❤️ Friendly response
+            # Γ¥ñ∩╕Å Friendly response
             elif (
                 "love you" in question
                 or "luv you" in question
             ):
                 response = (
-                    "Aww, that's so sweet! 😊💙 "
+                    "Aww, that's so sweet! ≡ƒÿè≡ƒÆÖ "
                     "I'm always happy to help you with your appliance "
-                    "questions and maintenance needs! 🔧🏠✨"
+                    "questions and maintenance needs! ≡ƒöº≡ƒÅáΓ£¿"
                 )
 
-            # 🙏 Thank You
+            # ≡ƒÖÅ Thank You
             elif (
                 "thank you" in question
                 or "thanks" in question
                 or "thankyou" in question
             ):
                 response = (
-                    "You're very welcome! 😊💙 "
+                    "You're very welcome! ≡ƒÿè≡ƒÆÖ "
                     "I'm always happy to help you with your appliance "
-                    "maintenance questions. 🔧✨"
+                    "maintenance questions. ≡ƒöºΓ£¿"
                 )
 
-            # ❄️ AC
+            # Γ¥ä∩╕Å AC
             elif (
                 "ac" in question
                 or "air conditioner" in question
@@ -535,36 +535,36 @@ def ai_assistant(request):
                     or "cool" in question
                 ):
                     response = (
-                        "If your AC is not cooling properly ❄️, you can first "
+                        "If your AC is not cooling properly Γ¥ä∩╕Å, you can first "
                         "check whether the air filter needs cleaning and make "
                         "sure the outdoor unit has proper airflow. "
                         "Also check that the temperature setting is appropriate. "
-                        "If the problem continues, please contact a qualified technician. 🔧😊"
+                        "If the problem continues, please contact a qualified technician. ≡ƒöº≡ƒÿè"
                     )
 
                 elif "service" in question:
                     response = (
                         "Regular AC servicing can help maintain cooling "
-                        "performance and efficiency. ❄️🔧 "
+                        "performance and efficiency. Γ¥ä∩╕Å≡ƒöº "
                         "Keep the filter clean and follow the recommended "
-                        "service schedule. 😊"
+                        "service schedule. ≡ƒÿè"
                     )
 
                 elif "maintenance" in question:
                     response = (
-                        "For AC maintenance ❄️😊, keep the air filter clean, "
+                        "For AC maintenance Γ¥ä∩╕Å≡ƒÿè, keep the air filter clean, "
                         "make sure airflow is not blocked and follow the "
-                        "recommended service schedule. 🔧"
+                        "recommended service schedule. ≡ƒöº"
                     )
 
                 else:
                     response = (
-                        "Sure! 😊 I can help you with your AC. ❄️ "
+                        "Sure! ≡ƒÿè I can help you with your AC. Γ¥ä∩╕Å "
                         "You can ask me about cooling problems, service, "
                         "maintenance, warranty or general AC care."
                     )
 
-            # 🧊 Refrigerator
+            # ≡ƒºè Refrigerator
             elif (
                 "fridge" in question
                 or "refrigerator" in question
@@ -575,10 +575,10 @@ def ai_assistant(request):
                     or "cooling" in question
                 ):
                     response = (
-                        "If your refrigerator is not cooling properly 🧊, "
+                        "If your refrigerator is not cooling properly ≡ƒºè, "
                         "check the temperature setting and make sure the "
                         "door is closing properly. Keep the ventilation areas "
-                        "clear. If the issue continues, contact a qualified technician. 🔧😊"
+                        "clear. If the issue continues, contact a qualified technician. ≡ƒöº≡ƒÿè"
                     )
 
                 elif (
@@ -586,19 +586,19 @@ def ai_assistant(request):
                     or "service" in question
                 ):
                     response = (
-                        "For refrigerator maintenance 🧊😊, keep the inside "
+                        "For refrigerator maintenance ≡ƒºè≡ƒÿè, keep the inside "
                         "clean, check the door seal and make sure ventilation "
-                        "is not blocked. Follow the recommended service schedule. 🔧"
+                        "is not blocked. Follow the recommended service schedule. ≡ƒöº"
                     )
 
                 else:
                     response = (
-                        "Sure! 😊 I can help with your refrigerator. 🧊 "
+                        "Sure! ≡ƒÿè I can help with your refrigerator. ≡ƒºè "
                         "You can ask about cooling, maintenance, service, "
                         "warranty or general refrigerator care."
                     )
 
-            # 🧺 Washing Machine
+            # ≡ƒº║ Washing Machine
             elif (
                 "washing machine" in question
                 or "washing" in question
@@ -611,9 +611,9 @@ def ai_assistant(request):
                 ):
                     response = (
                         "If your washing machine is vibrating or making unusual "
-                        "noise 🧺, make sure it is placed on a stable, level surface "
+                        "noise ≡ƒº║, make sure it is placed on a stable, level surface "
                         "and avoid overloading it. If the problem continues, "
-                        "consider contacting a qualified technician. 🔧😊"
+                        "consider contacting a qualified technician. ≡ƒöº≡ƒÿè"
                     )
 
                 elif (
@@ -621,19 +621,19 @@ def ai_assistant(request):
                     or "service" in question
                 ):
                     response = (
-                        "For washing machine maintenance 🧺😊, keep the drum "
+                        "For washing machine maintenance ≡ƒº║≡ƒÿè, keep the drum "
                         "and filter clean, check the water supply and follow "
                         "the recommended service schedule."
                     )
 
                 else:
                     response = (
-                        "Sure! 😊 I can help with your washing machine. 🧺 "
+                        "Sure! ≡ƒÿè I can help with your washing machine. ≡ƒº║ "
                         "You can ask about maintenance, vibration, cleaning, "
                         "service or warranty."
                     )
 
-            # 📺 TV
+            # ≡ƒô║ TV
             elif (
                 "tv" in question
                 or "television" in question
@@ -644,7 +644,7 @@ def ai_assistant(request):
                     or "problem" in question
                 ):
                     response = (
-                        "For a TV problem 📺😊, you can first check the power "
+                        "For a TV problem ≡ƒô║≡ƒÿè, you can first check the power "
                         "connection and remote batteries. If the issue continues, "
                         "please contact the manufacturer's support or a qualified technician."
                     )
@@ -654,19 +654,19 @@ def ai_assistant(request):
                     or "clean" in question
                 ):
                     response = (
-                        "For TV care 📺✨, keep the screen clean using suitable "
+                        "For TV care ≡ƒô║Γ£¿, keep the screen clean using suitable "
                         "screen-cleaning methods and keep the ventilation areas "
                         "clear. Avoid applying liquid directly to the screen."
                     )
 
                 else:
                     response = (
-                        "Sure! 😊 I can help with your TV. 📺 "
+                        "Sure! ≡ƒÿè I can help with your TV. ≡ƒô║ "
                         "You can ask about basic care, cleaning, power problems, "
                         "service or warranty."
                     )
 
-            # 💧 Water Purifier
+            # ≡ƒÆº Water Purifier
             elif (
                 "water purifier" in question
                 or "purifier" in question
@@ -675,7 +675,7 @@ def ai_assistant(request):
                 if "filter" in question:
                     response = (
                         "Water-purifier filters should be replaced according "
-                        "to the manufacturer's recommended schedule. 💧😊 "
+                        "to the manufacturer's recommended schedule. ≡ƒÆº≡ƒÿè "
                         "You can keep the filter replacement and service dates "
                         "updated in your maintenance system."
                     )
@@ -686,17 +686,17 @@ def ai_assistant(request):
                 ):
                     response = (
                         "Regular water-purifier maintenance is important for "
-                        "proper operation. 💧🔧 "
+                        "proper operation. ≡ƒÆº≡ƒöº "
                         "Keep track of filter replacement and service dates."
                     )
 
                 else:
                     response = (
-                        "Sure! 😊 I can help with your water purifier. 💧 "
+                        "Sure! ≡ƒÿè I can help with your water purifier. ≡ƒÆº "
                         "You can ask about filters, maintenance, service or warranty."
                     )
 
-            # 🛡️ Warranty
+            # ≡ƒ¢í∩╕Å Warranty
             elif "warranty" in question:
 
                 if (
@@ -704,19 +704,19 @@ def ai_assistant(request):
                     or "meaning" in question
                 ):
                     response = (
-                        "A warranty 🛡️ is a manufacturer's or seller's promise "
+                        "A warranty ≡ƒ¢í∩╕Å is a manufacturer's or seller's promise "
                         "to cover certain repairs or replacements for a specified "
-                        "period, subject to its terms and conditions. 😊"
+                        "period, subject to its terms and conditions. ≡ƒÿè"
                     )
 
                 else:
                     response = (
-                        "Sure! 🛡️😊 You can check your appliance's warranty "
+                        "Sure! ≡ƒ¢í∩╕Å≡ƒÿè You can check your appliance's warranty "
                         "start date and expiry date in the Warranty Management "
                         "section of the system."
                     )
 
-            # 🔧 Service / Maintenance
+            # ≡ƒöº Service / Maintenance
             elif (
                 "service" in question
                 or "maintenance" in question
@@ -724,12 +724,12 @@ def ai_assistant(request):
             ):
                 response = (
                     "Regular appliance maintenance helps keep appliances "
-                    "working properly and can help identify problems early. 🔧😊 "
+                    "working properly and can help identify problems early. ≡ƒöº≡ƒÿè "
                     "You can check the Service & Maintenance section for "
                     "your appliance schedule and service information."
                 )
 
-            # 💰 Maintenance Cost
+            # ≡ƒÆ░ Maintenance Cost
             elif (
                 "cost" in question
                 or "price" in question
@@ -737,66 +737,66 @@ def ai_assistant(request):
             ):
                 response = (
                     "You can keep track of your appliance maintenance expenses "
-                    "in the Maintenance Cost section. 💰😊 "
+                    "in the Maintenance Cost section. ≡ƒÆ░≡ƒÿè "
                     "Recording service costs can help you understand your "
                     "maintenance spending over time."
                 )
 
-            # ❤️ Health Score
+            # Γ¥ñ∩╕Å Health Score
             elif (
                 "health score" in question
                 or "health" in question
                 or "score" in question
             ):
                 response = (
-                    "Your Appliance Health Score ❤️🔧 is calculated using "
+                    "Your Appliance Health Score Γ¥ñ∩╕Å≡ƒöº is calculated using "
                     "information such as warranty status, service information "
                     "and maintenance cost. "
                     "You can check the Health Score section to see your appliance's condition."
                 )
 
-            # 📅 Reminder
+            # ≡ƒôà Reminder
             elif (
                 "reminder" in question
                 or "remind" in question
                 or "due" in question
             ):
                 response = (
-                    "You can check the Reminders & Notifications section 🔔😊 "
+                    "You can check the Reminders & Notifications section ≡ƒöö≡ƒÿè "
                     "for warranty expiry and upcoming service dates."
                 )
 
-            # 📱 QR Code
+            # ≡ƒô▒ QR Code
             elif (
                 "qr" in question
                 or "qr code" in question
             ):
                 response = (
-                    "Each appliance can have its own QR code 📱😊. "
+                    "Each appliance can have its own QR code ≡ƒô▒≡ƒÿè. "
                     "You can use the QR Codes section to access appliance "
                     "information quickly."
                 )
 
-            # 🏠 Appliance care
+            # ≡ƒÅá Appliance care
             elif (
                 "appliance" in question
                 or "household" in question
             ):
                 response = (
-                    "Of course! 🏠😊 I can help you manage and maintain your "
+                    "Of course! ≡ƒÅá≡ƒÿè I can help you manage and maintain your "
                     "household appliances. You can ask me about AC, refrigerator, "
                     "washing machine, TV, water purifier, warranty, service, "
-                    "maintenance cost or health score. 🔧💙"
+                    "maintenance cost or health score. ≡ƒöº≡ƒÆÖ"
                 )
 
-            # ❓ Unrelated question
+            # Γ¥ô Unrelated question
             else:
                 response = (
-                    "I'm here mainly to help with your household appliances. 😊🔧 "
+                    "I'm here mainly to help with your household appliances. ≡ƒÿè≡ƒöº "
                     "Could you please ask me something related to an appliance? "
                     "For example: 'My AC is not cooling', "
                     "'When should I service my fridge?', or "
-                    "'How can I maintain my washing machine?' 🏠✨"
+                    "'How can I maintain my washing machine?' ≡ƒÅáΓ£¿"
                 )
 
     return render(
@@ -924,3 +924,4 @@ def reminders(request):
             "service_reminders": service_reminders,
         },
     )
+

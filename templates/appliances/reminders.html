@@ -3,170 +3,393 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Reminders & Notifications</title>
+    <title>Reminders | Smart Household Maintenance</title>
 
     <style>
+        :root {
+            --primary: #3156c9;
+            --primary-dark: #1d347e;
+            --purple: #7653d6;
+            --background: #f4f6fc;
+            --white: #ffffff;
+            --text: #202b45;
+            --muted: #7d879c;
+            --border: #e7eaf3;
+            --shadow: 0 8px 25px rgba(36, 54, 100, 0.07);
+        }
+
         * {
             box-sizing: border-box;
         }
 
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            color: #1e293b;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        a {
+            text-decoration: none;
         }
 
         .header {
-            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            background: linear-gradient(115deg, #273c9a 0%, #4658d5 52%, #8052d6 100%);
             color: white;
-            padding: 32px 45px;
+            padding: 35px 24px 55px;
         }
 
         .header-content {
-            max-width: 1100px;
+            max-width: 1150px;
             margin: auto;
         }
 
+        .top-label {
+            display: inline-block;
+            padding: 7px 13px;
+            border: 1px solid rgba(255,255,255,0.35);
+            background: rgba(255,255,255,0.12);
+            border-radius: 25px;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
         .header h1 {
-            margin: 0;
-            font-size: 30px;
+            margin: 18px 0 10px;
+            font-size: 32px;
+            font-weight: 750;
         }
 
         .header p {
-            margin: 8px 0 0;
-            opacity: 0.9;
+            margin: 0;
+            max-width: 650px;
+            color: rgba(255,255,255,0.88);
+            line-height: 1.7;
+            font-size: 15px;
         }
 
         .container {
-            max-width: 1100px;
-            margin: 30px auto;
-            padding: 0 20px;
+            max-width: 1150px;
+            margin: -25px auto 45px;
+            padding: 0 22px;
+            position: relative;
+        }
+
+        .intro-card {
+            background: var(--white);
+            padding: 23px 26px;
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+            margin-bottom: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+        }
+
+        .intro-card h2 {
+            font-size: 19px;
+            margin: 0 0 7px;
+            color: var(--primary-dark);
+        }
+
+        .intro-card p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--muted);
+            line-height: 1.6;
+        }
+
+        .status-label {
+            background: #eef0ff;
+            color: var(--primary);
+            border-radius: 25px;
+            padding: 9px 14px;
+            font-size: 12px;
+            font-weight: bold;
+            white-space: nowrap;
         }
 
         .section {
-            margin-bottom: 30px;
+            margin-bottom: 35px;
         }
 
         .section-title {
             margin-bottom: 18px;
         }
 
+        .section-heading {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 7px;
+        }
+
+        .section-icon {
+            width: 43px;
+            height: 43px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 13px;
+            background: #e9edff;
+            color: var(--primary);
+            font-size: 21px;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .service-icon {
+            background: #f0eaff;
+            color: var(--purple);
+        }
+
         .section-title h2 {
             margin: 0;
-            color: #1e3a8a;
+            font-size: 21px;
+            color: var(--text);
         }
 
         .section-title p {
-            color: #64748b;
-            margin-top: 6px;
+            color: var(--muted);
+            margin: 7px 0 0;
+            font-size: 14px;
+            line-height: 1.5;
         }
 
         .reminder-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 20px;
         }
 
         .reminder-card {
-            background: white;
-            padding: 22px;
-            border-radius: 16px;
-            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.07);
-            border-left: 5px solid #2563eb;
+            position: relative;
+            background: var(--white);
+            padding: 24px;
+            border-radius: 17px;
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--primary);
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            min-width: 0;
+        }
+
+        .reminder-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 13px 30px rgba(36,54,100,0.11);
         }
 
         .reminder-card.expired {
-            border-left-color: #dc2626;
+            border-top-color: #dc4545;
         }
 
         .reminder-card.warning {
-            border-left-color: #f59e0b;
+            border-top-color: #e6a23c;
         }
 
         .reminder-card.upcoming {
-            border-left-color: #2563eb;
+            border-top-color: var(--purple);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 18px;
         }
 
         .appliance-name {
-            font-size: 19px;
+            font-size: 18px;
             font-weight: bold;
-            color: #1e3a8a;
-            margin-bottom: 8px;
+            color: var(--primary-dark);
+            line-height: 1.5;
+            overflow-wrap: anywhere;
+        }
+
+        .card-caption {
+            font-size: 12px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .details-list {
+            border-top: 1px solid var(--border);
+            padding-top: 14px;
         }
 
         .details {
-            color: #64748b;
-            margin: 6px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 15px;
+            color: var(--muted);
+            font-size: 13px;
+            margin: 10px 0;
+            line-height: 1.5;
         }
 
-        .message {
-            margin-top: 15px;
-            padding: 11px;
-            background: #f8fafc;
-            border-radius: 8px;
-            font-weight: bold;
+        .details strong {
+            color: var(--text);
+            text-align: right;
+            overflow-wrap: anywhere;
         }
 
         .badge {
             display: inline-block;
-            margin-top: 10px;
-            padding: 6px 12px;
+            padding: 7px 11px;
             border-radius: 20px;
-            font-size: 13px;
+            font-size: 11px;
             font-weight: bold;
+            white-space: nowrap;
         }
 
         .badge-expired {
-            background: #fee2e2;
-            color: #991b1b;
+            background: #fee9e9;
+            color: #b42323;
         }
 
         .badge-warning {
-            background: #fef3c7;
-            color: #92400e;
+            background: #fff3d7;
+            color: #946200;
         }
 
         .badge-upcoming {
-            background: #dbeafe;
-            color: #1e40af;
+            background: #eee9ff;
+            color: #6442c5;
+        }
+
+        .message {
+            margin-top: 17px;
+            padding: 13px 14px;
+            background: #f3f5ff;
+            border: 1px solid #e5e9ff;
+            border-radius: 10px;
+            color: #354b9b;
+            font-size: 13px;
+            line-height: 1.65;
+            overflow-wrap: anywhere;
+        }
+
+        .expired .message {
+            background: #fff4f4;
+            border-color: #ffe1e1;
+            color: #a12c2c;
+        }
+
+        .warning .message {
+            background: #fff9ec;
+            border-color: #ffedc5;
+            color: #855d12;
         }
 
         .empty {
-            background: white;
-            padding: 35px;
+            background: var(--white);
+            padding: 35px 24px;
             text-align: center;
-            border-radius: 16px;
-            box-shadow: 0 5px 18px rgba(0,0,0,0.07);
+            border-radius: 17px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
         }
 
         .empty-icon {
-            font-size: 45px;
-        }
-
-        .back-btn {
-            display: inline-block;
-            margin-top: 10px;
-            padding: 11px 18px;
-            background: #1e3a8a;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 16px;
+            border-radius: 20px;
+            background: #edf0ff;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 25px;
             font-weight: bold;
         }
 
+        .empty h3 {
+            margin: 0 0 9px;
+            color: var(--text);
+            font-size: 18px;
+        }
+
+        .empty p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .footer-actions {
+            text-align: center;
+            margin-top: 35px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 13px 22px;
+            background: linear-gradient(115deg, #3156c9, #7653d6);
+            color: white;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 6px 15px rgba(73,80,190,0.2);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
         .back-btn:hover {
-            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 9px 20px rgba(73,80,190,0.3);
         }
 
         @media (max-width: 750px) {
+            .header {
+                padding: 28px 20px 48px;
+            }
+
+            .header h1 {
+                font-size: 26px;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
             .reminder-grid {
                 grid-template-columns: 1fr;
             }
 
-            .header {
-                padding: 25px 20px;
+            .intro-card {
+                padding: 20px;
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .section-title h2 {
+                font-size: 19px;
+            }
+        }
+
+        @media (max-width: 420px) {
+            .card-top {
+                flex-direction: column;
+            }
+
+            .details {
+                flex-direction: column;
+                gap: 3px;
+            }
+
+            .details strong {
+                text-align: left;
+            }
+
+            .reminder-card {
+                padding: 19px;
             }
         }
     </style>
@@ -174,165 +397,133 @@
 
 <body>
 
-    <div class="header">
+    <header class="header">
         <div class="header-content">
-            <h1>🔔 Reminders & Notifications</h1>
-            <p>Stay updated about warranty and appliance service schedules</p>
+            <span class="top-label">Smart Household Maintenance</span>
+            <h1>Reminders and Notifications</h1>
+            <p>Keep track of appliance warranty expiry dates and upcoming service schedules in one place.</p>
         </div>
-    </div>
+    </header>
 
+    <main class="container">
 
-    <div class="container">
-
-        <!-- Warranty -->
-
-        <div class="section">
-
-            <div class="section-title">
-                <h2>🛡️ Warranty Reminders</h2>
-                <p>Warranty expiry alerts for your appliances</p>
+        <div class="intro-card">
+            <div>
+                <h2>Your Maintenance Overview</h2>
+                <p>Review the alerts below to help keep your household appliances maintained and up to date.</p>
             </div>
+            <span class="status-label">REMINDER CENTER</span>
+        </div>
 
+        <section class="section">
+            <div class="section-title">
+                <div class="section-heading">
+                    <div class="section-icon">W</div>
+                    <h2>Warranty Reminders</h2>
+                </div>
+                <p>Check expired warranties and appliances that need your attention.</p>
+            </div>
 
             {% if warranty_reminders %}
-
             <div class="reminder-grid">
-
                 {% for reminder in warranty_reminders %}
+                <article class="reminder-card {% if reminder.type == 'Expired' %}expired{% else %}warning{% endif %}">
 
-                <div class="reminder-card
-                    {% if reminder.type == 'Expired' %}
-                        expired
-                    {% else %}
-                        warning
-                    {% endif %}
-                ">
+                    <div class="card-top">
+                        <div>
+                            <div class="appliance-name">
+                                {{ reminder.appliance.brand }}
+                                {{ reminder.appliance.appliance_type }}
+                            </div>
+                            <div class="card-caption">Appliance warranty status</div>
+                        </div>
 
-                    <div class="appliance-name">
-                        🏠 {{ reminder.appliance.brand }}
-                        {{ reminder.appliance.appliance_type }}
+                        <span class="badge {% if reminder.type == 'Expired' %}badge-expired{% else %}badge-warning{% endif %}">
+                            {{ reminder.type }}
+                        </span>
                     </div>
 
-                    <div class="details">
-                        Model:
-                        {{ reminder.appliance.model_number }}
+                    <div class="details-list">
+                        <div class="details">
+                            <span>Model Number</span>
+                            <strong>{{ reminder.appliance.model_number }}</strong>
+                        </div>
+                        <div class="details">
+                            <span>Warranty Expiry</span>
+                            <strong>{{ reminder.appliance.warranty_expiry_date|date:"d M Y" }}</strong>
+                        </div>
                     </div>
 
-                    <div class="details">
-                        Warranty Expiry:
-                        {{ reminder.appliance.warranty_expiry_date|date:"d M Y" }}
-                    </div>
-
-                    <span class="badge
-                        {% if reminder.type == 'Expired' %}
-                            badge-expired
-                        {% else %}
-                            badge-warning
-                        {% endif %}
-                    ">
-                        {{ reminder.type }}
-                    </span>
-
-                    <div class="message">
-                        ⚠️ {{ reminder.message }}
-                    </div>
-
-                </div>
-
+                    <div class="message">{{ reminder.message }}</div>
+                </article>
                 {% endfor %}
-
             </div>
-
             {% else %}
-
             <div class="empty">
-                <div class="empty-icon">✅</div>
+                <div class="empty-icon">W</div>
                 <h3>No Warranty Reminders</h3>
-                <p>There are no warranty alerts at the moment.</p>
+                <p>There are no warranty alerts at the moment. Your warranty reminders will appear here when available.</p>
             </div>
-
             {% endif %}
+        </section>
 
-        </div>
-
-
-        <!-- Service -->
-
-        <div class="section">
-
+        <section class="section">
             <div class="section-title">
-                <h2>🛠️ Service Reminders</h2>
-                <p>Upcoming and overdue appliance service alerts</p>
+                <div class="section-heading">
+                    <div class="section-icon service-icon">S</div>
+                    <h2>Service Reminders</h2>
+                </div>
+                <p>Review upcoming and overdue maintenance schedules for your appliances.</p>
             </div>
-
 
             {% if service_reminders %}
-
             <div class="reminder-grid">
-
                 {% for reminder in service_reminders %}
+                <article class="reminder-card {% if reminder.type == 'Overdue' %}expired{% else %}upcoming{% endif %}">
 
-                <div class="reminder-card
-                    {% if reminder.type == 'Overdue' %}
-                        expired
-                    {% else %}
-                        upcoming
-                    {% endif %}
-                ">
+                    <div class="card-top">
+                        <div>
+                            <div class="appliance-name">
+                                {{ reminder.appliance.brand }}
+                                {{ reminder.appliance.appliance_type }}
+                            </div>
+                            <div class="card-caption">Appliance service schedule</div>
+                        </div>
 
-                    <div class="appliance-name">
-                        🔧 {{ reminder.appliance.brand }}
-                        {{ reminder.appliance.appliance_type }}
+                        <span class="badge {% if reminder.type == 'Overdue' %}badge-expired{% else %}badge-upcoming{% endif %}">
+                            {{ reminder.type }}
+                        </span>
                     </div>
 
-                    <div class="details">
-                        Model:
-                        {{ reminder.appliance.model_number }}
+                    <div class="details-list">
+                        <div class="details">
+                            <span>Model Number</span>
+                            <strong>{{ reminder.appliance.model_number }}</strong>
+                        </div>
+                        <div class="details">
+                            <span>Next Service Date</span>
+                            <strong>{{ reminder.appliance.next_service_date|date:"d M Y" }}</strong>
+                        </div>
                     </div>
 
-                    <div class="details">
-                        Next Service:
-                        {{ reminder.appliance.next_service_date|date:"d M Y" }}
-                    </div>
-
-                    <span class="badge
-                        {% if reminder.type == 'Overdue' %}
-                            badge-expired
-                        {% else %}
-                            badge-upcoming
-                        {% endif %}
-                    ">
-                        {{ reminder.type }}
-                    </span>
-
-                    <div class="message">
-                        📅 {{ reminder.message }}
-                    </div>
-
-                </div>
-
+                    <div class="message">{{ reminder.message }}</div>
+                </article>
                 {% endfor %}
-
             </div>
-
             {% else %}
-
             <div class="empty">
-                <div class="empty-icon">🎉</div>
+                <div class="empty-icon">S</div>
                 <h3>No Service Reminders</h3>
-                <p>All appliance service schedules are currently up to date.</p>
+                <p>There are no service alerts at the moment. Upcoming or overdue maintenance reminders will appear here when available.</p>
             </div>
-
             {% endif %}
+        </section>
 
+        <div class="footer-actions">
+            <a href="{% url 'dashboard' %}" class="back-btn">Back to Dashboard</a>
         </div>
 
-
-        <a href="{% url 'dashboard' %}" class="back-btn">
-            ← Back to Dashboard
-        </a>
-
-    </div>
+    </main>
 
 </body>
 </html>

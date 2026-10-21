@@ -106,12 +106,6 @@ class Appliance(models.Model):
     health_score = models.PositiveIntegerField(
     default=100
 )
-    
-    qr_code = models.CharField(
-        max_length=255,
-        blank=True,
-        null=True
-    )
 
-    def __str__(self):
+def __str__(self):
         return f"{self.brand} - {self.model_number}"

@@ -1,4 +1,4 @@
-
+﻿
 from datetime import date
 
 from django.shortcuts import render, redirect
@@ -501,7 +501,7 @@ def view_bill(request, appliance_id):
         request,
         "view_bill.html",
         {
-           "bill_url": "/media/" + appliance.bill.name.split("/")[-1],
+           "bill_url": appliance.bill.url,
             "appliance": appliance,
         }
     )
@@ -535,30 +535,68 @@ def user_profile(request):
     )
 
     if request.method == "POST":
-        mobile_number = request.POST.get(
-            "mobile_number", ""
-        ).strip()
+        first_name = request.POST.get("first_name", "").strip()
+        last_name = request.POST.get("last_name", "").strip()
+        email = request.POST.get("email", "").strip()
+        mobile_number = request.POST.get("mobile_number", "").strip()
 
-        if not mobile_number.isdigit() or len(mobile_number) != 10:
-            messages.error(
-                request,
-                "Please enter a valid 10-digit mobile number."
-            )
+        from django.core.validators import validate_email
+        from django.core.exceptions import ValidationError
+
+        errors = []
+
+        if not first_name:
+            errors.append("Please enter your first name.")
+
+        if not email:
+            errors.append("Please enter your email address.")
         else:
-            profile.mobile_number = mobile_number
-            profile.save()
+            try:
+                validate_email(email)
+            except ValidationError:
+                errors.append("Please enter a valid email address.")
 
-            messages.success(
-                request,
-                "Mobile number updated successfully!"
+        if mobile_number and (
+            not mobile_number.isdigit() or len(mobile_number) != 10
+        ):
+            errors.append("Please enter a valid 10-digit mobile number.")
+
+        if errors:
+            for error in errors:
+                messages.error(request, error)
+        else:
+            request.user.first_name = first_name
+            request.user.last_name = last_name
+            request.user.email = email
+            request.user.save(
+                update_fields=["first_name", "last_name", "email"]
             )
 
+            profile.mobile_number = mobile_number
+            profile.save(update_fields=["mobile_number"])
+
+            messages.success(request, "Profile updated successfully!")
             return redirect("user_profile")
+
+    user = request.user
+
+    completed_fields = [
+        bool(user.first_name.strip()),
+        bool(user.last_name.strip()),
+        bool(user.email.strip()),
+        bool(profile.mobile_number.strip()),
+    ]
+
+    completion = int(
+        sum(completed_fields) / len(completed_fields) * 100
+    )
 
     return render(
         request,
         "users/profile.html",
         {
             "profile": profile,
+            "completion": completion,
         }
     )
+

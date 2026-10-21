@@ -1,211 +1,410 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Appliance Health Score</title>
+    <title>Appliance Health Score | Smart Household Maintenance</title>
 
     <style>
+        :root {
+            --primary: #3156c9;
+            --primary-dark: #1d347e;
+            --purple: #7653d6;
+            --background: #f4f6fc;
+            --white: #ffffff;
+            --text: #202b45;
+            --muted: #7d879c;
+            --border: #e7eaf3;
+            --shadow: 0 8px 25px rgba(36, 54, 100, 0.07);
+        }
+
         * {
             box-sizing: border-box;
         }
 
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f8fafc;
-            color: #334155;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
         }
 
         .header {
-            background: #1e3a8a;
+            background: linear-gradient(115deg, #273c9a 0%, #4658d5 52%, #8052d6 100%);
             color: white;
-            padding: 25px 30px;
-            text-align: center;
+            padding: 38px 24px 58px;
+        }
+
+        .header-content {
+            max-width: 1050px;
+            margin: auto;
+        }
+
+        .eyebrow {
+            display: inline-block;
+            padding: 7px 13px;
+            border: 1px solid rgba(255,255,255,0.35);
+            background: rgba(255,255,255,0.12);
+            border-radius: 20px;
+            font-size: 12px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
         }
 
         .header h1 {
-            margin: 0;
-            font-size: 28px;
+            margin: 18px 0 10px;
+            font-size: 32px;
         }
 
         .header p {
-            margin: 8px 0 0;
-            color: #dbeafe;
-            font-size: 14px;
+            margin: 0;
+            color: rgba(255,255,255,0.88);
+            font-size: 15px;
+            line-height: 1.7;
         }
 
         .container {
-            width: 92%;
-            max-width: 900px;
-            margin: 30px auto;
+            max-width: 1050px;
+            margin: -28px auto 45px;
+            padding: 0 22px;
+            position: relative;
         }
 
-        .page-title h2 {
-            margin: 0;
-            color: #1e293b;
-            font-size: 24px;
-        }
-
-        .page-title p {
-            color: #64748b;
-            font-size: 14px;
-        }
-
-        .health-card {
-            background: white;
+        .intro-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 18px;
             padding: 24px;
-            margin-top: 22px;
-            border-radius: 15px;
-            border: 1px solid #e2e8f0;
-            box-shadow: 0 4px 14px rgba(15, 23, 42, 0.07);
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
         }
 
-        .appliance-name {
-            color: #1e3a8a;
-            margin: 0 0 5px;
+        .intro-card h2 {
+            margin: 0 0 8px;
+            color: var(--primary-dark);
             font-size: 20px;
         }
 
+        .intro-card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .overview-label {
+            flex-shrink: 0;
+            padding: 9px 13px;
+            border-radius: 20px;
+            background: #eeecff;
+            color: var(--purple);
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .health-card {
+            background: var(--white);
+            padding: 25px;
+            margin-bottom: 22px;
+            border-radius: 17px;
+            border: 1px solid var(--border);
+            border-top: 4px solid var(--primary);
+            box-shadow: var(--shadow);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .health-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 13px 30px rgba(36,54,100,0.11);
+        }
+
+        .appliance-heading {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 23px;
+        }
+
+        .appliance-icon {
+            width: 53px;
+            height: 53px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #e6ecff, #f0eaff);
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .appliance-name {
+            color: var(--primary-dark);
+            margin: 0 0 6px;
+            font-size: 20px;
+            overflow-wrap: anywhere;
+        }
+
         .model {
-            color: #64748b;
+            color: var(--muted);
             font-size: 13px;
-            margin-bottom: 20px;
+            overflow-wrap: anywhere;
         }
 
         .score-box {
             text-align: center;
-            padding: 25px;
-            background: #f8fafc;
-            border-radius: 12px;
-            border: 1px solid #e2e8f0;
+            padding: 30px 22px;
+            background: linear-gradient(135deg, #f4f6ff, #faf8ff);
+            border-radius: 15px;
+            border: 1px solid #e7e9fa;
+        }
+
+        .score-caption {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--muted);
+            font-weight: bold;
+            margin-bottom: 12px;
         }
 
         .score {
-            font-size: 42px;
+            font-size: 49px;
+            line-height: 1.2;
             font-weight: bold;
-            color: #2563eb;
+            color: var(--primary);
+            overflow-wrap: anywhere;
         }
 
-        .score-label {
-            margin-top: 5px;
-            color: #64748b;
-            font-size: 14px;
+        .score-total {
+            font-size: 22px;
+            color: var(--muted);
+            font-weight: normal;
+        }
+
+        .progress-track {
+            width: 100%;
+            max-width: 400px;
+            height: 9px;
+            margin: 20px auto 0;
+            border-radius: 20px;
+            background: #e2e6f5;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0;
+            border-radius: 20px;
+            background: linear-gradient(90deg, #3156c9, #7653d6);
         }
 
         .status {
-            margin-top: 15px;
+            display: inline-block;
+            margin-top: 19px;
+            padding: 9px 15px;
+            border-radius: 25px;
+            font-size: 13px;
             font-weight: bold;
-            font-size: 16px;
         }
 
         .good {
-            color: #15803d;
+            color: #177245;
+            background: #e4f8ed;
         }
 
         .medium {
-            color: #ca8a04;
+            color: #946200;
+            background: #fff3d7;
         }
 
         .low {
-            color: #dc2626;
+            color: #b42323;
+            background: #fee9e9;
+        }
+
+        .score-note {
+            margin: 15px 0 0;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.7;
+        }
+
+        .empty-card {
+            background: var(--white);
+            padding: 42px 24px;
+            text-align: center;
+            border-radius: 17px;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+        }
+
+        .empty-icon {
+            width: 68px;
+            height: 68px;
+            margin: 0 auto 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 20px;
+            background: #edf0ff;
+            color: var(--primary);
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .empty-card h3 {
+            margin: 0 0 10px;
+            color: var(--text);
+            font-size: 19px;
+        }
+
+        .empty-card p {
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        .footer-actions {
+            text-align: center;
+            margin-top: 32px;
         }
 
         .back-btn {
             display: inline-block;
-            margin-top: 30px;
-            padding: 12px 22px;
-            background: #2563eb;
+            padding: 13px 23px;
+            background: linear-gradient(115deg, #3156c9, #7653d6);
             color: white;
             text-decoration: none;
-            border-radius: 8px;
-            font-weight: bold;
+            border-radius: 10px;
             font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 6px 15px rgba(73,80,190,0.2);
+            transition: transform 0.2s ease;
         }
 
         .back-btn:hover {
-            background: #1d4ed8;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 650px) {
+            .header {
+                padding: 30px 20px 48px;
+            }
+
+            .header h1 {
+                font-size: 26px;
+            }
+
+            .container {
+                padding: 0 15px;
+            }
+
+            .intro-card {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .health-card {
+                padding: 19px;
+            }
+
+            .score {
+                font-size: 42px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-    <div class="header">
-        <h1>❤️ Appliance Health Score</h1>
-        <p>Check the maintenance health of your appliances.</p>
-    </div>
-
-    <div class="container">
-
-        <div class="page-title">
-            <h2>📊 Appliance Health</h2>
-            <p>Health score is calculated using warranty and service information.</p>
+    <header class="header">
+        <div class="header-content">
+            <span class="eyebrow">Smart Household Maintenance</span>
+            <h1>Appliance Health Score</h1>
+            <p>Understand the maintenance condition of your household appliances at a glance.</p>
         </div>
+    </header>
+
+    <main class="container">
+
+        <section class="intro-card">
+            <div>
+                <h2>Your Appliance Health Overview</h2>
+                <p>Health scores are displayed using the warranty and service information available for each appliance.</p>
+            </div>
+            <span class="overview-label">HEALTH OVERVIEW</span>
+        </section>
 
         {% for appliance in appliances %}
 
-        <div class="health-card">
+        <article class="health-card">
 
-            <h3 class="appliance-name">
-                🔧 {{ appliance.brand }}
-            </h3>
-
-            <div class="model">
-                Model: {{ appliance.model_number }}
+            <div class="appliance-heading">
+                <div class="appliance-icon">SH</div>
+                <div>
+                    <h2 class="appliance-name">{{ appliance.brand }}</h2>
+                    <div class="model">Model: {{ appliance.model_number }}</div>
+                </div>
             </div>
 
             <div class="score-box">
+                <div class="score-caption">Current Health Score</div>
 
                 <div class="score">
-                    {{ appliance.health_score }}/100
+                    {{ appliance.health_score }}<span class="score-total"> / 100</span>
                 </div>
 
-                <div class="score-label">
-                    Appliance Health Score
+                <div class="progress-track">
+                    <div class="progress-fill" data-score="{{ appliance.health_score }}"></div>
                 </div>
 
                 {% if appliance.health_score >= 80 %}
-
-                    <div class="status good">
-                        🟢 Good Health
-                    </div>
-
+                    <div class="status good">Good Health</div>
+                    <p class="score-note">Your appliance has a good health score. Continue following the recommended maintenance schedule.</p>
                 {% elif appliance.health_score >= 50 %}
-
-                    <div class="status medium">
-                        🟡 Needs Attention
-                    </div>
-
+                    <div class="status medium">Needs Attention</div>
+                    <p class="score-note">Review the appliance service history and warranty details to identify any maintenance needs.</p>
                 {% else %}
-
-                    <div class="status low">
-                        🔴 Maintenance Required
-                    </div>
-
+                    <div class="status low">Maintenance Required</div>
+                    <p class="score-note">Consider checking the appliance condition and arranging maintenance if needed.</p>
                 {% endif %}
-
             </div>
 
-        </div>
+        </article>
 
         {% empty %}
 
-        <div class="health-card">
-            <h3>📭 No Appliances Found</h3>
-            <p>Add an appliance to view its health score.</p>
-        </div>
+        <section class="empty-card">
+            <div class="empty-icon">SH</div>
+            <h3>No Appliances Found</h3>
+            <p>Add an appliance to view its health score and maintenance information here.</p>
+        </section>
 
         {% endfor %}
 
-        <a href="{% url 'dashboard' %}" class="back-btn">
-            ← Back to Dashboard
-        </a>
+        <div class="footer-actions">
+            <a href="{% url 'dashboard' %}" class="back-btn">Back to Dashboard</a>
+        </div>
 
-    </div>
+    </main>
+
+    <script>
+        document.querySelectorAll(".progress-fill").forEach(function (bar) {
+            var score = Number(bar.dataset.score);
+            if (!Number.isFinite(score)) {
+                score = 0;
+            }
+            score = Math.max(0, Math.min(100, score));
+            bar.style.width = score + "%";
+        });
+    </script>
 
 </body>
-
 </html>

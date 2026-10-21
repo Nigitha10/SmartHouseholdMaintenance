@@ -2,3 +2,18 @@
 __pycache__/
 *.pyc
 db.sqlite3
+
+# Local backups and uploaded files
+local_backup.json
+bills/
+
+# Temporary recovery and backup files
+*_backup.html
+appliances/views_before_qr_removal.py
+appliances/views_damaged_backup.py
+appliances/views_recovered_from_git.py
+
+# Environment secrets
+.env
+.env.*
+!.env.example

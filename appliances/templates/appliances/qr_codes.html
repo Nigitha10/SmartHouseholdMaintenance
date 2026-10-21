@@ -1,15 +1,14 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Appliance QR Codes | Smart Household Maintenance</title>
 
     <style>
-
         * {
             box-sizing: border-box;
         }
@@ -21,12 +20,10 @@
             color: #334155;
         }
 
-        /* Header */
-
         .header {
             background: #1e3a8a;
             color: white;
-            padding: 25px 20px;
+            padding: 28px 20px;
             text-align: center;
         }
 
@@ -41,15 +38,11 @@
             font-size: 14px;
         }
 
-        /* Main container */
-
         .container {
             width: 92%;
             max-width: 1000px;
             margin: 30px auto;
         }
-
-        /* Intro */
 
         .intro {
             background: white;
@@ -70,20 +63,14 @@
             margin: 0;
             color: #64748b;
             font-size: 14px;
+            line-height: 1.7;
         }
-
-        /* QR grid */
 
         .qr-container {
             display: grid;
-            grid-template-columns: repeat(
-                auto-fit,
-                minmax(250px, 1fr)
-            );
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 25px;
         }
-
-        /* QR card */
 
         .qr-card {
             background: white;
@@ -92,7 +79,8 @@
             border-radius: 18px;
             border: 1px solid #e2e8f0;
             box-shadow: 0 8px 25px rgba(30, 58, 138, 0.09);
-            transition: 0.2s;
+            transition: transform 0.2s, box-shadow 0.2s;
+            overflow-wrap: anywhere;
         }
 
         .qr-card:hover {
@@ -117,8 +105,6 @@
             margin-bottom: 18px;
         }
 
-        /* QR image */
-
         .qr-box {
             display: inline-block;
             padding: 12px;
@@ -137,13 +123,13 @@
             margin-top: 15px;
             font-size: 13px;
             color: #64748b;
+            line-height: 1.6;
         }
-
-        /* Back button */
 
         .back-btn {
             display: block;
-            width: 210px;
+            width: 220px;
+            max-width: 100%;
             text-align: center;
             margin: 30px auto 10px;
             padding: 12px;
@@ -152,14 +138,12 @@
             border-radius: 9px;
             text-decoration: none;
             font-weight: bold;
-            transition: 0.2s;
+            transition: background 0.2s;
         }
 
         .back-btn:hover {
             background: #1d4ed8;
         }
-
-        /* Empty state */
 
         .empty {
             background: white;
@@ -168,9 +152,8 @@
             border-radius: 15px;
             color: #64748b;
             border: 1px solid #e2e8f0;
+            grid-column: 1 / -1;
         }
-
-        /* Footer */
 
         .footer {
             text-align: center;
@@ -179,10 +162,7 @@
             margin: 25px 0;
         }
 
-        /* Mobile */
-
         @media (max-width: 600px) {
-
             .container {
                 width: 90%;
             }
@@ -196,136 +176,79 @@
                 height: 160px;
             }
 
+            .qr-card {
+                padding: 20px;
+            }
         }
-
     </style>
-
 </head>
-
 
 <body>
 
+    <header class="header">
+        <h1>📱 Appliance QR Codes</h1>
+        <p>Scan a QR code to open the corresponding appliance details</p>
+    </header>
 
-    <!-- Header -->
+    <main class="container">
 
-    <div class="header">
-
-        <h1>
-            📱 Appliance QR Codes
-        </h1>
-
-        <p>
-            Scan a QR code to view appliance details
-        </p>
-
-    </div>
-
-
-    <div class="container">
-
-
-        <!-- Introduction -->
-
-        <div class="intro">
-
-            <h2>
-                🔐 Your Appliance QR Codes
-            </h2>
-
+        <section class="intro">
+            <h2>🔐 Your Appliance QR Codes</h2>
             <p>
-                Each appliance has a unique QR code for quick access
-                to its maintenance information.
+                Each appliance has its own QR code for quick access to
+                its details, warranty information, and maintenance records.
             </p>
+        </section>
 
-        </div>
-
-
-        <!-- QR Cards -->
-
-        <div class="qr-container">
-
+        <section class="qr-container">
 
             {% for item in qr_data %}
 
+            <article class="qr-card">
 
-            <div class="qr-card">
+                <div class="icon">🔧</div>
 
-
-                <div class="icon">
-                    🔧
-                </div>
-
-
-                <h2>
-                    {{ item.appliance.brand }}
-                </h2>
-
+                <h2>{{ item.appliance.brand }}</h2>
 
                 <p class="model">
                     Model: {{ item.appliance.model_number }}
                 </p>
 
-
                 <div class="qr-box">
-
                     <img
                         src="data:image/png;base64,{{ item.qr_code }}"
-                        alt="QR Code for {{ item.appliance.brand }}"
+                        alt="QR code for {{ item.appliance.brand }}"
+                        loading="lazy"
                     >
-
                 </div>
 
-
                 <p class="scan-text">
-                    📷 Scan this QR code to view appliance details
+                    📷 Scan this QR code to view this appliance's details.
                 </p>
 
-
-            </div>
-
+            </article>
 
             {% empty %}
 
-
             <div class="empty">
-
-                <h2>
-                    📭 No Appliances Found
-                </h2>
-
-                <p>
-                    Add an appliance first to generate its QR code.
-                </p>
-
+                <h2>📭 No Appliances Found</h2>
+                <p>Add an appliance first to generate its QR code.</p>
             </div>
-
 
             {% endfor %}
 
+        </section>
 
-        </div>
-
-
-        <!-- Back -->
-
-        <a
-            href="{% url 'appliance_list' %}"
-            class="back-btn"
-        >
+        <a href="{% url 'appliance_list' %}" class="back-btn">
             ← Back to Appliances
         </a>
 
-
-        <div class="footer">
-
+        <footer class="footer">
             Smart Household Maintenance Tracking System
+        </footer>
 
-        </div>
-
-
-    </div>
-
+    </main>
 
 </body>
-
 </html>
+
