@@ -1,389 +1,500 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>
-        Appliance Monitoring | Admin
-    </title>
+    <title>Appliance Monitoring | Admin</title>
 
     <style>
-
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
+        :root {
+            --primary: #14532d;
+            --primary-light: #166534;
+            --soft-green: #f0fdf4;
+            --green-border: #dcfce7;
+            --text: #172033;
+            --muted: #64748b;
+            --white: #ffffff;
+            --background: #f7f9f8;
+            --border: #e5e7eb;
+            --shadow: 0 8px 28px rgba(15, 23, 42, 0.06);
+        }
+
         body {
-            font-family: Arial, sans-serif;
-            background: #f8fafc;
-            color: #1e293b;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
         }
 
         /* HEADER */
 
         .header {
-            background: #1e3a8a;
+            background: linear-gradient(135deg, #14532d, #166534);
             color: white;
-
-            padding: 20px 35px;
-
+            padding: 18px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 15px;
+            box-shadow: 0 4px 18px rgba(20, 83, 45, 0.18);
         }
 
-        .header h1 {
-            font-size: 23px;
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-icon {
+            width: 42px;
+            height: 42px;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 21px;
+            flex-shrink: 0;
+        }
+
+        .brand-text h1 {
+            font-size: 19px;
+            margin-bottom: 4px;
+        }
+
+        .brand-text span {
+            font-size: 12px;
+            opacity: 0.85;
         }
 
         .back-btn {
             background: white;
-            color: #1e3a8a;
-
+            color: var(--primary);
             text-decoration: none;
-
-            padding: 9px 17px;
-
-            border-radius: 8px;
-
+            padding: 10px 17px;
+            border-radius: 9px;
+            font-size: 13px;
             font-weight: bold;
+            transition: 0.2s;
+            white-space: nowrap;
         }
 
         .back-btn:hover {
-            background: #e0e7ff;
+            background: #dcfce7;
+            transform: translateY(-1px);
         }
 
-
-        /* CONTAINER */
+        /* MAIN CONTAINER */
 
         .container {
             width: 92%;
             max-width: 1200px;
-
-            margin: 30px auto;
+            margin: 32px auto 50px;
         }
 
-
-        /* TITLE */
+        /* PAGE TITLE */
 
         .page-title {
-            background: #eef2ff;
-
+            background: var(--soft-green);
             padding: 25px;
-
             border-radius: 16px;
-
             margin-bottom: 25px;
-
-            border: 1px solid #dbeafe;
+            border: 1px solid var(--green-border);
         }
 
         .page-title h2 {
-            color: #1e3a8a;
-
+            color: var(--primary);
+            font-size: 25px;
             margin-bottom: 8px;
         }
 
         .page-title p {
-            color: #64748b;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
         }
 
-
-        /* SUMMARY */
+        /* SUMMARY CARD */
 
         .summary-card {
             background: white;
-
-            padding: 20px;
-
+            padding: 22px;
             border-radius: 14px;
-
-            border: 1px solid #e2e8f0;
-
-            margin-bottom: 25px;
-
-            box-shadow:
-                0 6px 20px
-                rgba(30, 58, 138, 0.06);
+            border: 1px solid var(--border);
+            margin-bottom: 28px;
+            box-shadow: var(--shadow);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
         }
 
         .summary-card h3 {
-            color: #64748b;
-
+            color: var(--muted);
             font-size: 15px;
+            margin-bottom: 7px;
+        }
 
-            margin-bottom: 8px;
+        .summary-card p {
+            color: #94a3b8;
+            font-size: 12px;
+            margin-top: 5px;
         }
 
         .count {
-            color: #1e3a8a;
-
-            font-size: 28px;
-
+            color: var(--primary);
+            font-size: 30px;
             font-weight: bold;
         }
 
+        .count-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 13px;
+            background: var(--soft-green);
+            color: var(--primary);
+            border: 1px solid var(--green-border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 23px;
+            flex-shrink: 0;
+        }
 
         /* APPLIANCE GRID */
 
         .appliance-grid {
-
             display: grid;
-
-            grid-template-columns:
-                repeat(auto-fit, minmax(300px, 1fr));
-
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 20px;
         }
-
 
         /* APPLIANCE CARD */
 
         .appliance-card {
-
             background: white;
-
-            padding: 22px;
-
+            padding: 23px;
             border-radius: 16px;
-
-            border: 1px solid #e2e8f0;
-
-            box-shadow:
-                0 6px 20px
-                rgba(30, 58, 138, 0.06);
-
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
             transition: 0.2s;
+            overflow-wrap: anywhere;
         }
 
         .appliance-card:hover {
-
             transform: translateY(-3px);
-
-            border-color: #bfdbfe;
-
-            box-shadow:
-                0 10px 25px
-                rgba(37, 99, 235, 0.12);
+            border-color: #86efac;
+            box-shadow: 0 10px 25px rgba(20, 83, 45, 0.10);
         }
-
-
-        /* ICON */
 
         .appliance-icon {
-
-            font-size: 35px;
-
-            margin-bottom: 12px;
+            width: 53px;
+            height: 53px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--soft-green);
+            border: 1px solid var(--green-border);
+            border-radius: 14px;
+            font-size: 28px;
+            margin-bottom: 16px;
         }
 
-
-        /* APPLIANCE NAME */
-
         .appliance-card h3 {
-
-            color: #1e3a8a;
-
+            color: var(--primary);
             font-size: 19px;
-
             margin-bottom: 15px;
         }
 
+        /* USER INFORMATION */
+
+        .user-box {
+            background: var(--soft-green);
+            border: 1px solid var(--green-border);
+            padding: 11px 13px;
+            border-radius: 9px;
+            margin-bottom: 17px;
+            color: var(--primary);
+            font-size: 13px;
+            font-weight: 600;
+            overflow-wrap: anywhere;
+        }
 
         /* DETAILS */
 
         .detail {
-
-            margin: 9px 0;
-
+            margin: 11px 0;
             color: #475569;
-
             font-size: 14px;
-
-            line-height: 1.5;
+            line-height: 1.6;
         }
 
         .detail strong {
-
-            color: #1e293b;
+            color: var(--text);
         }
-
-
-        /* USER */
-
-        .user-box {
-
-            background: #eff6ff;
-
-            border: 1px solid #dbeafe;
-
-            padding: 10px 12px;
-
-            border-radius: 8px;
-
-            margin-bottom: 15px;
-
-            color: #1e3a8a;
-
-            font-weight: 600;
-        }
-
 
         /* WARRANTY */
 
         .warranty {
-
-            margin-top: 15px;
-
-            padding: 10px 12px;
-
+            margin-top: 17px;
+            padding: 12px;
             background: #f8fafc;
-
-            border-radius: 8px;
-
+            border: 1px solid #e5e7eb;
+            border-radius: 9px;
             color: #475569;
-
-            font-size: 14px;
+            font-size: 13px;
+            line-height: 1.6;
         }
 
+        .warranty strong {
+            color: var(--primary);
+        }
 
-        /* EMPTY */
+        /* SECTION HEADING */
+
+        .section-heading {
+            color: var(--text);
+            font-size: 20px;
+            margin-bottom: 17px;
+        }
+
+        /* EMPTY STATE */
 
         .empty {
-
             background: white;
-
-            padding: 40px;
-
+            padding: 45px 25px;
             text-align: center;
-
             border-radius: 16px;
-
-            border: 1px solid #e2e8f0;
-
-            color: #64748b;
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            color: var(--muted);
         }
 
+        .empty-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--soft-green);
+            border: 1px solid var(--green-border);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            font-size: 28px;
+        }
 
-        /* MOBILE */
+        .empty h3 {
+            color: var(--primary);
+            margin-bottom: 9px;
+            font-size: 19px;
+        }
 
-        @media (max-width: 600px) {
+        .empty p {
+            font-size: 14px;
+            line-height: 1.6;
+        }
 
-            .header {
+        /* FOOTER */
 
-                padding: 17px 20px;
-            }
+        .footer {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 12px;
+            margin-top: 35px;
+            padding: 18px 10px;
+        }
 
-            .header h1 {
+        /* TABLET */
 
-                font-size: 18px;
-            }
-
+        @media (max-width: 800px) {
             .container {
-
                 width: 94%;
             }
 
             .appliance-grid {
-
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+                gap: 15px;
             }
-
         }
 
+        /* MOBILE */
+
+        @media (max-width: 600px) {
+            .header {
+                padding: 15px 4%;
+            }
+
+            .brand {
+                gap: 9px;
+            }
+
+            .brand-icon {
+                width: 37px;
+                height: 37px;
+                font-size: 18px;
+            }
+
+            .brand-text h1 {
+                font-size: 15px;
+            }
+
+            .brand-text span {
+                font-size: 10px;
+            }
+
+            .back-btn {
+                padding: 9px 11px;
+                font-size: 11px;
+            }
+
+            .container {
+                width: 92%;
+                margin-top: 24px;
+            }
+
+            .page-title {
+                padding: 20px;
+            }
+
+            .page-title h2 {
+                font-size: 22px;
+            }
+
+            .page-title p {
+                font-size: 13px;
+            }
+
+            .summary-card {
+                padding: 18px;
+            }
+
+            .count {
+                font-size: 26px;
+            }
+
+            .appliance-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .appliance-card {
+                padding: 20px;
+            }
+
+            .empty {
+                padding: 35px 18px;
+            }
+        }
+
+        /* VERY SMALL MOBILE */
+
+        @media (max-width: 360px) {
+            .brand-text span {
+                display: none;
+            }
+
+            .brand-text h1 {
+                font-size: 14px;
+            }
+
+            .back-btn {
+                padding: 8px;
+                font-size: 10px;
+            }
+
+            .page-title h2 {
+                font-size: 20px;
+            }
+        }
     </style>
 
 </head>
 
-
 <body>
-
 
     <!-- HEADER -->
 
     <header class="header">
 
-        <h1>
-            🏠 Appliance Monitoring
-        </h1>
+        <div class="brand">
+            <div class="brand-icon">🏠</div>
 
-        <a href="{% url 'admin_dashboard' %}"
-           class="back-btn">
+            <div class="brand-text">
+                <h1>Smart Household</h1>
+                <span>Maintenance Management System</span>
+            </div>
+        </div>
 
-            ← Admin Dashboard
-
+        <a href="{% url 'admin_dashboard' %}" class="back-btn">
+            Back to Dashboard
         </a>
 
     </header>
 
-
+    <!-- MAIN CONTENT -->
 
     <main class="container">
-
 
         <!-- PAGE TITLE -->
 
         <section class="page-title">
-
-            <h2>
-                Appliance Monitoring
-            </h2>
-
+            <h2>Appliance Monitoring</h2>
             <p>
-                View and monitor all appliances
-                registered by users.
+                View and monitor all appliances registered by users.
             </p>
-
         </section>
-
-
 
         <!-- TOTAL COUNT -->
 
-        <div class="summary-card">
+        <section class="summary-card">
 
-            <h3>
-                Total Registered Appliances
-            </h3>
+            <div>
+                <h3>Total Registered Appliances</h3>
 
-            <div class="count">
-                {{ appliances|length }}
+                <div class="count">
+                    {{ appliances|length }}
+                </div>
+
+                <p>Appliances registered in the system</p>
             </div>
 
-        </div>
+            <div class="count-icon">🏠</div>
 
-
+        </section>
 
         <!-- APPLIANCES -->
 
         {% if appliances %}
 
-            <div class="appliance-grid">
+            <h2 class="section-heading">Registered Appliances</h2>
 
+            <div class="appliance-grid">
 
                 {% for appliance in appliances %}
 
-                    <div class="appliance-card">
-
+                    <article class="appliance-card">
 
                         <div class="appliance-icon">
 
                             {% if appliance.appliance_type == "AC" %}
                                 ❄️
-                            {% elif appliance.appliance_type == "Fridge" %}
+                            {% elif appliance.appliance_type == "FRIDGE" or appliance.appliance_type == "Fridge" %}
                                 🧊
-                            {% elif appliance.appliance_type == "Washing Machine" %}
+                            {% elif appliance.appliance_type == "WASHING" or appliance.appliance_type == "Washing Machine" %}
                                 🧺
                             {% elif appliance.appliance_type == "TV" %}
                                 📺
-                            {% elif appliance.appliance_type == "Water Purifier" %}
+                            {% elif appliance.appliance_type == "PURIFIER" or appliance.appliance_type == "Water Purifier" %}
                                 💧
                             {% else %}
                                 🏠
@@ -391,120 +502,74 @@
 
                         </div>
 
-
-                        <h3>
-                            {{ appliance.brand }}
-                        </h3>
-
+                        <h3>{{ appliance.brand|default:"Appliance" }}</h3>
 
                         <!-- USER -->
 
                         <div class="user-box">
-
-                            👤 User:
-                            {{ appliance.owner.username }}
-
+                            User: {{ appliance.owner.username|default:"Not available" }}
                         </div>
-
 
                         <!-- DETAILS -->
 
                         <div class="detail">
-
-                            <strong>
-                                Appliance:
-                            </strong>
-
-                            {{ appliance.appliance_type }}
-
+                            <strong>Appliance Type:</strong>
+                            {{ appliance.get_appliance_type_display|default:appliance.appliance_type }}
                         </div>
-
 
                         <div class="detail">
-
-                            <strong>
-                                Model:
-                            </strong>
-
-                            {{ appliance.model }}
-
+                            <strong>Model Number:</strong>
+                            {{ appliance.model_number|default:"Not available" }}
                         </div>
-
 
                         <div class="detail">
-
-                            <strong>
-                                Purchase Date:
-                            </strong>
-
-                            {{ appliance.purchase_date }}
-
+                            <strong>Purchase Date:</strong>
+                            {{ appliance.purchase_date|default:"Not available" }}
                         </div>
-
 
                         <div class="detail">
-
-                            <strong>
-                                Location:
-                            </strong>
-
-                            {{ appliance.location }}
-
+                            <strong>Location:</strong>
+                            {{ appliance.location|default:"Not available" }}
                         </div>
-
 
                         <!-- WARRANTY -->
 
                         <div class="warranty">
-
-                            <strong>
-                                Warranty Expiry:
-                            </strong>
+                            <strong>Warranty Expiry:</strong>
 
                             {% if appliance.warranty_expiry_date %}
-
                                 {{ appliance.warranty_expiry_date }}
-
                             {% else %}
-
                                 Not Available
-
                             {% endif %}
-
                         </div>
 
-
-                    </div>
+                    </article>
 
                 {% endfor %}
 
-
             </div>
-
 
         {% else %}
 
-
             <div class="empty">
-
-                <h3>
-                    No appliances found
-                </h3>
-
+                <div class="empty-icon">🏠</div>
+                <h3>No Appliances Found</h3>
                 <p>
-                    No appliances have been registered
-                    by users yet.
+                    No appliances have been registered by users yet.
                 </p>
-
             </div>
-
 
         {% endif %}
 
+        <!-- FOOTER -->
+
+        <footer class="footer">
+            Smart Household Maintenance Tracking System · Admin Panel
+        </footer>
 
     </main>
 
-
 </body>
-
 </html>
+

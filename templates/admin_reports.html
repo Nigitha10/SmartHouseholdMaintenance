@@ -1,138 +1,350 @@
+
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Reports & Analytics</title>
+    <title>Reports & Analytics | Smart Household</title>
 
     <style>
         * {
             box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        :root {
+            --primary: #14532d;
+            --primary-light: #166534;
+            --green: #16a34a;
+            --soft-green: #f0fdf4;
+            --green-border: #dcfce7;
+            --text: #1e293b;
+            --muted: #64748b;
+            --background: #f6f9f7;
+            --white: #ffffff;
+            --border: #e5e7eb;
         }
 
         body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            color: #1e293b;
+            font-family: Arial, Helvetica, sans-serif;
+            background: var(--background);
+            color: var(--text);
+            min-height: 100vh;
         }
 
+        /* HEADER */
+
         .header {
-            background: linear-gradient(135deg, #1e3a8a, #2563eb);
+            background: linear-gradient(135deg, #123c27 0%, #14532d 50%, #166534 100%);
             color: white;
-            padding: 32px 45px;
+            padding: 27px 5%;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 22px rgba(20, 83, 45, 0.16);
+        }
+
+        .header::after {
+            content: "";
+            position: absolute;
+            width: 240px;
+            height: 240px;
+            border-radius: 50%;
+            border: 35px solid rgba(255, 255, 255, 0.06);
+            right: 5%;
+            top: -115px;
+            pointer-events: none;
         }
 
         .header-content {
-            max-width: 1150px;
+            max-width: 1200px;
             margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .brand-icon {
+            width: 55px;
+            height: 55px;
+            min-width: 55px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+            background: rgba(255, 255, 255, 0.13);
+            border: 1px solid rgba(255, 255, 255, 0.18);
         }
 
         .header h1 {
-            margin: 0;
-            font-size: 30px;
+            font-size: 28px;
+            margin-bottom: 7px;
+            letter-spacing: -0.5px;
         }
 
         .header p {
-            margin: 8px 0 0;
-            opacity: 0.9;
+            font-size: 13px;
+            color: #dcfce7;
+            line-height: 1.6;
         }
+
+        .header-label {
+            display: inline-block;
+            margin-bottom: 8px;
+            padding: 5px 10px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.12);
+            font-size: 10px;
+            font-weight: bold;
+            letter-spacing: 1.2px;
+            text-transform: uppercase;
+        }
+
+        /* CONTAINER */
 
         .container {
-            max-width: 1150px;
+            max-width: 1200px;
             margin: 30px auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
 
-        /* Summary Cards */
+        /* INTRO */
+
+        .intro {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 23px;
+        }
+
+        .intro h2 {
+            font-size: 22px;
+            margin-bottom: 7px;
+            color: #172033;
+        }
+
+        .intro p {
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .live-label {
+            background: var(--soft-green);
+            color: var(--primary);
+            border: 1px solid var(--green-border);
+            border-radius: 30px;
+            padding: 9px 13px;
+            font-size: 11px;
+            font-weight: bold;
+            white-space: nowrap;
+        }
+
+        .live-dot {
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            background: #22c55e;
+            border-radius: 50%;
+            margin-right: 6px;
+        }
+
+        /* SUMMARY GRID */
 
         .summary-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
+            grid-template-columns: repeat(4, minmax(0, 1fr));
             gap: 18px;
-            margin-bottom: 30px;
+            margin-bottom: 34px;
         }
 
         .summary-card {
+            position: relative;
+            overflow: hidden;
             background: white;
+            border: 1px solid #e8eee9;
+            border-radius: 17px;
             padding: 22px;
-            border-radius: 16px;
-            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.07);
-            transition: 0.25s;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, 0.035);
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .summary-card::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #14532d, #4ade80);
         }
 
         .summary-card:hover {
             transform: translateY(-5px);
+            box-shadow: 0 12px 26px rgba(20, 83, 45, 0.09);
+        }
+
+        .summary-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 20px;
         }
 
         .summary-icon {
-            font-size: 30px;
-            margin-bottom: 12px;
+            width: 49px;
+            height: 49px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 14px;
+            background: var(--soft-green);
+            border: 1px solid var(--green-border);
+            font-size: 25px;
+        }
+
+        .summary-tag {
+            font-size: 10px;
+            font-weight: bold;
+            color: var(--primary);
+            background: #f0fdf4;
+            padding: 6px 8px;
+            border-radius: 7px;
         }
 
         .summary-card h2 {
-            margin: 0;
-            font-size: 28px;
-            color: #1e3a8a;
+            font-size: 31px;
+            color: var(--primary);
+            margin-bottom: 7px;
+            overflow-wrap: anywhere;
         }
 
         .summary-card p {
-            margin: 7px 0 0;
-            color: #64748b;
+            color: var(--muted);
+            font-size: 13px;
+            line-height: 1.5;
         }
 
-        /* Analytics */
+        /* SECTION HEADING */
 
         .section-title {
-            margin: 30px 0 18px;
+            margin: 32px 0 19px;
         }
 
         .section-title h2 {
-            margin: 0;
-            font-size: 22px;
+            font-size: 21px;
+            color: #172033;
+            margin-bottom: 7px;
         }
 
         .section-title p {
-            margin-top: 6px;
-            color: #64748b;
+            font-size: 13px;
+            color: var(--muted);
+            line-height: 1.6;
         }
+
+        /* ANALYTICS GRID */
 
         .analytics-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
             gap: 22px;
+            align-items: stretch;
         }
 
         .analytics-card {
+            min-width: 0;
             background: white;
             padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.07);
+            border-radius: 17px;
+            border: 1px solid #e8eee9;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, 0.035);
         }
 
-        .analytics-card h3 {
-            margin-top: 0;
-            color: #1e3a8a;
+        .card-heading {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 25px;
         }
 
-        /* Progress Bars */
+        .card-heading-icon {
+            width: 43px;
+            height: 43px;
+            min-width: 43px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--soft-green);
+            border: 1px solid var(--green-border);
+            font-size: 21px;
+        }
+
+        .card-heading h3 {
+            font-size: 17px;
+            color: var(--primary);
+            margin-bottom: 4px;
+        }
+
+        .card-heading p {
+            font-size: 11px;
+            color: var(--muted);
+            line-height: 1.5;
+        }
+
+        /* STATUS PROGRESS */
 
         .status-row {
-            margin: 18px 0;
+            margin: 21px 0;
         }
 
         .status-info {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 7px;
-            font-size: 14px;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 9px;
+            font-size: 13px;
+        }
+
+        .status-name {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            color: #475569;
+        }
+
+        .status-info strong {
+            color: #172033;
+            font-size: 13px;
+        }
+
+        .status-dot {
+            width: 9px;
+            height: 9px;
+            border-radius: 50%;
+            flex-shrink: 0;
         }
 
         .bar {
             width: 100%;
-            height: 10px;
-            background: #e2e8f0;
+            height: 9px;
+            background: #edf1ef;
             border-radius: 20px;
             overflow: hidden;
         }
@@ -140,6 +352,13 @@
         .bar-fill {
             height: 100%;
             border-radius: 20px;
+            animation: growBar 0.9s ease-out;
+        }
+
+        @keyframes growBar {
+            from {
+                width: 0;
+            }
         }
 
         .pending {
@@ -147,11 +366,11 @@
         }
 
         .accepted {
-            background: #2563eb;
+            background: #3b82f6;
         }
 
         .progress {
-            background: #7c3aed;
+            background: #8b5cf6;
         }
 
         .completed {
@@ -159,82 +378,279 @@
         }
 
         .rejected {
-            background: #dc2626;
+            background: #ef4444;
         }
 
-        /* Cost */
+        .pending-dot {
+            background: #f59e0b;
+        }
+
+        .accepted-dot {
+            background: #3b82f6;
+        }
+
+        .progress-dot {
+            background: #8b5cf6;
+        }
+
+        .completed-dot {
+            background: #16a34a;
+        }
+
+        .rejected-dot {
+            background: #ef4444;
+        }
+
+        /* PERFORMANCE CARD */
+
+        .performance-card {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .performance-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 13px;
+            padding: 17px 0;
+            border-bottom: 1px solid #edf1ef;
+        }
+
+        .performance-item:first-of-type {
+            padding-top: 0;
+        }
+
+        .performance-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .performance-icon {
+            width: 38px;
+            height: 38px;
+            min-width: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--soft-green);
+            border: 1px solid var(--green-border);
+            border-radius: 11px;
+            font-size: 18px;
+        }
+
+        .performance-text {
+            min-width: 0;
+        }
+
+        .performance-text strong {
+            display: block;
+            color: #243247;
+            font-size: 13px;
+            margin-bottom: 6px;
+        }
+
+        .performance-text p {
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.6;
+            overflow-wrap: anywhere;
+        }
+
+        /* COST CARD */
 
         .cost-card {
-            margin-top: 22px;
-            background: linear-gradient(135deg, #eff6ff, #dbeafe);
-            border-radius: 16px;
+            margin-top: 24px;
             padding: 28px;
+            border-radius: 18px;
+            background: linear-gradient(120deg, #14532d 0%, #166534 55%, #15803d 100%);
+            color: white;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 20px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 9px 25px rgba(20, 83, 45, 0.15);
+        }
+
+        .cost-card::after {
+            content: "";
+            position: absolute;
+            right: 85px;
+            bottom: -120px;
+            width: 260px;
+            height: 260px;
+            border-radius: 50%;
+            border: 38px solid rgba(255, 255, 255, 0.06);
+            pointer-events: none;
+        }
+
+        .cost-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .cost-label {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #dcfce7;
+            margin-bottom: 13px;
+            font-weight: bold;
         }
 
         .cost-card h3 {
-            margin: 0 0 8px;
-            color: #1e3a8a;
+            font-size: 16px;
+            font-weight: normal;
+            margin-bottom: 10px;
+            color: #f0fdf4;
         }
 
         .cost {
-            font-size: 34px;
+            font-size: 37px;
             font-weight: bold;
-            color: #2563eb;
+            letter-spacing: -0.5px;
+            overflow-wrap: anywhere;
+        }
+
+        .cost-description {
+            margin-top: 10px;
+            font-size: 12px;
+            line-height: 1.6;
+            color: #dcfce7;
         }
 
         .cost-icon {
-            font-size: 55px;
+            width: 82px;
+            height: 82px;
+            min-width: 82px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.13);
+            border: 1px solid rgba(255, 255, 255, 0.17);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            position: relative;
+            z-index: 1;
         }
 
-        /* Insight */
+        /* INSIGHTS */
 
         .insight {
-            margin-top: 22px;
+            margin-top: 24px;
             background: white;
             padding: 25px;
-            border-radius: 16px;
-            box-shadow: 0 5px 18px rgba(0, 0, 0, 0.07);
+            border-radius: 17px;
+            border: 1px solid #e8eee9;
+            box-shadow: 0 5px 18px rgba(15, 23, 42, 0.035);
+        }
+
+        .insight-heading {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 17px;
+        }
+
+        .insight-heading-icon {
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--soft-green);
+            border: 1px solid var(--green-border);
+            border-radius: 13px;
+            font-size: 22px;
         }
 
         .insight h3 {
-            margin-top: 0;
-            color: #1e3a8a;
+            color: var(--primary);
+            font-size: 17px;
+            margin-bottom: 4px;
+        }
+
+        .insight-subtitle {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .insight-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 13px;
         }
 
         .insight-item {
-            padding: 13px 0;
-            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 16px;
+            border: 1px solid #e8eee9;
+            background: #fbfdfb;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.7;
+            color: #475569;
+            overflow-wrap: anywhere;
         }
 
-        .insight-item:last-child {
-            border-bottom: none;
+        .insight-bullet {
+            width: 30px;
+            height: 30px;
+            min-width: 30px;
+            border-radius: 9px;
+            background: var(--soft-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
         }
 
-        /* Back Button */
+        .insight-item strong {
+            color: var(--primary);
+        }
+
+        /* BACK BUTTON */
 
         .back-btn {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 11px 18px;
-            background: #1e3a8a;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 9px;
+            margin-top: 28px;
+            padding: 12px 18px;
+            background: linear-gradient(135deg, #14532d, #166534);
             color: white;
             text-decoration: none;
-            border-radius: 8px;
+            border-radius: 9px;
+            font-size: 13px;
             font-weight: bold;
+            box-shadow: 0 4px 12px rgba(20, 83, 45, 0.13);
+            transition: 0.2s;
         }
 
         .back-btn:hover {
-            background: #2563eb;
+            transform: translateY(-2px);
+            box-shadow: 0 7px 17px rgba(20, 83, 45, 0.2);
         }
 
-        /* Responsive */
+        /* FOOTER */
 
-        @media (max-width: 900px) {
+        .footer {
+            text-align: center;
+            padding: 25px 10px 12px;
+            color: #94a3b8;
+            font-size: 11px;
+            line-height: 1.7;
+        }
+
+        /* TABLET */
+
+        @media (max-width: 950px) {
             .summary-grid {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns: repeat(2, minmax(0, 1fr));
             }
 
             .analytics-grid {
@@ -242,19 +658,108 @@
             }
         }
 
+        /* MOBILE */
+
         @media (max-width: 550px) {
-            .summary-grid {
-                grid-template-columns: 1fr;
+            .header {
+                padding: 23px 18px;
             }
 
-            .header {
-                padding: 25px 20px;
+            .header-content {
+                align-items: flex-start;
+            }
+
+            .brand {
+                gap: 11px;
+            }
+
+            .brand-icon {
+                width: 45px;
+                height: 45px;
+                min-width: 45px;
+                font-size: 23px;
+                border-radius: 13px;
+            }
+
+            .header h1 {
+                font-size: 21px;
+                line-height: 1.4;
+            }
+
+            .header p {
+                font-size: 12px;
+            }
+
+            .container {
+                padding: 0 15px;
+                margin-top: 23px;
+            }
+
+            .intro {
+                align-items: flex-start;
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .intro h2 {
+                font-size: 20px;
+            }
+
+            .summary-grid {
+                gap: 14px;
+            }
+
+            .summary-card {
+                padding: 19px;
+            }
+
+            .summary-card h2 {
+                font-size: 28px;
+            }
+
+            .analytics-card {
+                padding: 19px;
+            }
+
+            .card-heading h3 {
+                font-size: 16px;
             }
 
             .cost-card {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
+                padding: 23px 20px;
+            }
+
+            .cost {
+                font-size: 30px;
+            }
+
+            .cost-icon {
+                width: 60px;
+                height: 60px;
+                min-width: 60px;
+                font-size: 30px;
+                border-radius: 16px;
+            }
+
+            .insight {
+                padding: 19px;
+            }
+
+            .insight-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .insight-item {
+                padding: 13px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.01ms !important;
             }
         }
     </style>
@@ -262,169 +767,243 @@
 
 <body>
 
-    <!-- Header -->
+    <!-- HEADER -->
 
-    <div class="header">
+    <header class="header">
         <div class="header-content">
-            <h1>📊 Reports & Analytics</h1>
-            <p>Smart Household Maintenance System – Admin Analytics</p>
+
+            <div class="brand">
+
+                <div class="brand-icon">📊</div>
+
+                <div>
+                    <span class="header-label">Admin Dashboard</span>
+
+                    <h1>Reports & Analytics</h1>
+
+                    <p>
+                        Smart Household Maintenance System
+                    </p>
+                </div>
+
+            </div>
+
         </div>
-    </div>
+    </header>
 
+    <main class="container">
 
-    <div class="container">
+        <!-- INTRODUCTION -->
 
-        <!-- Main Summary -->
+        <section class="intro">
 
-        <div class="summary-grid">
+            <div>
+                <h2>System Overview</h2>
+
+                <p>
+                    Monitor users, appliances, service requests and system performance.
+                </p>
+            </div>
+
+            <div class="live-label">
+                <span class="live-dot"></span>
+                System Statistics
+            </div>
+
+        </section>
+
+        <!-- SUMMARY CARDS -->
+
+        <section class="summary-grid">
 
             <div class="summary-card">
-                <div class="summary-icon">👥</div>
+
+                <div class="summary-top">
+                    <div class="summary-icon">👥</div>
+                    <span class="summary-tag">USERS</span>
+                </div>
+
                 <h2>{{ total_users }}</h2>
-                <p>Total Users</p>
+
+                <p>Total Registered Users</p>
+
             </div>
 
             <div class="summary-card">
-                <div class="summary-icon">🏠</div>
+
+                <div class="summary-top">
+                    <div class="summary-icon">🏠</div>
+                    <span class="summary-tag">ASSETS</span>
+                </div>
+
                 <h2>{{ total_appliances }}</h2>
-                <p>Total Appliances</p>
+
+                <p>Total Registered Appliances</p>
+
             </div>
 
             <div class="summary-card">
-                <div class="summary-icon">🔧</div>
+
+                <div class="summary-top">
+                    <div class="summary-icon">🔧</div>
+                    <span class="summary-tag">SERVICES</span>
+                </div>
+
                 <h2>{{ total_requests }}</h2>
-                <p>Service Requests</p>
+
+                <p>Total Service Requests</p>
+
             </div>
 
             <div class="summary-card">
-                <div class="summary-icon">🏢</div>
+
+                <div class="summary-top">
+                    <div class="summary-icon">🏢</div>
+                    <span class="summary-tag">NETWORK</span>
+                </div>
+
                 <h2>{{ total_providers }}</h2>
-                <p>Service Providers</p>
+
+                <p>Registered Service Providers</p>
+
             </div>
 
-        </div>
+        </section>
 
+        <!-- SERVICE ANALYTICS HEADING -->
 
-        <!-- Service Request Analytics -->
-
-        <div class="section-title">
+        <section class="section-title">
             <h2>📈 Service Request Analytics</h2>
-            <p>Current service request status overview</p>
-        </div>
 
+            <p>
+                Current status breakdown and service performance overview
+            </p>
+        </section>
 
-        <div class="analytics-grid">
+        <!-- ANALYTICS GRID -->
 
-            <!-- Status Breakdown -->
+        <section class="analytics-grid">
+
+            <!-- REQUEST STATUS -->
 
             <div class="analytics-card">
 
-                <h3>Request Status</h3>
+                <div class="card-heading">
+
+                    <div class="card-heading-icon">📊</div>
+
+                    <div>
+                        <h3>Request Status</h3>
+                        <p>Distribution of service requests</p>
+                    </div>
+
+                </div>
+
+                <!-- PENDING -->
 
                 <div class="status-row">
 
                     <div class="status-info">
-                        <span>⏳ Pending</span>
+                        <span class="status-name">
+                            <span class="status-dot pending-dot"></span>
+                            Pending
+                        </span>
+
                         <strong>{{ pending_requests }}</strong>
                     </div>
 
                     <div class="bar">
                         <div
                             class="bar-fill pending"
-                            style="width:
-                            {% if total_requests %}
-                                {% widthratio pending_requests total_requests 100 %}
-                            {% else %}
-                                0
-                            {% endif %}%;">
+                            style="width: {% if total_requests %}{% widthratio pending_requests total_requests 100 %}{% else %}0{% endif %}%;">
                         </div>
                     </div>
 
                 </div>
 
+                <!-- ACCEPTED -->
 
                 <div class="status-row">
 
                     <div class="status-info">
-                        <span>🟢 Accepted</span>
+                        <span class="status-name">
+                            <span class="status-dot accepted-dot"></span>
+                            Accepted
+                        </span>
+
                         <strong>{{ accepted_requests }}</strong>
                     </div>
 
                     <div class="bar">
                         <div
                             class="bar-fill accepted"
-                            style="width:
-                            {% if total_requests %}
-                                {% widthratio accepted_requests total_requests 100 %}
-                            {% else %}
-                                0
-                            {% endif %}%;">
+                            style="width: {% if total_requests %}{% widthratio accepted_requests total_requests 100 %}{% else %}0{% endif %}%;">
                         </div>
                     </div>
 
                 </div>
 
+                <!-- IN PROGRESS -->
 
                 <div class="status-row">
 
                     <div class="status-info">
-                        <span>🔵 In Progress</span>
+                        <span class="status-name">
+                            <span class="status-dot progress-dot"></span>
+                            In Progress
+                        </span>
+
                         <strong>{{ in_progress_requests }}</strong>
                     </div>
 
                     <div class="bar">
                         <div
                             class="bar-fill progress"
-                            style="width:
-                            {% if total_requests %}
-                                {% widthratio in_progress_requests total_requests 100 %}
-                            {% else %}
-                                0
-                            {% endif %}%;">
+                            style="width: {% if total_requests %}{% widthratio in_progress_requests total_requests 100 %}{% else %}0{% endif %}%;">
                         </div>
                     </div>
 
                 </div>
 
+                <!-- COMPLETED -->
 
                 <div class="status-row">
 
                     <div class="status-info">
-                        <span>✅ Completed</span>
+                        <span class="status-name">
+                            <span class="status-dot completed-dot"></span>
+                            Completed
+                        </span>
+
                         <strong>{{ completed_requests }}</strong>
                     </div>
 
                     <div class="bar">
                         <div
                             class="bar-fill completed"
-                            style="width:
-                            {% if total_requests %}
-                                {% widthratio completed_requests total_requests 100 %}
-                            {% else %}
-                                0
-                            {% endif %}%;">
+                            style="width: {% if total_requests %}{% widthratio completed_requests total_requests 100 %}{% else %}0{% endif %}%;">
                         </div>
                     </div>
 
                 </div>
 
+                <!-- REJECTED -->
 
                 <div class="status-row">
 
                     <div class="status-info">
-                        <span>❌ Rejected</span>
+                        <span class="status-name">
+                            <span class="status-dot rejected-dot"></span>
+                            Rejected
+                        </span>
+
                         <strong>{{ rejected_requests }}</strong>
                     </div>
 
                     <div class="bar">
                         <div
                             class="bar-fill rejected"
-                            style="width:
-                            {% if total_requests %}
-                                {% widthratio rejected_requests total_requests 100 %}
-                            {% else %}
-                                0
-                            {% endif %}%;">
+                            style="width: {% if total_requests %}{% widthratio rejected_requests total_requests 100 %}{% else %}0{% endif %}%;">
                         </div>
                     </div>
 
@@ -432,105 +1011,195 @@
 
             </div>
 
+            <!-- SERVICE PERFORMANCE -->
 
-            <!-- Performance -->
+            <div class="analytics-card performance-card">
 
-            <div class="analytics-card">
+                <div class="card-heading">
 
-                <h3>📋 Service Performance</h3>
+                    <div class="card-heading-icon">🎯</div>
 
-                <div class="insight-item">
-                    <strong>Completed Services</strong>
-                    <br>
-                    {{ completed_requests }} service(s) completed successfully.
+                    <div>
+                        <h3>Service Performance</h3>
+                        <p>Quick operational summary</p>
+                    </div>
+
                 </div>
 
-                <div class="insight-item">
-                    <strong>Pending Services</strong>
-                    <br>
-                    {{ pending_requests }} request(s) are waiting for action.
+                <div class="performance-item">
+
+                    <div class="performance-icon">✅</div>
+
+                    <div class="performance-text">
+                        <strong>Completed Services</strong>
+
+                        <p>
+                            {{ completed_requests }} service(s) completed successfully.
+                        </p>
+                    </div>
+
                 </div>
 
-                <div class="insight-item">
-                    <strong>Active Services</strong>
-                    <br>
-                    {{ in_progress_requests }} service(s) are currently in progress.
+                <div class="performance-item">
+
+                    <div class="performance-icon">⏳</div>
+
+                    <div class="performance-text">
+                        <strong>Pending Services</strong>
+
+                        <p>
+                            {{ pending_requests }} request(s) are waiting for action.
+                        </p>
+                    </div>
+
                 </div>
 
-                <div class="insight-item">
-                    <strong>Rejected Services</strong>
-                    <br>
-                    {{ rejected_requests }} request(s) were rejected.
+                <div class="performance-item">
+
+                    <div class="performance-icon">⚙️</div>
+
+                    <div class="performance-text">
+                        <strong>Active Services</strong>
+
+                        <p>
+                            {{ in_progress_requests }} service(s) are currently in progress.
+                        </p>
+                    </div>
+
+                </div>
+
+                <div class="performance-item">
+
+                    <div class="performance-icon">❌</div>
+
+                    <div class="performance-text">
+                        <strong>Rejected Services</strong>
+
+                        <p>
+                            {{ rejected_requests }} request(s) were rejected.
+                        </p>
+                    </div>
+
                 </div>
 
             </div>
 
-        </div>
+        </section>
 
+        <!-- SERVICE COST -->
 
-        <!-- Maintenance Cost -->
+        <section class="cost-card">
 
-        <div class="cost-card">
+            <div class="cost-content">
 
-            <div>
+                <div class="cost-label">
+                    Financial Overview
+                </div>
+
                 <h3>💰 Total Service Cost</h3>
 
                 <div class="cost">
                     ₹{{ total_service_cost }}
                 </div>
 
-                <p>
+                <p class="cost-description">
                     Total recorded service cost from all requests
                 </p>
+
             </div>
 
             <div class="cost-icon">
                 💳
             </div>
 
-        </div>
+        </section>
 
+        <!-- SYSTEM INSIGHTS -->
 
-        <!-- Insights -->
+        <section class="insight">
 
-        <div class="insight">
+            <div class="insight-heading">
 
-            <h3>💡 System Insights</h3>
+                <div class="insight-heading-icon">💡</div>
 
-            <div class="insight-item">
-                👥 The system currently manages
-                <strong>{{ total_users }}</strong>
-                registered user(s).
+                <div>
+                    <h3>System Insights</h3>
+
+                    <p class="insight-subtitle">
+                        Key statistics at a glance
+                    </p>
+                </div>
+
             </div>
 
-            <div class="insight-item">
-                🏠
-                <strong>{{ total_appliances }}</strong>
-                appliance(s) are registered in the system.
+            <div class="insight-grid">
+
+                <div class="insight-item">
+
+                    <div class="insight-bullet">👥</div>
+
+                    <div>
+                        The system currently manages
+                        <strong>{{ total_users }}</strong>
+                        registered user(s).
+                    </div>
+
+                </div>
+
+                <div class="insight-item">
+
+                    <div class="insight-bullet">🏠</div>
+
+                    <div>
+                        <strong>{{ total_appliances }}</strong>
+                        appliance(s) are registered in the system.
+                    </div>
+
+                </div>
+
+                <div class="insight-item">
+
+                    <div class="insight-bullet">🔧</div>
+
+                    <div>
+                        <strong>{{ total_requests }}</strong>
+                        service request(s) have been created.
+                    </div>
+
+                </div>
+
+                <div class="insight-item">
+
+                    <div class="insight-bullet">🏢</div>
+
+                    <div>
+                        <strong>{{ total_providers }}</strong>
+                        service provider(s) are available.
+                    </div>
+
+                </div>
+
             </div>
 
-            <div class="insight-item">
-                🔧
-                <strong>{{ total_requests }}</strong>
-                service request(s) have been created.
-            </div>
+        </section>
 
-            <div class="insight-item">
-                🏢
-                <strong>{{ total_providers }}</strong>
-                service provider(s) are available.
-            </div>
-
-        </div>
-
-
-        <!-- Back -->
+        <!-- BACK BUTTON -->
 
         <a href="{% url 'admin_dashboard' %}" class="back-btn">
-            ← Back to Admin Dashboard
+            <span>←</span>
+            Back to Admin Dashboard
         </a>
 
-    </div>
+        <!-- FOOTER -->
+
+        <footer class="footer">
+            Smart Household Maintenance Tracking System
+            <br>
+            Reports & Analytics · Admin Panel
+        </footer>
+
+    </main>
 
 </body>
 </html>
+
